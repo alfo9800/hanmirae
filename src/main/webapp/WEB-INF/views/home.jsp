@@ -10,6 +10,5 @@
 	Hello world!  한미래 입니다.
 </h1>
 <P>  현재 서버의 시간은 ${TomcatserverTime} 입니다. </P>
-<script>alert('메로오옹');</script>
 </body>
 </html>
