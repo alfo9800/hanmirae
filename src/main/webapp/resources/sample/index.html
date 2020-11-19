@@ -1,8 +1,8 @@
-<!DOCTYPE html><!-- 현재 문서의 형태선언 -->
-<html><!-- html문서는 태그열고 ~ 태그닫고 하는 영역확인 중요 -->
-<head><!-- 문서 내용과는 관계없는 문서정보=메타데이터(데이터의데이터)가 존재 -->
-<meta charset="UTF-8"><!-- 문서의 언어 인코딩설정 지금은 유니코드로 됨 -->
-<title>반응형 홈페이지</title><!-- 문서의 제목을 브라우저 상단왼쪽에 표시 -->
+<!DOCTYPE html> <!-- 현재 문서의 형태선언 -->
+<html> <!-- html문서는 태그열고 ~ 태그닫고 하는 영역확인 중요 -->
+<head> <!-- 문서 내용과는 관계없는 문서정보=메타데이터(데이터의데이터)가 존재 -->
+<meta charset="UTF-8"> <!-- 문서의 언어 인코딩설정 지금은 유니코드로 됨 -->
+<title>반응형 홈페이지</title> <!-- 문서의 제목을 브라우저 상단왼쪽에 표시 -->
 <!-- 외부 css파일 불러오는 명령(아래) -->
 <link rel="stylesheet" href="/resources/sample/css/reset.css" type="text/css">
 <!-- span태그 자리를 차지하지 않는 영역 = 한뼘, px 픽셀화면에 표시되는 크기의 단위 -->
@@ -10,14 +10,14 @@
 /* 모바일용 스타일지정 시작 */
 /* 헤더영역 시작 */
 .header {
-position:relative;/*상대적인 위치 다른예는 absolute절대적인 위치=fixed붙박이*/
-padding:18px 5%;/*안쪽여백: 바깥쪽여백은 margin입니다. 18px(상하여백) 5%(좌우여백)*/
+position:relative; /*상대적인 위치 다른예는 absolute절대적인 위치=fixed붙박이*/
+padding:18px 5%; /*안쪽여백: 바깥쪽여백은 margin입니다. 18px(상하여백) 5%(좌우여백)*/
 /*padding:10px 5% 18px 5% 시계방향으로 진행시작 위쪽부터 시작. 약자 위로 표시 됩니다.
 만약 padding:18px 18px 5%; 3가지 모두 동일. 18px(상여백) 5%(좌우여백) 18px(하여백)
 */
 }
 .header .logo {
-float:left;/*프로트: 떠다니는 영역역할은 세로배치를 가로배치로 변경처리에 사용됨*/
+float:left; /*플로트: 떠다니는 영역역할은 세로배치를 가로배치로 변경처리에 사용됨*/
 }
 .header .menu-toggle-btn { /*toggle(토글): 똑딱이 */
 float:right;
@@ -26,9 +26,18 @@ float:right;
 display:block;height:10px;width:50px;background-color:red;
 margin-bottom:10px;
 }
+.header .gnb {
+display:block; /*페이지 로딩할 때 숨겨야하기 때문에 none으로 나중에 처리*/
+position:absolute; /*gnb영역의 위치를 절대위치로 지정. 위치정보가 필요*/
+top:80px; /* 화면상단에서 얼만큼 떨어지게 배치할 건지 지정 */
+left:0px; /* 화면 왼쪽에서 얼만큼 떨어지게 배치할 건지 지정 */
+width:100%;
+background:#3f51b5;
+z-index:21; /*z-index는 화면에서 컨텐츠가 겹치는 경우 사용*/
+}
 /* 헤더영역 끝 */
 /* 본문섹션 슬라이드 영역 시작 */
-#warp .slider img {width:100%;}/* cascade style sheet 특징 계단형 스타일지정*/
+#warp .slider img {width:100%;} /* cascade style sheet 특징 계단형 스타일지정*/
 /* 본문섹션 슬라이드 영역 끝 */
 /* 모바일용 스타일지정 끝 */
 </style>
@@ -38,11 +47,11 @@ margin-bottom:10px;
 /* 자바스크립트 끝 */
 </script>
 </head>
-<body><!--  문서내용이 들어가는 영역 -->
-<div id="wrap"><!-- 랩핑 시킨 영역 -->
+<body> <!--  문서내용이 들어가는 영역 -->
+<div id="wrap"> <!-- 랩핑 시킨 영역 -->
 <header class="header">
 <!-- 상단로고와 메뉴영역 시작 -->
-<h1 class="logo">LOGO</h1><!-- 헤드라인 글자를 표시 h1~h6(숫자는 크기를 나타냄) -->
+<h1 class="logo">LOGO</h1> <!-- 헤드라인 글자를 표시 h1~h6(숫자는 크기를 나타냄) -->
 <div class="menu-toggle-btn">
 <span></span>
 <span></span>
@@ -61,7 +70,7 @@ margin-bottom:10px;
 </nav>
 <!-- 상단로고와 메뉴영역 끝 -->
 </header>
-<section><!-- division 디비전이라는 div 영역표시 태그 대신에 사용 -->
+<section> <!-- division 디비전이라는 div 영역표시 태그 대신에 사용 -->
 <!-- 본문슬라이드영역 시작 -->
 <!-- 이미지를 불러오는 태그 img -->
 <!-- 경로:상대(.img/...), 절대경로(/resources/sample/img/...) -->
