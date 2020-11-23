@@ -11,7 +11,55 @@
 <script src="/resources/sample/js/user.js"></script>
 <!-- span태그 자리를 차지하지 않는 영역 = 한뼘, px 픽셀화면에 표시되는 크기의 단위 -->
 <style>
-
+/*contact 영역 시작*/
+.contact-section {
+margin-top:30px;
+}
+.contact-section h1 {
+font-size:42px;
+text-align:center;
+color:#3f51b5;
+font-weight:normal;
+}
+.contact-section .container {
+width:90%;
+margin:0px auto; /*가운데 정렬 [또는 30px auto 0px;] */
+margin-top:30px;
+}
+.contact-section label {
+display:none; /*모바일에서는 숨기지만, 태블릿이나 pc버전에서는 보이게 처리예정 */
+}
+.contact-section form input {
+width:100%;
+line-height:1.2;
+padding:0 2px;
+height:50px;
+border:none;/*테두리 삭제*/
+border-bottom:2px solid #ccc; /*테두리 선 설정:굵기 실선 #색상*/
+background:transparent;/*배경색상 투명처리*/
+}
+.contact-section form textarea {
+width:100%;
+background:transparent;
+line-weight:1.2;
+border:none;
+border-bottom:2px solid #ccc;
+min-height:100px; /*최소높이를 지정하는 이유는 내용이 없더라도, 높이를 150px로 고정하는 의미 */
+padding-top:10px;
+padding-bottom:10px;
+}
+.contact-section form button {
+padding:15px; /*여백이 있는 버튼을 만들기*/
+font-size:12px;
+background:#3f52b5;
+color:#fff;
+border:0px;
+}
+.submit-btn {
+margin-top:10px;
+text-align:right; /*div영역 안쪽의 내용을 좌우 정렬시키는 명령 */
+}
+/*contact 영역 끝*/
 </style>
 <script>
 /* 자바스크립트 시작*/
@@ -58,16 +106,17 @@
 <!-- (아래)input 한줄입력태그(/슬래쉬 끝에 안들어가도 됨), textarea 여러줄 입력태그 -->
 <!-- (아래)label은 이름표,입력태그와 라벨은 1:1 매칭이 되는 관계 -->
 <label for="name">이름</label>
-<input name="name" id="name" type="text" value="한미래">
+<input name="name" id="name" type="text" placeholder="이름을 입력해 주세요">
 <label for="phone">연락처</label>
-<input name="phone" id="phone" type="text" value="010-0001-1234">
+<input name="phone" id="phone" type="text" placeholder="연락처를 입력해 주세요">
 <label for="email">이메일</label>
-<input name="email" id="email" type="email" value="dkdk@korea.com">
+<input name="email" id="email" type="email" placeholder="E-mail을 입력해 주세요">
 <label for="message">메세지</label>
-<textarea name="message" id="message">텍스트에어리어 벨류값이 여기에
-들어가는 것이 특징입니다.</textarea>
+<textarea name="message" id="message" placeholder="내용을 입력해 주세요"></textarea>
 </fieldset>
+<div class="submit-btn">
 <button type="submit">메세지 보내기</button>
+</div>
 </form>
 <!-- form태그의 목적은 input,textarea,checkbox,radio,select데이터를 submit(전송)하는 것이 목적 -->
 <!-- 폼전송은 get(비보안용), post(보안용) -->
