@@ -114,4 +114,95 @@ color:#3f51b5;
 font-size:14px;
 }
 /* we are 페이지 영역 끝 */
+
+/* work 영역 시작 */
+.work-section {
+text-align:center;
+margin-top:30px;
+}
+.work-section li img {width:100%;}
+.work-section li a { /*이부분이 실제 a태그 영역 */
+/* a태그가 자리를 차지하지 않는 영역이고,block을 이용해서 자리를 차지하는 영역으로 변경(아래) */
+display:block; 
+width:100%;
+height:100%;
+position:relative; /*a태그에서 위치를 상대적으로 지정 */
+}
+/* 마우스를 롤오버했을 때 나오는 배경색상 before 가상요소 영역(아래)*/
+.work-section li a::before {
+display:block;
+background:#3f51b5;
+/*이 절대 값의 위치는 위 a태그에서 지정한 relative상대위치에 한정해서 절대 위치로 지정됨(아래) */
+position:absolute; 
+width:100%;
+height:100%;
+top:0px; /*화면의 상단 위쪽으로 0px위치 */
+left:0px; /* 화면 가로로 0px 위치 */
+content:"";
+opacity:0; /*투명도를 0%로 지정 (0~ 0.5 ~1) */
+}
+.work-section li a:hover::before {
+opacity:0.4;
+}
+.work-section .info {
+display:block; /*화면에서 자리를 차지하기 위해서 block을 지정합니다 */
+position:absolute;
+left:10px;
+color:#fff;
+text-align:left;
+opacity:0; /* 마우스가 호버했을 때 나오도록 하기 위해 투명하게 설정 한 것 */
+transition:all 0.3s; /* 화면전환옵션: transform / 모양변화에 대한 화면전화옵션 : width,height,  */
+}
+.work-section li a:hover .info {
+opacity:1;
+transform:translateY(20px); /*모양이 변화할 때 Y축(세로)으로 20px 이동합니다. */
+}
+.info h2 {
+font-size:26px;
+font-weight:normal;
+}
+.info p {
+font-size:14px;
+padding:10px 0px;
+}
+/* work 영역 끝 */
+
+/*blog 영역 시작*/
+.blog-section {
+margin-top:30px;
+}
+.blog-section h1 {
+text-align:center;
+font-size:30px;
+color:#3f51b5;
+}
+.blog-section .container {
+width:90%;
+margin:0px auto; /*현재 영역을 가운데 정렬시 margin:0 auto; 좌우로 5% 자동으로 잡힘 */ 
+}
+.blog-section li {
+margin-top:30px;
+}
+.blog-section li img {
+width:100%;
+}
+.blog-section li time {
+display:block;
+margin:10px 0px;
+font-size:12px;
+color:#888;
+}
+.blog-section li h2 {
+color:#424242;
+font-weight:normal;
+line-height:1.6; /*줄간격 단위는 현재 글자크기의 배수 */
+}
+/*(아래주석) reset.css 에서 hr태그를 display:none;으로 적용했기 때문에, 특별히 .blog영역에서만 hr적용 */
+.blog-section hr {
+display:block;
+height:1px;
+background:#3f51b5;
+}
+/*blog 영역 끝*/
+
 /* 모바일용 스타일지정 끝 */
