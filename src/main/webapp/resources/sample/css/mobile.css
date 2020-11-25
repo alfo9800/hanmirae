@@ -1,6 +1,10 @@
 @charset "UTF-8";
 /* 모바일용 스타일지정 시작 */
-body {font-size:14px;} /*부트스트랩 css영향을 받은 것을 무효화시키고, 
+body {
+font-size:14px;
+background:#fff; /* 뒤에 배경색상 바꾸기 */
+} /*부트스트랩 css영향을 받은 것을 무효화시키고, 사용자css로적용 */
+
 /* 헤더영역 시작 */
 .header { 
 height:80px;
