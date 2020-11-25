@@ -1,8 +1,9 @@
 @charset "UTF-8";
 /* 모바일용 스타일지정 시작 */
-body {
+body { /*부트스트랩css 또는 reset.css엣어 초기화 된 것을 재 정의 할 때*/
 font-size:14px;
 background:#fff; /* 뒤에 배경색상 바꾸기 */
+line-height:1.4; /* 상속 바로 전에 적용한 값을 초기화 inherit, initial 시키는 역할*/
 } /*부트스트랩 css영향을 받은 것을 무효화시키고, 사용자css로적용 */
 
 /* 헤더영역 시작 */
@@ -181,6 +182,7 @@ margin-top:30px;
 text-align:center;
 font-size:30px;
 color:#3f51b5;
+font-weight:normal;
 }
 .blog-section .container {
 width:90%;
