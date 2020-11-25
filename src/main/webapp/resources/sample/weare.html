@@ -2,6 +2,7 @@
 <html> <!-- html문서는 태그열고 ~ 태그닫고 하는 영역확인 중요 -->
 <head> <!-- 문서 내용과는 관계없는 문서정보=메타데이터(데이터의데이터)가 존재 -->
 <meta charset="UTF-8"> <!-- 문서의 언어 인코딩설정 지금은 유니코드로 됨 -->
+<meta name="viewport" content="width=device-width,initial-scale=1,minium=scale=1,maximum-scale=1">
 <title>반응형 홈페이지</title> <!-- 문서의 제목을 브라우저 상단왼쪽에 표시 -->
 <!-- 외부 css파일 불러오는 명령(아래) -->
 <link rel="stylesheet" href="/resources/sample/css/reset.css" type="text/css">
@@ -14,19 +15,7 @@
 <style>
 /*태블릿용 스타일 시작*/
 @media all and (min-width:768px) {
-/*we are 영역 시작*/
-.float-clear {clear:both;} /*clear속성은 float작동을 없애는 역할*/
-.weare-body li {
-float:left; /*세로정렬을 가로정렬로 변경(부트스트랩의 그리드시스템col-12(100%),col-3.col-3,col-3,col-3의 원형)*/
-width:23.046875%;/* (177÷768)×100 = 몇% >>>177은 포토샵레이아웃값의 여백*/
-margin-left:2.604166%;/* (20÷768)×100 = 몇%*/
-overflow:hidden; /*반응형list박스에서 가로크기를 벗어나는 이미지 내용은 숨김 처리*/
-}
-.weare-body li:first-child {
-margin-left:0px;
-}
-/*we are 영역 끝*/
-}
+
 /*태블릿용 스타일 끝*/
 </style>
 <script>
@@ -81,7 +70,7 @@ margin-left:0px;
 </a>
 </li>
 <li><a herf="javascript:;">
-<img src="/resources/sample/img/light.jpg" alt="갤러리게시물2">
+<img src="/resources/sample/img/plant.jpg" alt="갤러리게시물2">
 <h2>갤러리제목2</h2>
 <p>갤러리 게시물 2번의 내용입니다. 여러분 환영합...</p>
 </a>
@@ -93,7 +82,7 @@ margin-left:0px;
 </a>
 </li>
 <li><a herf="javascript:;">
-<img src="/resources/sample/img/light.jpg" alt="갤러리게시물4">
+<img src="/resources/sample/img/plant.jpg" alt="갤러리게시물4">
 <h2>갤러리제목4</h2>
 <p>갤러리 게시물 4의 내용입니다. 여러분 환영합...</p>
 </a>
