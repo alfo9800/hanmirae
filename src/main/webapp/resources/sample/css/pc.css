@@ -33,7 +33,15 @@ content:""; /* 짝대기만 만들고, 내용은 빈공간으로 처리 */
 }
 /*weare 영역 끝*/
 
-
+/*work 영역 시작*/
+.work-section .section-title {
+text-align:left;
+margin-left:3%;
+}
+.work-section li {
+width:25%; /* 100%/4 =25% */
+}
+/*work 영역 끝*/
 
 
 
