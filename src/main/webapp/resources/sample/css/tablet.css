@@ -38,7 +38,7 @@ margin-left:2.604166%;/* (20÷768)×100 = 몇%*/
 overflow:hidden; /*반응형list박스에서 가로크기를 벗어나는 이미지 내용은 숨김 처리*/
 }
 .weare-body li img {width:100%; height:auto;}
-.weare-body {margin:10px 3%;/*가운데 정렬, 10px상하 3%좌우여백*/}
+.weare-body {margin:10px 3%;}/*가운데 정렬, 10px상하 3%좌우여백*/
 .weare-body li:first-child {margin-left:0px;}
 /*we are 영역 끝*/
 
@@ -54,8 +54,21 @@ width:50%;
 float:left;/*세로배치가 가로배치로 변함*/
 width:31.59722222222%; /*3개 중 한 개의 가로크기 (242px/768px)*100= 31.59722222222% */
 margin-left:2.60416666666%; /* 1개여백 구하기 (20px/768px)*100= 2.60416666666% */
+height:300px;
+}
+.blog-section li .preview {
+height:200px;
+overflow:hidden;
+/*max-height:200px; 이미지 최대높이를 지정*/
+/*min-height:200px; 이미지 최소높이를 지정*/
+}
+.blog-section li .info2 {
+padding:10px;
 }
 .blog-section li:first-child {/*마지막 li가 아래로 떨어지는 것을 방지하는 역할*/
+margin-left:0px;
+}
+.blog-section li:nth-child(3n+1) { /*1,4,7,10 13.... 위치에 해당되는 것만 적용, n번째 인덱스값이기 때문에 0부터 시작합니다.*/
 margin-left:0px;
 }
 .blog-section hr {display:none;}

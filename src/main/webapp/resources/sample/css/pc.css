@@ -1,5 +1,6 @@
 @charset "UTF-8";
 /*pc용 스타일 시작*/
+
 /*미디어쿼리:미디어의 가로크기가 1132px이상 이면 아래 스타일 적용*/
 @media all and (min-width:1132px) {
 /* 슬라이드 영역 시작*/
@@ -43,8 +44,24 @@ width:25%; /* 100%/4 =25% */
 }
 /*work 영역 끝*/
 
+/*blog 영역 시작*/
+.blog-section {
+margin-left:3%;
+margin-right:3%;
+}
+.blog-section h1 {
+float:left;
+margin-top:30px;
+}
+.blog-section .container {
+float:right;
+width:80%;
+} /*li리스트태그에 적용했던 방식이라면 모두 float:left;*/
+/*blog 영역 끝*/
 
 
 
 }
+
+
 /*pc용 스타일 끝*/
