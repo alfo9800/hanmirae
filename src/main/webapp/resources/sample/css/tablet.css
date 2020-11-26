@@ -60,4 +60,17 @@ margin-left:0px;
 }
 .blog-section hr {display:none;}
 /*blog 영역 끝*/
+
+/*contact 영역 시작*/
+.input-class, .textarea-class {
+float:left;
+width:49%; /*2개로 나누는 가로크기를 49%로 지정*/
+}
+.input-class {
+margin-right:2%;
+}
+.contact-section form textarea {
+min-height:150px; /*강사님은 120px로 설정하셨지만, 나는 맞지 않아 150px으로 설정*/ 
+}
+/*contact 영역 끝*/
 }
