@@ -237,7 +237,7 @@ line-height:1.2;
 padding:0 2px;
 height:50px;
 border:none;/*테두리 삭제*/
-border-bottom:2px solid #ccc; /*테두리 선 설정:굵기 실선 #색상*/
+border-bottom:1px solid #ccc; /*테두리 선 설정:굵기 실선 #색상*/
 background:transparent;/*배경색상 투명처리*/
 }
 .contact-section form textarea {
@@ -245,8 +245,8 @@ width:100%;
 background:transparent;
 line-weight:1.2;
 border:none;
-border-bottom:2px solid #ccc;
-min-height:100px; /*최소높이를 지정하는 이유는 내용이 없더라도, 높이를 150px로 고정하는 의미 */
+border-bottom:1px solid #ccc;
+min-height:150px; /*최소높이를 지정하는 이유는 내용이 없더라도, 높이를 150px로 고정하는 의미 */
 padding-top:10px;
 padding-bottom:10px;
 }

@@ -59,9 +59,22 @@ width:80%;
 } /*li리스트태그에 적용했던 방식이라면 모두 float:left;*/
 /*blog 영역 끝*/
 
-
+/*contact 영역 시작*/
+.contact-section {
+margin-left:3%;
+margin-right:3%;
+}
+.contact-section h1 {
+float:left;
+margin-top:30px;
+}
+.contact-section .container {
+float:right;
+width:80%;
+}
+.contact-section form input {height:67px;}
+.contact-section form textarea {min-height:200px;}
+/*contact 영역 끝*/
 
 }
-
-
 /*pc용 스타일 끝*/
