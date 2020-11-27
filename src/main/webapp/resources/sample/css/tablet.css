@@ -46,8 +46,8 @@ overflow:hidden; /*반응형list박스에서 가로크기를 벗어나는 이미
 .work-section li {
 float:left;/*세로배치를 가로배치로 변경*/
 width:50%;
-max-height:300px;
-overflow:hidden;
+max-height:300px; /*높이가 들쑥날쑥하면 비는 부분이 생겨서 이미지 보이는 공간의 초고 높이를 300px로 고정 */
+overflow:hidden; /*만약에 300px 넘는 이미지는 숨김 처리 */
 }
 /*work 영역 끝*/
 

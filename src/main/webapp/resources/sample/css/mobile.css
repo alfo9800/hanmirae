@@ -5,7 +5,10 @@ font-size:14px;
 background:#fff; /* 뒤에 배경색상 바꾸기 */
 line-height:1.4; /* 상속 바로 전에 적용한 값을 초기화 inherit, initial 시키는 역할*/
 } /*부트스트랩 css영향을 받은 것을 무효화시키고, 사용자css로적용 */
-
+/*부트스트랩 css영향을 받는 부분을 무효화시키기(아래)*/
+ul {
+	margin-bottom: inherit !important; /*css위치와 상관없이 무조건,강제로. 중요하게 적용가능*/
+}
 /* 헤더영역 시작 */
 .header { 
 height:80px;
