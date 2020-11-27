@@ -31,7 +31,7 @@ public class HomeController {
 	@RequestMapping(value="/weare",method=RequestMethod.GET)
 	public String weare() {
 		//외부에서 /weare경로로 접근했을 때,sample/weare.jsp와 매핑시키라는 의미.
-		return "sample/weare";
+		return "sample/weare"; //리턴 반환값이 상대경로의 파일명(perfix).jsp생략
 	}
 	@RequestMapping(value="/",method=RequestMethod.GET) //여기가 절대경로.
 	public String index() {
