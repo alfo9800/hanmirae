@@ -46,6 +46,8 @@ overflow:hidden; /*반응형list박스에서 가로크기를 벗어나는 이미
 .work-section li {
 float:left;/*세로배치를 가로배치로 변경*/
 width:50%;
+max-height:300px;
+overflow:hidden;
 }
 /*work 영역 끝*/
 

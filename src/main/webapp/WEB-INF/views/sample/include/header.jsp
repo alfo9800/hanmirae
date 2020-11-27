@@ -12,9 +12,7 @@
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> <!-- j쿼리 코어 -->
 <script src="/resources/sample/js/user.js"></script>
 <!-- 외부 css파일 불러오는 태그(아래) -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
-<!-- 위 부트스트랩 코어 -->
+
 
 <link rel="stylesheet" href="/resources/sample/css/reset.css" type="text/css">
 <link rel="stylesheet" href="/resources/sample/css/mobile.css" type="text/css">
