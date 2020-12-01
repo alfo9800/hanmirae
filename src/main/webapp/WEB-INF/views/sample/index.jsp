@@ -2,10 +2,11 @@
     pageEncoding="UTF-8"%>
 <!-- jsp: JavaSeverPage 자바서버용페이지 -->
 <%--자바주석 시작 
-- jsp에서 자바프로그램을 사용할 때 쓰는 태그 < %~~~~~% > %로 감싸주게 됩니다.  
-- 다른언어PHP 일 때, <?~~~~?> 로 감싸주게 됩니다.
-- @ page 골뱅이는 애노테이션-페이지 지시자. 랭귀지:java
-- 콘텐츠타입:text/html; 문자셋:유니코드 페이징인코딩:유니코드
+- jsp에서 자바프로그램을 사용할 때 쓰는 태그 < %~~~~~% >  
+- @page:골뱅이-애노테이션,페이지-지시자. 
+- language:java언어.
+- 콘텐츠타입:text/html. 문자셋:유니코드(한글)
+- 페이징인코딩:유니코드(한글)
 자바주석 끝 --%>
 
 <!-- Homecontroller.java에서 index.jsp로 매칭 시킨 결과가 나오는 페이지 입니다.<br>
@@ -25,9 +26,10 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
 <!-- 위 부트스트랩 코어 -->
-<section> <!-- division 디비전이라는 div 영역표시 태그 대신에 사용 -->
+<section>
 <!-- 본문슬라이드영역 시작 -->
-<!-- 이미지를 불러오는 태그 img -->
+
+<!-- 이미지를 불러오는 태그 img src -->
 <!-- 경로:상대(.img/...), 절대경로(/resources/sample/img/...) -->
 <!-- 태그안쪽에 지정한 스타일을 인라인스타일  -->
 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
@@ -56,7 +58,7 @@
     <span class="sr-only">Next</span>
   </a>
 </div>
-
 <!-- 분문슬라이드영역 끝 -->
+
 </section>
-<%@ include file="./include/footer.jsp" %>
+<%@ include file="./include/footer.jsp" %><!-- 공통된 footer 적용 -->

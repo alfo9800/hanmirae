@@ -1,27 +1,27 @@
 @charset "UTF-8";
-@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css); /* 외부에서 font를 불러올 때 */
+
 /* 모바일용 스타일지정 시작 */
 body { /*부트스트랩css 또는 reset.css에서 초기화 된 것을 재 정의 할 때*/
 font-size:14px;
 background:#fff; /* 뒤에 배경색상 바꾸기 */
 line-height:1.4 !important; /* 상속 바로 전에 적용한 값을 초기화 inherit, initial 시키는 역할*/
 font-family:"Nanum Gothic", "NanumGothic" !important;
-} /*부트스트랩 css영향을 받은 것을 무효화시키고, 사용자css로적용 */
-/*부트스트랩 css영향을 받는 부분을 무효화시키기(아래)*/
-ul {
-	margin-bottom: inherit !important; /*css위치와 상관없이 무조건,강제로. 중요하게 적용가능*/
 }
+/*부트스트랩 css영향을 받는 부분을 무효화시키기(아래), 사용자css로적용*/
+ul {margin-bottom: inherit !important; /*css위치와 상관없이 무조건,강제로. 중요하게 적용가능*/}
+
 /* 헤더영역 시작 */
 .header { 
 height:80px;
-position:relative; /*상대적인 위치 다른예는 absolute절대적인 위치=fixed붙박이*/
-padding:18px 2%; /*안쪽여백: 바깥쪽여백은 margin입니다. 18px(상하여백) 5%(좌우여백)*/
-/*padding:10px 5% 18px 5% 시계방향으로 진행시작 위쪽부터 시작. 약자 위로 표시 됩니다.
+position:relative; /*relative상대적인 위치. absolute절대적인 위치=fixed붙박이*/
+padding:18px 2%; /*padding안쪽여백. margin은 바깥쪽여백. 18px(상하여백) 5%(좌우여백)*/
+/*padding:10px 5% 18px 5% 시계방향으로 진행시작 위쪽부터 시작.
 만약 padding:18px 18px 5%; 3가지 모두 동일. 18px(상여백) 5%(좌우여백) 18px(하여백)
 */
 }
 .header .logo {
-float:left; /*플로트: 떠다니는 영역역할은 세로배치를 가로배치로 변경처리에 사용됨*/
+float:left; /*float: 떠다니는 영역역할은 세로배치를 가로배치로 변경처리에 사용됨*/
 }
 .header .logo a {
 font-size:26px; /*글자 크기*/
@@ -57,7 +57,7 @@ background:#3f51b5;
 z-index:21; /*z-index는 화면에서 컨텐츠가 겹치는 경우 사용*/
 }
 .header .gnb li {
-/*border는 테두리 bottom아래, top위,left-ringht좌-우, 1px(두께),solid(실선),#16진수(색상)*/
+/*border(테두리). 1px(두께),solid(실선),#16진수(색상)...(bottom아래. top위. left-ringht좌-우.)*/
 border:1px solid #303f9f;
 border-bottom:0px;
 }
@@ -115,7 +115,7 @@ text-align:center;
 margin-top:50px; /*게시물 사이 간격 li태그 4개 사이간격주기 */
 }
 .weare-body li img {
-height:220px; /*이미지는 가로든 세로든 1쪽 크기를 지정하면, 비율을 유지하면서 크기가 조정됩니다. */
+height:220px; /*이미지는 가로든 세로든 1쪽 크기를 지정하면, 비율을 유지하면서 크기가 조정됨. */
 }
 .weare-body li h2 {
 margin:20px 0px;
@@ -145,8 +145,7 @@ position:relative; /*a태그에서 위치를 상대적으로 지정 */
 .work-section li a::before {
 display:block;
 background:#3f51b5;
-/*이 절대 값의 위치는 위 a태그에서 지정한 relative상대위치에 한정해서 절대 위치로 지정됨(아래) */
-position:absolute; 
+position:absolute; /*이 절대 값의 위치는 위 a태그에서 지정한 relative상대위치에 한정해서 절대 위치로 지정됨(아래) */
 width:100%;
 height:100%;
 top:0px; /*화면의 상단 위쪽으로 0px위치 */
@@ -158,7 +157,7 @@ opacity:0; /*투명도를 0%로 지정 (0~ 0.5 ~1) */
 opacity:0.4;
 }
 .work-section .info {
-display:block; /*화면에서 자리를 차지하기 위해서 block을 지정합니다 */
+display:block; /*화면에서 자리를 차지하기 위해서 block을 지정 */
 position:absolute;
 left:10px;
 color:#fff;

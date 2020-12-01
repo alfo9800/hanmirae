@@ -3,10 +3,10 @@
 
 <%@ include file="./include/header.jsp" %>
 
-<section class="work-section"> <!-- division 디비전이라는 div 영역표시 태그 대신에 사용 -->
+<section class="work-section">
 <h1 class="section-title">WORK</h1>
 <ul>
-<li> <!-- 아래 a링크의 title속성은 시각장애인을 위한 (웹접근성을 위한) 코딩입니다. -->
+<li> <!-- 아래 a링크의 title속성은 시각장애인을 위한 (웹접근성을 위한)코딩 -->
 <a href="javascript:;" title="갤러리게시판2 이미지1입니다.">
 <div class="info">
 <h2>갤러리제목1</h2>

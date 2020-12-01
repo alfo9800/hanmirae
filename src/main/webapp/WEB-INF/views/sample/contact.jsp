@@ -1,20 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
-   
 <%@ include file="./include/header.jsp" %>
 
 <section class="contact-section">
 <h1>CONTACT</h1>
 <div class="container">
 
-<!-- (아래)form의 필수 속성: name,action(데이터를 전송할 대상값),method(데이터를 전송하는 방법) -->
+<!-- (아래)form의 필수 속성: name, action(데이터를 전송할 대상값), method(데이터를 전송하는 방법) -->
+<!-- (아래)스프링에서는 action으로 폼데이터를 전송할 위치를 지정할 때, 'contact.html' 직접접속 안됨. '/contact' 처럼 컨트롤러를 통해 접속한다. -->
 <form name="message_form" action="/contact" method="post">
-<!-- (위)스프링에서는 action으로 폼데이터를 전송할 위치를 지정할 때, 'contact.html' 직접접속 안됨. '/contact' 처럼 컨트롤러를 통해 접속한다. -->
 
 <!-- (아래)필드셋은 폼이 DB테이블의 필드와 1:1매칭되는 관계 -->
 <fieldset>
 <legend>현재 폼의 타이틀영역 입니다.</legend>
+
 <div class="input-class">
 <!-- (아래)input 한줄입력태그(/슬래쉬 끝에 안들어가도 됨), textarea 여러줄 입력태그 -->
 <!-- (아래)label은 이름표,입력태그와 라벨은 1:1 매칭이 되는 관계 -->

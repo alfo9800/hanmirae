@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
-<%@ include file="./include/header.jsp" %>
+<%@ include file="./include/header.jsp" %><!-- 공통된 헤더파일 적용 -->
 
-<section class="weare-section"> <!-- division 디비전이라는 div 영역표시 태그 대신에 사용 -->
+<section class="weare-section">
 
 <section class="weare-header">
 <h1 class="section-title">WE ARE</h1>
@@ -15,7 +15,7 @@
 <!-- 갤러리게시판에서 가져오는 데이터 4개 반복영역(아래) -->
 <section class="weare-body float-clear">
 <ul>
-<li><a href="javascript:;"> <!-- a링크태그의 '가상링크#'대신에 javascript:; 입니다. -->
+<li><a href="javascript:;"> <!-- a링크태그의 '가상링크#'대신에 javascript:; 사용 -->
 <img src="/resources/sample/img/plant.jpg" alt="갤러리게시물1">
 <h2>갤러리제목1</h2>
 <p>갤러리 게시물 1번의 내용입니다. 여러분 환영합...</p>
@@ -40,9 +40,8 @@
 </a>
 </li>
 </ul>
-
 </section>
 
 </section>
 
-<%@ include file="./include/footer.jsp" %>
+<%@ include file="./include/footer.jsp" %><!-- 공통된 푸터파일 적용 -->
