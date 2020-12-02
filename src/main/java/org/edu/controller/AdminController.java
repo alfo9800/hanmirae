@@ -8,6 +8,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class AdminController {
 
+	@RequestMapping(value="/admin/board_list",method=RequestMethod.GET)
+	public String board_list () {
+		return "admin/board/board_list";
+	}
+	
 	@RequestMapping(value="/admin/member_write",method=RequestMethod.POST)
 	public String member_write_do() {
 		//아래 get방식의 폼 풀력 화면에서 데이터 전송받은 내용을 처리하는 바인딩.
