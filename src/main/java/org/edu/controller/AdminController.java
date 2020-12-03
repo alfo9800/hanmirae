@@ -34,7 +34,7 @@ public class AdminController {
 	@RequestMapping(value="/admin/member/member_view",method=RequestMethod.GET)
 	public String member_view(@RequestParam("user_id") String user_id, Model model ) {
 		//위에서 수신한 user_id를 개발자가 만든 user_id2이름으로 member_view.jsp로 보냄.
-		model.addAttribute("user_id2", user_id);
+		model.addAttribute("user_id2", user_id + "<script>alert('어서오세요');</script> 님");
 		return "admin/member/member_view";
 	}
 	
