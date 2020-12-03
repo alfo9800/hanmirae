@@ -68,8 +68,6 @@ $(document).ready(function(){
 		//2개의 값을 비교1: a태그의 값-/admin/member_list, /admin/board_list
 		//2개의 값을 비교2: 비교대상 current_2(현재 웹브라우저의 URL값중 제일 마지막 값)
 		
-		//if( $(this).attr('href').includes(current_2) == true ) { //includes함수: 포함하고 있는 문자열을 비교.
-			//위에서 사용한 includes함수는 크롬에서만 작동이 되어서 IE에서는 작동이 안됨. 크로스브라우징 처리 해줘야함.
 		if( $(this).attr('href').indexOf(current_2) != -1) { //위 문제를 처리하는 대체함수 indexOf를 사용
 			$(this).addClass("active");
 		} else {
@@ -77,6 +75,8 @@ $(document).ready(function(){
 		}
 	});
 });
+//if( $(this).attr('href').includes(current_2) == true ) { //includes함수: 포함하고 있는 문자열을 비교.
+//위에서 사용한 includes함수는 크롬에서만 작동이 되어서 IE에서는 작동이 안됨. 크로스브라우징 처리 해줘야함.
 </script>
 </body>
 </html>

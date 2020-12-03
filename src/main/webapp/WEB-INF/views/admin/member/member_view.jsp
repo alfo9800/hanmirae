@@ -67,7 +67,7 @@
           
           <!-- 버튼영역 시작 -->
             <div class="card-body">
-            	<a href="/admin/member_list" class="btn btn-primary float-right mr-1">LIST ALL</a>              	
+            	<a href="/admin/member/member_list" class="btn btn-primary float-right mr-1">LIST ALL</a>              	
               	<button type="button" class="btn btn-danger float-right mr-1">DELETE</button>
               	<button type="button" class="btn btn-warning float-right mr-1">UPDATE</button> 
               	
