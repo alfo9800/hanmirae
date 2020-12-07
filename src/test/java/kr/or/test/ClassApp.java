@@ -36,13 +36,13 @@ public class ClassApp {
 //추상클래스 또는 인터페이스를 사용하는 목적은 두꺼운 책에서 목차를 만드는 것과 똑같은 역할.
 abstract class GraphicObject {
 	int x, y;//그래픽오브젝트 클래스 멤버변수 선언
-	abstract void draw();//명세표만 있고 구현내용이 없는(인터페이스) 추상메서드 선언. 아래쪽 ststem.out.println으로 너넘어가서 작업.
+	abstract void draw();//명세표만 있고 구현내용이 없는(인터페이스) 추상메서드 선언. 아래쪽 ststem.out.println으로 넘어가서 작업.
 	//다른 해석 예로 들면, 책에 목차만 있고, 내용이 없는 구조. 내용은 별도의 클래스에 있음.
 }
 class Triangle extends GraphicObject {
 	
-	//메서드 오버라이드(메서드이름이 같은 것을 상속관계에서 실행)
-	@Override
+	//메서드 오버라이드(메서드이름이 같은 것을 상속관계에서 실행)=부모메서드 재정의. 대표적인 다형성을 구현한 것.
+	@Override//메서드 재정의
 	void draw() {
 		System.out.println("  *  ");
 		System.out.println(" * * ");

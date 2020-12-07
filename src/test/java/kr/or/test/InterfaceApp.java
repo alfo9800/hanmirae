@@ -5,7 +5,7 @@ public class InterfaceApp {
 	public static void main(String[] args) {
 		// 자바프로그램은 항상 main() 진입점에서 실행하는 것. 단, 웹 프로그램은 해당 안됌.
 		AllCalc allCalc = new AllCalc();// 실행 오브젝트변수 allCalc 생성
-		allCalc.add(5, 5);
+		allCalc.add(5, 5);//메서드를 호출할 때. 5,5 20,20 이렇게매개변수가 고정이 되지 않고, 동적으로 묶이는 방식을 '동적 바인딩'이라고 함.
 		allCalc.sub(5, 5);
 		allCalc.mul(5, 5);
 		allCalc.div(5, 5);
