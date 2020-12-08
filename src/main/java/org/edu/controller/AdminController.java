@@ -52,6 +52,14 @@ public class AdminController {
 				{"admin","찐관리자","admin@aka.com","true","2020-12-04","ROLE_ADMIN"},
 				{"user","일반사용자","user@aka.com","false","2020-12-04","ROLE_USER"}
 		};
+		Map<String, Integer> mapTest = new HashMap<String, Integer>();
+		String ageValue = "40";
+		int ageValue2 = 40;
+		//mapTest.put("", value)
+		
+		
+		
+		
 		//{"user_id":"admin","user_name":"관리자",...} 해시#데이터 타입. <키(key),값(value)>(그물-낚시)
 		//아래 Object는 java.lang패키지의 최상위 클래스로서 import 안해도 자동으로 사용가능.
 		//Map타입이 부모클래스. HashMap타입이 자식클래스. 관례적으로 사용. paramMap오브젝트의 확장하기 편하도록 하기 위해서 상속.
