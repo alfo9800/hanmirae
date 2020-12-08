@@ -12,7 +12,7 @@ class MemberVO {
 	private int age;
 	private String phoneNum;
 	
-	//멤버변수는 보안 때문에 private으로 만들었는데, get,set은 public으로 생성됨.(class안에서 읽어들이기 편하게)
+	//멤버변수는 보안 때문에 private. get,set은 public으로 생성됨.(class안에서 읽어들이기 편하게)
 	public String getName() {
 		return name;
 	}
@@ -37,6 +37,7 @@ class MemberVO {
 	}
 	
 }
+
 class MemberService {//회원출력에 관련된 메서드를 모아 놓음.(아래)
 	public void printMember(MemberVO[] members) {//members는 레코드가 여러개=여러줄
 		//서비스 구현 메서드 내용-향상된 for반복문 사용
@@ -54,16 +55,16 @@ public class Step2 {
 	public static void main(String[] args) {
 		// 실행 메서드
 		MemberVO memberVO = new MemberVO();
-		memberVO.setName("은지원");
+		memberVO.setName("홍길동");
 		memberVO.setAge(43);
 		memberVO.setPhoneNum("010-1111-2222");
 		MemberVO memberVO2 = new MemberVO();
-		memberVO2.setName("장동윤");
-		memberVO2.setAge(29);
+		memberVO2.setName("성춘향");
+		memberVO2.setAge(19);
 		memberVO2.setPhoneNum("010-3333-4444");
 		MemberVO memberVO3 = new MemberVO();
-		memberVO3.setName("김남길");
-		memberVO3.setAge(41);
+		memberVO3.setName("이몽룡");
+		memberVO3.setAge(23);
 		memberVO3.setPhoneNum("010-2222-8888");
 		//위 각각 3개의 레코드를 1군데 담을 배열 클래스오브젝트를 하나 생성
 		MemberVO[] members = new MemberVO[3];
