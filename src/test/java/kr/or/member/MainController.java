@@ -1,17 +1,21 @@
 package kr.or.member;
 
+import java.io.IOException;
 import java.net.InetAddress;
-import java.net.SocketException;
-import java.net.UnknownHostException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 
 import org.apache.commons.net.ntp.NTPUDPClient;
+import org.apache.commons.net.ntp.TimeInfo;
 
 import kr.or.member.MemberService;
 import kr.or.member.MemberVO;
 
 public class MainController {
 
-	public static void main(String[] args) throws SocketException, UnknownHostException {
+	public static void main(String[] args) throws IOException {
 		// 실행 메서드
 		MemberVO memberVO = new MemberVO();
 		memberVO.setName("홍길동");
@@ -42,8 +46,21 @@ public class MainController {
 		//네트워크로 서버시간을 가져올때, 서버의 응답이 1초를 넘기면...재접속을 하시오.(timeout)
 		timeClient.open();
 		//pool.ntp.org는 서버시간을 보내 줄 실제 주소.
-		InetAddress adress = InetAddress.getByName("pool.ntp.prg");
-		
+		InetAddress adress = InetAddress.getByName("pool.ntp.org");
+		TimeInfo timeInfo = timeClient.getTime(adress);
+		//서버시간을 담은 timeinfo 객체변수를 사용(아래)
+		//TimeStamp 1970년 부터 초단위로 계산된 현재까지의 초를 합친 결과 값
+		long returnTime = timeInfo.getMessage().getTransmitTimeStamp().getTime();
+		//위 반환받은 타임스탬프초 값을 사람이 알아볼 수 있는 시간으로 변환
+		Date nowDate = new Date(returnTime);
+		//System.out.println("현재 서버시간은-미국 " + nowDate);
+		//Wed Dec 09 11:24:03 KST -> 2020/12/09 11:24:03 AM
+		//SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		//System.out.println("현재 서버시간은-한국 " + formatDate.format(nowDate));
+		LocalDateTime localDateTime = nowDate.toInstant()
+				.atZone(ZoneId.systemDefault())
+				.toLocalDateTime();
+		System.out.println("Server 시간: " + localDateTime);
+		System.out.println("로컬PC 시간 : " + localDateTime.now());
 	}
-
 }
