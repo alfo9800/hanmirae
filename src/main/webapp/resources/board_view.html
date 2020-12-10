@@ -210,13 +210,63 @@
               </div>
                <form action="#" name="reply_form" method="post">
               
-               
+            <div class="card-body">
+              <div class="form-group">
+               <label for="writer">Writer</label>
+               <input type="text" class="form-control" name="writer" id="writer" placeholder="작성자를 입력해 주세요." required>
+              </div>
+              <div class="form-group">
+               <label for="reply_text">Reply Text</label>
+               <input type="text" class="form-control" name="reply_text" id="writer" placeholder="내용을 입력해 주세요." required>
+              </div>  
+              <button type="button" class="btn btn-warning float-left mr-1" id="insertReplyBtn">댓글등록</button>
+              <!-- 게시판에서 폼을 전송할 때 submit타입을 사용하지만, 댓글은 Ajax로 전송하기 때문에, button타입으로 지정함. -->             
+            </div>  
                </form>
+               <div class="timeline">
+		          <div class="time-label">
+	                <span class="bg-red">Reply List[1]</span>
+	              </div>
+		          <div>
+	                <i class="fas fa-envelope bg-blue"></i>
+	                <div class="timeline-item">
+	                  <h3 class="timeline-header">작성자</h3>
+	                  <div class="timeline-body">
+	                    	댓글 입력 테스트
+	                  </div>
+	                  <div class="timeline-footer">
+	                    <!-- Button trigger modal -->
+						<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#replyModal">
+						  수정
+						</button>	                    
+	                  </div>
+	                </div>
+	              </div>
+	              
+	          </div><!-- //.timeline -->
+	  		<!-- 페이징처리 시작 -->
+	            <div class="pagination justify-content-center">
+	            	<ul class="pagination">
+	            	 <li class="paginate_button page-item previous disabled" id="example2_previous">
+	            	 <a href="#" aria-controls="example2" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+	            	 </li>
+	            	 <!-- 위 이전게시물링크 -->
+	            	 <li class="paginate_button page-item active"><a href="#" aria-controls="example2" data-dt-idx="1" tabindex="0" class="page-link">1</a></li>
+	            	 <li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="2" tabindex="0" class="page-link">2</a></li>
+	            	 <li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="3" tabindex="0" class="page-link">3</a></li>
+	            	 <!-- 아래 다음게시물링크 -->
+	            	 <li class="paginate_button page-item next" id="example2_next">
+	            	 <a href="#" aria-controls="example2" data-dt-idx="7" tabindex="0" class="page-link">Next</a>
+	            	 </li>
+	            	 </ul>
+	            </div>
+	  		<!-- 페이징처리 끝 -->
+
              </div>
           <!-- 댓글영역 끝 -->
           
           </div><!-- col-12의 끝 -->
-        </div><!-- row의끝  -->        
+        </div><!-- row의끝  -->                 
                   
       </div><!-- /.container-fluid -->
     </section>
@@ -276,6 +326,86 @@
 <script src="/resources/demo.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="/resources/dist/js/pages/dashboard.js"></script>
+
+<!-- 자바스크립트용 #template element 제작 => jstl향상된 for문고 같은 역할.-->
+<!--jstl을 사용하려면, jsp에서 <%@ taglib uri=... 처럼 외부 core를 가져와서 사용한 것 처럼
+자바스트립트에서도 외부 core를 가져와야함.-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>
+<!-- 댓글 템플릿(틀) 만들기 -->
+<script id="template" type="text/x-handlebars-template">
+{{#each .}}
+<div>
+ <i class="fas fa-envelope bg-blue"></i>
+ <div class="timeline-item">
+   <h3 class="timeline-header">작성자</h3>
+   <div class="timeline-body">
+     	댓글 입력 테스트
+   </div>
+   		<div class="timeline-footer">
+     	<!-- Button trigger modal -->
+		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#replyModal">
+ 			 수정
+		</button>	                    
+    </div>
+  </div>
+</div>
+{{/each}}
+</script>
+
+<!-- 화면을 재구현 Representation 하는 함수 -->
+<script>
+var printreplyList = function(data, target, templateObject) {
+	
+};
+</script>
+
+<!-- 댓글 등록버튼 액션 처리 -->
+<script>
+$(document).ready(function() { 
+	$("#insertReplyBtn").on("click", function() {//#insertReplyBtn은 댓글등록의 id랑 일치하게 써야함.
+		//alert("디버그");
+		//Ajax를 이용해서 화면을 Represention(REST-API방식) 부분 화면을 재구현->통신프로그램
+		$.ajax({
+			type:'get', //html은 get. jsp로 가면 post로 바꿔야 함.
+			url:'board_view.html', //jsp로 가면 ReplyController에서 지정한 url로 바꿔야 함.
+			datetype:'text', //ReplyController에서 받은 데이터의 형식은 text형식으로 받겠다고 명시
+			seccess:function(result) { //응답이 성공하면(=상태 값 200이 되면) 위 경로에서 반환 받은 result(json텍스트 데이터)를 이용해서 화면을 재구현 
+				//지금 html이라서 result값을 이용할 수 없어 더미데이터 만듦.
+				result = [
+					//{rno:댓글번호,bno:게시물번호,replytext:"첫번째 댓글",replyer:"admin",regdate:timestamp값}
+					{rno:1,bno:15,replytext:"첫번째 댓글",replyer:"admin",regdate:1601234512345},//1번째 댓글 데이터
+					{rno:2,bno:15,replytext:"두번째 댓글",replyer:"user02",regdate:1601234512345} //2번째 댓글 데이터
+				]; //위 URL이 공공데이터라고 생각해 화면에 구현하면, 빅데이터의 시각화로 불리게 됨.
+				
+				//printReplyList(빅데이터, $출력할 타겟 위치, $빅데이터를 가지고 바인딩 된 템플릿 화면);
+				printReplyList(result, $(".time-label"), $("#template")); //화면에 출력하는 구현함수를 호출하면 실행.
+			}
+		});
+	});
+});
+</script>
+<!-- Modal -->
+<div class="modal fade" id="replyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">작성자</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <input type="text" class="form-control" name="modal_text" id="modal_text" placeholder="내용을 입력해 주세요.">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+        <button type="button" class="btn btn-primary">수정</button>
+        <button type="button" class="btn btn-danger">삭제</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
 <!-- 관리자단 푸터 끝 -->
