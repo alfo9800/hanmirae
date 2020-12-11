@@ -16,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping; //bind는 묶는다는 의미. /admin요청경로와 admin/home.jsp를 묶는다는 의미
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 //스프링에서 사용가능한 클래스를 빈(커피Bean)이라고 하고, @Controller 클래스를 사용하면 됨.
 @Controller
@@ -24,9 +25,21 @@ public class AdminController {
 	@Inject
 	SecurityCode securityCode; 
 
-	@RequestMapping(value="/admin/board/board_view",method=RequestMethod.GET)
-	public String board_view(Model model) throws Exception {
+	@RequestMapping(value="/admin/board/board_write",method=RequestMethod.GET)
+	public String board_write() throws Exception {
+		return "admin/board/board_write";
+	}
+	@RequestMapping(value="/admin/board/board_write",method=RequestMethod.POST)
+	public String board_write(MultipartFile file, BoardVO boardVO) throws Exception {
+		//post로 받은 boardVO내용을 DB서비스에 입력하면 됨.
+		//DB에 입력후 새로고침 명령으로 게시물 테터를 당하지 않으려면, redirect로 이동처리함.
+		return "redirect:/admin/board/board_list";
+	}
+ 	@RequestMapping(value="/admin/board/board_view",method=RequestMethod.GET)
+	public String board_view(@RequestParam("bno") Integer bno, Model model) throws Exception {
 		//jsp로 보낼 더미데이터 만들기. BoardVO에 담아서.
+		//실제로는 아래처럼 더미데이터를 만드는 것이 아닌 쿼리스트링(질의문자열)로 받아온 bno(게시물 고유번호)를 이용해서 DB에서
+		//select * from tbl_board where bno = ? 실행이 된 결과값이 BoardVO형으로 받아서 jsp 보내줌.
 		BoardVO boardVO = new BoardVO();
 		boardVO.setBno(1);
 		boardVO.setTitle("첫 번째 게시물입니다.");

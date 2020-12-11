@@ -65,9 +65,9 @@
             </div>
           <!-- 버튼영역 시작 -->
           <div class="card-body">
-            	<a href="board_list.html" class="btn btn-primary float-right mr-1">LIST ALL</a>
-              	<a href="board_list.html" class="btn btn-danger float-right mr-1">DELETE</a>
-				<a href="board_write.html" class="btn btn-warning float-right mr-1 text-white">UPDATE</a>              	
+            	<a href="/admin/board/board_list" class="btn btn-primary float-right mr-1">LIST ALL</a>
+              	<button class="btn btn-danger float-right mr-1">DELETE</button>
+				<a href="/admin/board/board_write?bno=${boardVO.bno}" class="btn btn-warning float-right mr-1 text-white">UPDATE</a>              	
               	<!-- 부트스트랩 디자인 버튼클래스를 이용해서 a태그를 버튼모양 만들기(위) -->
               	<!-- btn클래스명이 버튼모양으로 변경, btn-primary클래스명은 버튼색상을 변경하는역할 -->
               	<!-- 
@@ -84,17 +84,17 @@
 	          <div class="card-header">
 	            <h5 class="card-title">Add New Reply</h5>
 	          </div>
-	          <form action="board_view.html" name="reply_form" method="post">
+	          <form action="/admin/board/board_write" name="reply_form" method="post">
 	          <div class="card-body">
 	          	<div class="form-group">
-                   <label for="writer">Writer</label>
-                   <input type="text" class="form-control" name="writer" id="writer" placeholder="작성자를 입력해 주세요." required>
+                   <label for="replyer">Replyer</label>
+                   <input type="text" class="form-control" name="replyer" id="replyer" placeholder="작성자를 입력해 주세요." required>
                    <!-- 폼에서 input같은 입력태그에는 name속성이 반드시 필요, 이유는 DB에 입력할때,
                    	 값을 전송하게 되는데, 전송값을 담아두는 이름이 name가 되고, 위에서는 writer. -->
                 </div>
                 <div class="form-group">
-                   <label for="reply_text">Reply Text</label>
-                   <input type="text" class="form-control" name="reply_text" id="reply_text" placeholder="내용을 입력해 주세요." required>
+                   <label for="replytext">Reply Text</label>
+                   <input type="text" class="form-control" name="replytext" id="replytext" placeholder="내용을 입력해 주세요." required>
                    <!-- 아래 게시판에서는 폼을 전송할때 submit 타입을 사용 하지만, 댓글은 Ajax로 전송하기 때문에, button타입으로 지정함. -->
                 </div>
                 <button type="button" class="btn btn-warning float-left mr-1 text-white" id="insertReplyBtn">댓글등록</button>
@@ -103,7 +103,7 @@
 	          <div class="timeline">
 	          	  <!-- .time-label의 before 위치 -->
 		          <div class="time-label">
-	                <span class="bg-red">Reply List[1]&nbsp;&nbsp;</span>
+	                <span class="bg-red">Reply List[1]&nbsp;</span>
 	              </div>
 	              <!-- .time-label의 after 위치 -->
 		          <!-- <div>
@@ -155,13 +155,13 @@
 <%@ include file="../include/footer.jsp" %>
   
 <%-- 자바스트립트용 #template 엘리먼트 제작(아래) jstl 향상된 for문과 같은 역할 
-jstl을 사용하려면, jsp에서 %@ taglib uri=... 처럼 외부 core를 가져와서 사용한 것처럼
+jstl을 사용하려면, --jsp에서 %@ taglib uri=...-- 처럼 외부 core를 가져와서 사용한 것처럼
 자바스크립트에서도 외부 core를 가져와야 합니다.(아래)
 --%>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>
 
 <!-- 댓글리스트 템플릿 만들기(아래) -->
-<%-- jsp <c:forEach items="${members}" var="member"> 같은 역할 {{#each .}} --%>
+<%-- jsp --c:forEach items="${members}" var="member"-- 같은 역할 {{#each .}} --%>
 <script id="template" type="text/x-handlebars-template">
 {{#each .}}
 <div class="template-div" data-rno="{{rno}}">
@@ -196,10 +196,11 @@ $(document).ready(function() {
 		//alert("디버그");
 		//Ajax를 이용해서, 화면을 Representation (REST-API방식) 부분 화면을 재구현
 		$.ajax({//통신프로그램
-			type:'get',//지금은 html이라서 get방식. jsp로가면, post방식으로 바꿔야 함.
-			url:'board_view.html',//jsp로 가면, ReplyController에서 지정한 url로 바꿔야 함.
+			type:'post',// html은 get방식. jsp는 post방식.
+			url:'/reply/reply_write',//jsp로 가면, ReplyController에서 지정한 url로 바꿔야 함.
 			dataType:'text',//ReplyController에서 받은 데이터의 형식은 text형식으로 받겠다고 명시.
 			success:function(result) {//응답이 성공하면(상태값200)위경로에서 반환받은 result(json데이터)를 이용해서 화면을 재구현
+				alert(result);//디버그용
 				//지금은 html이라서 result값을 이용할 수가 없어서 댓글 더미데이터를 만듦.
 				result = [
 					//{rno:댓글번호,bno:게시물번호,replytext:"첫번째 댓글",replyer:"admin",regdate:타임스탬프}
@@ -243,8 +244,8 @@ $(document).ready(function() {
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-        <button type="button" class="btn btn-primary">수정</button>
-        <button type="button" class="btn btn-danger">삭제</button>
+        <button type="button" class="btn btn-primary" id="updateReplyBtn">수정</button>
+        <button type="button" class="btn btn-danger" id="updateReplyBtn">삭제</button>
       </div>
     </div>
   </div>
