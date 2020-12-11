@@ -79,7 +79,7 @@
                       <!-- a링크값은 리스트가 늘어날 수록 동적으로 bno값이 변하게 됩니다. 개발자가 jsp처리 -->
                       <td><a href="/admin/board/board_view?bno=${boardVO.bno}">
                       <!-- c:out을 사용하는 이유는 불필요한 알림창,링크가 뜨지 않게 하기위해서 시큐어리코딩처리 -->
-                      <c:out value="${boardVO.title}"></c:out>[<c:out value="${boardVO.reply_count}">]</c:out>
+                      <c:out value="${boardVO.title}"></c:out>[<c:out value="${boardVO.reply_count}"></c:out>]
                       </a></td>
                       <td><c:out value="${boardVO.writer}"></c:out></td>
                       <td><fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${boardVO.regdate}"/></td>
