@@ -38,18 +38,23 @@
               <!-- /.card-header -->
               <div class="card-body">
                 <strong><i class="fas fa-book mr-1"></i> title</strong>
-                <p class="text-muted">첫번째 게시물 제목</p>
+                <p class="text-muted">
+					<!-- 아래와 같은 출력형태는 EL(Express Language)표시 -->
+					<%-- "${boardVO.title}"은 보안에 취약함. --%>
+				<c:out value="${boardVO.title}"></c:out>
+				</p>
 
                 <hr><!-- horizontal 수평선 태그 -->
                 <strong><i class="fas fa-map-marker-alt mr-1"></i> content</strong>
-                <p class="text-muted">
-                	첫번째 게시물 내용<br>
-                	줄바꿈 테스트
+                <p class="text-muted">               	
+                	${boardVO.content}
                 </p>
 				<!-- 부트스트랩 오른쪽여백주기클래스명mr-1:(margin-right: .25rem!important;) -->
                 <hr>
                 <strong><i class="fas fa-pencil-alt mr-1"></i> 작성자</strong>
-                <p class="text-muted">admin</p>
+                <p class="text-muted">
+				<c:out value="${boardVO.writer}"></c:out>	
+				</p>
                 
                 <hr>
                 <strong><i class="far fa-save mr-1"></i> 첨부파일</strong>
