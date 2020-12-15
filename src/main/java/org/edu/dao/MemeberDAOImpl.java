@@ -27,6 +27,19 @@ public class MemeberDAOImpl implements IF_MemberDAO {
 		sqlSession.insert("memberMapper.insertMember", memberVO);
 		
 	}
+
+	@Override
+	public void deleteMember(String user_id) throws Exception {
+		// mapper.xml에 접근하는 방법
+		sqlSession.delete("memberMapper.deleteMember", user_id);		
+	}
+
+	@Override
+	public MemberVO readMember(String user_id) throws Exception {
+		// mapper.xml에 접근하는 방법
+		return sqlSession.selectOne("memberMapper.readMember", user_id); //.selectOne()은 sql세션템플릿 안 메서드이다.
+	}
+
 	
 	
 	

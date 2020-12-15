@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -39,12 +40,51 @@ public class DataSourceTest {
 	@Inject
 	IF_MemberDAO memberDAO;
 	
+	@Inject
+	MemberVO memberVO; //기존 자바처럼 new MemberVO()오브젝트를 생성하지 않고, 주입해서 사용.
+	
+	public String memberPrimaryKey() {
+		//사용자 프라이머리 생성하는 메서드 년월일시분초+밀리 초
+		Date primaryKey = new Date();
+		SimpleDateFormat newFormat = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+		System.out.println("프라이머리키" + newFormat.format(primaryKey));
+		return "user_" + newFormat.format(primaryKey);
+	}
+
+	@Test
+	public void updateMember() throws Exception {
+		//CRUD 중 Update 테스트 구현 /특징: user_id는 프라이머리키 이기 때문에 수정대상이 아님.
+		memberVO.setEmail("test@test.com");
+		memberVO.setUser_name("아무개");
+		memberVO.setUser_id("admin");
+		String user_id = memberVO.getUser_id(); //memberVO의 오브젝트의 데이터는 1개의 레코드이기 때문에 반환 값이 1개만.
+	}
+	
+	@Test
+	public void readMember() throws Exception {
+		//CRUD 중 Read 테스트 구현
+		MemberVO memberVO = new MemberVO();
+		memberVO = memberDAO.readMember("admin");
+		System.out.println("admin에 대한 상세정보");
+		System.out.println(memberVO.toString());
+	}
+	
+	@Test
+	public void deleteMember() throws Exception {
+		//CRUD 중 Delete 테스트(쿼리->(IF_)DAO->(Impl)memberDAO주입받은 오브젝트 사용)
+		memberDAO.deleteMember("user_20201215145804115");
+	}
+	
 	@Test
 	public void insertMember() throws Exception {
 		//CRUD 중 Create 테스트
 		MemberVO memberVO = new MemberVO();
-		memberVO.setUser_id("user03");
+		//사용자 생성 규칙: user_로 시작(prefix),suffix(접미사)는 년월일시분초 
+		//사용자 생성 결과 예: user_20201215142130
+		String memberIdKey = memberPrimaryKey();
+		memberVO.setUser_id(memberPrimaryKey());
 		memberVO.setUser_name("사용자03");
+		//패스워드 암호화 처리 (필수이지만, 스프링 시큐리티 할 때 처리예정)
 		memberVO.setUser_pw("1234");
 		memberVO.setEmail("asc@aka.com");
 		memberVO.setPoint(100);
