@@ -21,4 +21,13 @@ public class MemeberDAOImpl implements IF_MemberDAO {
 		//sqlSession템플릿의 selectList메서드를 실행하면, memberMapper.SelectMember를 반환하여 나온다.
 	}
 
+	@Override
+	public void insertMember(MemberVO memberVO) throws Exception {
+		// mapper.xml에 접근하는 방법
+		sqlSession.insert("memberMapper.insertMember", memberVO);
+		
+	}
+	
+	
+	
 }
