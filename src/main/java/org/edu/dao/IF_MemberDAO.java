@@ -10,7 +10,7 @@ import org.edu.vo.MemberVO;
  *
  */
 public interface IF_MemberDAO {
-	public List<MemberVO> selectMember() throws Exception;
+	public List<MemberVO> selectMember(String search_type,String search_keyword) throws Exception;
 	public void insertMember(MemberVO memberVO) throws Exception;
 	public void deleteMember(String user_id) throws Exception;
 	public MemberVO readMember(String user_id) throws Exception; //회원상세보기 이므로 void가 아닌 MemberVO만 있으면 됨.

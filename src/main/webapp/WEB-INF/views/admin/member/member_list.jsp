@@ -41,7 +41,7 @@
                     <!-- 부트스트랩 템플릿만으로는 디자인처리가 부족한 경우가 있기 때문에 종종 인라인 스타일 사용 -->
                     <div>
                         <select name="search_type" class="form-control">
-                            <option value="" selected>-전체-</option>
+                            <option value="all" selected>-전체-</option>
                             <option value="user_id" data-select2-id="8">ID</option>
                             <option value="user_name" data-select2-id="16">이름</option>
                         </select>
@@ -73,7 +73,11 @@
                     </tr>
                   </thead>
                   <tbody>
-                  
+                  <!-- 검색 값이 없을 때  나타나게 하는 글 만들기 -->
+                  <c:if test="${empty members}">
+                  	<tr><td colspan="6" class="text-center">조회된 데이터가 없습니다.</td></tr>
+                  </c:if>
+                 
                   <!-- jstl표준태그 core태그 사용 반복문 Admin컨트롤러에서 가져온 members오브젝트클래스 값을 출력 -->
                   <c:forEach items="${members}" var="member">
                   	<tr>

@@ -10,6 +10,6 @@ import org.edu.vo.MemberVO;
  *
  */
 public interface IF_MemeberService {
-	public List<MemberVO> selectMember() throws Exception;
+	public List<MemberVO> selectMember(String search_type,String search_keyword) throws Exception;
 	
 }
