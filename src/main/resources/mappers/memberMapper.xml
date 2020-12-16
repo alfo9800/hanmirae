@@ -43,7 +43,9 @@ VALUES (
 UPDATE tbl_member
 SET 
     user_name = #{user_name},
-    user_pw = #{user_pw}
+    <if test=" user_pw !='' "><!-- !(느낌표)는 Not의 의미 -->
+    user_pw = #{user_pw},
+    </if>
     email = #{email},
     point = #{point},
     enabled = #{enabled},

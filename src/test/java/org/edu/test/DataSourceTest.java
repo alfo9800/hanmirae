@@ -40,7 +40,7 @@ public class DataSourceTest {
 	@Inject
 	IF_MemberDAO memberDAO;
 	
-	@Inject
+	@Inject//사용하면 안되는 이유: 클래스 상단에 @Controller, @Service @Repository @Component 이런내용만 @Inject함.
 	MemberVO memberVO; //기존 자바처럼 new MemberVO()오브젝트를 생성하지 않고, 주입해서 사용.
 	
 	public String memberPrimaryKey() {
@@ -54,16 +54,22 @@ public class DataSourceTest {
 	@Test
 	public void updateMember() throws Exception {
 		//CRUD 중 Update 테스트 구현 /특징: user_id는 프라이머리키 이기 때문에 수정대상이 아님.
-		memberVO.setEmail("test@test.com");
-		memberVO.setUser_name("아무개");
+		//MemberVO memberVO = new MemberVO();  @Inject로 했기 때문에 주석처리함.	
 		memberVO.setUser_id("admin");
-		String user_id = memberVO.getUser_id(); //memberVO의 오브젝트의 데이터는 1개의 레코드이기 때문에 반환 값이 1개만.
+		memberVO.setUser_name("홍길동");
+		memberVO.setUser_pw(""); //암호를 수정하기 원하지 않는 사람을 가정
+		memberVO.setEmail("test@test.com");
+		memberVO.setPoint(100);
+		memberVO.setEnabled(true);
+		memberVO.setLevels("ROLE_ADMIN");
+		String user_id = memberVO.getUser_id(); //(그냥 참고용 코드해 놓음)memberVO의 오브젝트의 데이터는 1개의 레코드이기 때문에 반환 값이 1개만.
+		memberDAO.updateMember(memberVO);
 	}
 	
 	@Test
 	public void readMember() throws Exception {
 		//CRUD 중 Read 테스트 구현
-		MemberVO memberVO = new MemberVO();
+		//MemberVO memberVO = new MemberVO();  @Inject로 했기 때문에 주석처리함.
 		memberVO = memberDAO.readMember("admin");
 		System.out.println("admin에 대한 상세정보");
 		System.out.println(memberVO.toString());
@@ -78,7 +84,7 @@ public class DataSourceTest {
 	@Test
 	public void insertMember() throws Exception {
 		//CRUD 중 Create 테스트
-		MemberVO memberVO = new MemberVO();
+		//MemberVO memberVO = new MemberVO(); @Inject로 했기 때문에 주석처리함.
 		//사용자 생성 규칙: user_로 시작(prefix),suffix(접미사)는 년월일시분초 
 		//사용자 생성 결과 예: user_20201215142130
 		String memberIdKey = memberPrimaryKey();
