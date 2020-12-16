@@ -40,7 +40,7 @@ public class DataSourceTest {
 	@Inject
 	IF_MemberDAO memberDAO;
 	
-	@Inject//사용하면 안되는 이유: 클래스 상단에 @Controller, @Service @Repository @Component 이런내용만 @Inject함.
+	@Inject// 클래스 상단에 @Controller, @Service @Repository @Component 이런내용만 @Inject함.
 	MemberVO memberVO; //기존 자바처럼 new MemberVO()오브젝트를 생성하지 않고, 주입해서 사용.
 	
 	public String memberPrimaryKey() {
