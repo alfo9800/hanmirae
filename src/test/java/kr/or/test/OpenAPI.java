@@ -6,6 +6,9 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Calendar;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * OpenAPI클래스로 HRD-Net에서 제공하는 구직자훈련과정API 목록을 출력하는 앱
@@ -44,12 +47,29 @@ public class OpenAPI {
 		} catch (MalformedURLException e) {
 			//외부연계 URL주소형식이 잘못 되었을 때 에러상황발생
 			System.out.println("URL주소형식이 잘못되었습니다. 왜냐하면" + e.toString());
+		} finally {
+			//console 화면에 현재 PC시간을 표시해서 5초 단위로 스케줄 작동되는지 확인
+			Calendar calendar = Calendar.getInstance();
+			System.out.println(calendar.getTime());
 		}
 	}
 	//static메서드는 new키워드로 객체오브젝트 생성없이 바로 접근이 가능한 메서드를 말함.
 	
 	public static void main(String[] args) {
-		serviceApi();
+		//메인스레드는 1개 다른 스레드를 추가로 실행할 때, Runnable메서드를 사용
+		//추가스레드를 스케줄로 실행 할 때 실행간격 변수(5초)
+		int sleepSec = 5;
+		
+		//주기적인 스레드작업(Concurrent동시작업)을 위한 코딩:new키워드로 실행가능한 오브젝트 변수인 exec변수 생성.
+		//final 인 현재클래스에서만 사용하겠다는 명시적 의미
+		final ScheduledThreadPoolExecutor exec = new ScheduledThreadPoolExecutor(1);
+		exec.scheduleAtFixedRate(new Runnable() { //스레드를 이용해서 5초단위로 메서드 반복 실행
+			public void run() {
+				serviceApi();	
+			}
+		}, 0, sleepSec, TimeUnit.SECONDS);
+
+		
 		/*
 		   //일반 메소드와 스태틱 메서드 
 		   StaticTest staticTest = new StaticTest();
