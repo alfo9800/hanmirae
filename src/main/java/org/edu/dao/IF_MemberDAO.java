@@ -3,6 +3,7 @@ package org.edu.dao;
 import java.util.List;
 
 import org.edu.vo.MemberVO;
+import org.edu.vo.PageVO;
 
 /**
  * 회원관리 DAO 메서드 명세(=목차) 인터페이스 명시.
@@ -10,7 +11,7 @@ import org.edu.vo.MemberVO;
  *
  */
 public interface IF_MemberDAO {
-	public List<MemberVO> selectMember(String search_type,String search_keyword) throws Exception;
+	public List<MemberVO> selectMember(PageVO pageVO) throws Exception;
 	public void insertMember(MemberVO memberVO) throws Exception;
 	public void deleteMember(String user_id) throws Exception;
 	public MemberVO readMember(String user_id) throws Exception; //회원상세보기 이므로 void가 아닌 MemberVO만 있으면 됨.

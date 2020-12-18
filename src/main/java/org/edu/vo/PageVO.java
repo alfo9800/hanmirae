@@ -11,12 +11,13 @@ package org.edu.vo;
  */
 public class PageVO {
 	//페이징 처리 부분
-	private Integer perPageNum; //1페이지당 출력할 개수 변수
+	private int perPageNum; //리스트 하단에 보이는 번호의 갯수 값이 들어가는 변수
+	private int perQueryPageNum; //쿼리에서 1페이지당 출력할 개수값이 들어가는 변수
 	private Integer page; //jsp에서 선택한 페이지 번호 변수
-	private Integer startNo; //[계산식필요]쿼리에서 사용 될 시작번호 값이 들어가는 변수
-	private Boolean prev; //[계산식필요]페이징에서 이전 번호가 있을 때 표시값이 들어가는 변수
-	private Boolean next; //[계산식필요]페이징에서 이후 번호가 있을 때 표시값이 들어가는 변수
-	//Boolean:일반형데이터 변수- 클래스형변수,null로 입력되었을 때 처리하는 로직
+	private int startNo; //[계산식필요]쿼리에서 사용 될 시작번호 값이 들어가는 변수
+	private boolean prev; //[계산식필요]페이징에서 이전 번호가 있을 때 표시값이 들어가는 변수
+	private boolean next; //[계산식필요]페이징에서 이후 번호가 있을 때 표시값이 들어가는 변수
+	//boolean:일반형데이터 변수- 클래스형변수,null로 입력되었을 때 처리하는 로직
 	
 	//위에 생성한 프리뷰,넥스트 변수값이 있는지 없는지 확인하려면, [계산식필요]
 	//계산할 때 필요한 변수 3가지.
@@ -26,7 +27,7 @@ public class PageVO {
 	
 	//검색에 필요한 변수 2개도 포함시켜서, 컨트롤러에서 매개 변수 사용을 축소하게 됨.(requestparam 사용을 축소)
 	private String search_type; //검색조건
-	private String search_Keyword; //검색어
+	private String search_keyword; //검색어
 	
 	
 	//전체클래스에서 계산식이 4개 필요. 개발자가 만들어야 함.
@@ -36,9 +37,9 @@ public class PageVO {
 		//(int)형변환: 2.1 ,2.8 이 나오면 모두 2로 반환이 되어서 나온다.
 		//ceil메서드: 천장함수 = 천장 값을 반환  / 1.1-> 2 , 2.3-> 3
 		//floor메서드: 바닥함수 = 바닥 값을 반환 / 1.1-> 1, 2.3-> 2
-		int tempEnd = (int)(Math.ceil(
-				page/(double)this.perPageNum
-				));
+		int tempEnd = (int)(
+				Math.ceil(page/(double)this.perPageNum)*this.perPageNum
+				);
 		//jsp에서 클릭한 페이지번호 예로 1을 기준으로 끝 페이지를 계산한다(위)
 		/*start페이지와 end페이지 변수가 필요한 이유?
 		 ex) < 1 2 3 4 5 6 7 8 9 10 > 페이징 리스트의 시작1과 끝10 값이 바뀌게 됨.
@@ -69,10 +70,10 @@ public class PageVO {
 	}
 	
 	//GET SET
-	public Integer getPerPageNum() {
+	public int getPerPageNum() {
 		return perPageNum;
 	}
-	public void setPerPageNum(Integer perPageNum) {
+	public void setPerPageNum(int perPageNum) {
 		perPageNum = 10; //강제로 1페이지당 보여줄 개수 값을 10개로 저장
 		this.perPageNum = perPageNum;
 	}
@@ -82,25 +83,25 @@ public class PageVO {
 	public void setPage(Integer page) {
 		this.page = page;
 	}
-	public Integer getStartNo() {
+	public int getStartNo() {
 		//DB쿼리에서 사용. 결과값은 시작인덱스 번호를 구하는 계산식. 0부터 사용.
 		//(jsp에서 클릭한 페이지번호 -1)×페이지당 보여지는 개수
-		startNo = perPageNum*(this.page-1); //개발자가 추가한 계산식.
+		startNo = perQueryPageNum*(this.page-1); //개발자가 추가한 계산식.perPageNum=5
 		return startNo;
 	}
-	public void setStartNo(Integer startNo) {
+	public void setStartNo(int startNo) {
 		this.startNo = startNo;
 	}
-	public Boolean getPrev() {
+	public boolean getPrev() {
 		return prev;
 	}
-	public void setPrev(Boolean prev) {
+	public void setPrev(boolean prev) {
 		this.prev = prev;
 	}
-	public Boolean getNext() {
+	public boolean getNext() {
 		return next;
 	}
-	public void setNext(Boolean next) {
+	public void setNext(boolean next) {
 		this.next = next;
 	}
 	public int getTotalCount() {
@@ -129,11 +130,19 @@ public class PageVO {
 	public void setSearch_type(String search_type) {
 		this.search_type = search_type;
 	}
-	public String getSearch_Keyword() {
-		return search_Keyword;
+	public String getSearch_keyword() {
+		return search_keyword;
 	}
-	public void setSearch_Keyword(String search_Keyword) {
-		this.search_Keyword = search_Keyword;
+	public void setSearch_keyword(String search_keyword) {
+		this.search_keyword = search_keyword;
+	}
+
+	public int getPerQueryPageNum() {
+		return perQueryPageNum;
+	}
+
+	public void setPerQueryPageNum(int perQueryPageNum) {
+		this.perQueryPageNum = perQueryPageNum;
 	}
 	
 }

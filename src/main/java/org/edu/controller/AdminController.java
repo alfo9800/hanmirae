@@ -156,8 +156,18 @@ public class AdminController {
 		 * Arrays.asList메서드로 List타입으로 변경해서 jsp로 보냄 //위에서 데이터타입연습으로 총 3가지 데이터를 확인했음.
 		 * System.out.println("List타입의 오브젝트 클래스내용을 출력" + members_list.toString());
 		 */
-		List<MemberVO> members_list = memberService.selectMember(search_type,search_keyword);
+		List<MemberVO> members_list = memberService.selectMember(pageVO);
 		model.addAttribute("members", members_list);//members 2차원배열을 members_array 클래스 오브젝트로 변경
+		// null/10의 에러처리
+		if(pageVO.getPage() ==null) { //int일 때 null체크에러가 나와서 pageVO의 page변수형을 Integer로 변경함.
+			pageVO.setPage(1);
+		}
+		pageVO.setPerPageNum(5); //리스트 하단에 보이는 페이징 번호의 갯수
+		pageVO.setPerQueryPageNum(10); //1페이지당 보여줄 회원수 10명으로 입력하였음.(강제)
+		pageVO.setTotalCount(110); //전체회원의 수를 구한 변수 값을 매개변수로 입력하는 순간 calcPage()메서드 진행
+		model.addAttribute("pageVO", pageVO);
+		//System.out.println("디버그 스타트페이지는" + pageVO.getStartPage());
+		//System.out.println("디버그 엔드페이지는" + pageVO.getEndPage());
 		return "admin/member/member_list";//member_list.jsp로 members변수명으로 데이터를 전송.
 	}
 	
