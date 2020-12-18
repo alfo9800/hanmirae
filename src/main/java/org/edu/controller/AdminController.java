@@ -12,6 +12,7 @@ import org.edu.service.IF_MemeberService;
 import org.edu.util.SecurityCode;
 import org.edu.vo.BoardVO;
 import org.edu.vo.MemberVO;
+import org.edu.vo.PageVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping; //bind는 묶는다는 의미. /admin요청경로와 admin/home.jsp를 묶는다는 의미
@@ -115,8 +116,11 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value="/admin/member/member_list",method=RequestMethod.GET)
-	public String member_list(@RequestParam(value="search_type",required=false) String search_type,@RequestParam (value="search_keyword",required=false) String search_keyword, Model model) throws Exception {
+	public String member_list(PageVO pageVO, Model model) throws Exception {
 		/*
+		 * (아래 한 줄)고전적인 방식의 검색 코드
+		 * @RequestParam(value="search_type",required=false) String search_type,@RequestParam (value="search_keyword",required=false) String search_keyword
+		
 		 * String[][] members = {
 		 * {"admin","찐관리자","admin@aka.com","true","2020-12-04","ROLE_ADMIN"},
 		 * {"user","일반사용자","user@aka.com","false","2020-12-04","ROLE_USER"} };
