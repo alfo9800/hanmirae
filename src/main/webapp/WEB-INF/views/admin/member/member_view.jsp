@@ -42,38 +42,40 @@
 				<p class="text-muted">
 				<!-- (위) jsp에서 자바변수(저장소)를 사용하는 방법 Model로 수신한 $user_id2 변수명으로 표시 -->
 				<%-- ${user_id2} 아래 보안 코딩 적용 --%>
-				<c:out value="${user_id2}"></c:out>
+				<c:out value="${memberVO.user_id}"></c:out>
 				</p>
 				
                 <hr> <!-- horizontal 수평성 태그 -->
                 <strong><i class="fas fa-map-marker-alt mr-1"></i>user_name</strong>
-				<p class="text-muted">관리자</p>
+				<p class="text-muted">${memberVO.user_name}</p>
 				<!-- 부트스트랩 오른쪽여백 주기 mr: Margin Right -->
 
                 <hr>
                 <strong><i class="fas fa-pencil-alt mr-1"></i>email</strong>
-                <p class="text-muted">admin@abc.com</p>
+                <p class="text-muted">${memberVO.email}</p>
 
                 <hr>
                 <strong><i class="far fa-file-alt mr-1"></i>point</strong>
-                <p class="text-muted">100</p>
+                <p class="text-muted">${memberVO.point}</p>
                 
                 <hr>
                 <strong><i class="fas fa-adjust mr-1"></i>enabled</strong>
-                <p class="text-muted">true</p>
+                <p class="text-muted">${memberVO.enabled}</p>
                 
                 <hr>
                 <strong><i class="fas fa-layer-group mr-1"></i>levels</strong>
-                <p class="text-muted">ROLE_ADMIN</p>
+                <p class="text-muted">${memberVO.levels}</p>
                 
               </div>
               <!-- /.card-body -->
             </div>
           
-          <!-- 버튼영역 시작 -->
+          
+          <form name="delete_form" action="/admin/member/member_delete" method="post">
+            <!-- 버튼영역 시작 -->
             <div class="card-body">
-            	<a href="/admin/member/member_list" class="btn btn-primary float-right mr-1">LIST ALL</a>              	
-              	<button type="button" class="btn btn-danger float-right mr-1">DELETE</button>
+            	<a href="/admin/member/member_list?page=${pageVO.page}" class="btn btn-primary float-right mr-1">LIST ALL</a>              	
+              	<button type="submit" class="btn btn-danger float-right mr-1">DELETE</button>
               	<button type="button" class="btn btn-warning float-right mr-1">UPDATE</button> 
               	
               	<!-- 부트스트랩 디자인 버튼클래스를 이용해서 a태그를 버튼모양 만들기(위) -->
@@ -87,6 +89,8 @@
               	 -->
               </div>
           <!-- 버튼영역 끝 -->
+          <input type="hidden" name="user_id" value="${memberVO.user_id}">
+          </form>
           
           </div>
         </div>

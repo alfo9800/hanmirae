@@ -15,10 +15,12 @@ import org.edu.vo.MemberVO;
 import org.edu.vo.PageVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping; //bind는 묶는다는 의미. /admin요청경로와 admin/home.jsp를 묶는다는 의미
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 //스프링에서 사용가능한 클래스를 빈(커피Bean)이라고 하고, @Controller 클래스를 사용하면 됨.
 @Controller
@@ -105,18 +107,29 @@ public class AdminController {
 		return "admin/member/member_write";
 	}
 	
+	@RequestMapping(value="/admin/member/member_delete",method=RequestMethod.POST)
+	public String member_delete(RedirectAttributes rdat, @RequestParam("user_id") String user_id) throws Exception {
+		memberService.deleteMember(user_id);
+		//Redirect로 페이지 이동시 전송값을 숨겨서 보내는 역할 클래스 RedirctAttributes 이다.
+		rdat.addFlashAttribute("msg", "삭제");
+		return "redirect:/admin/member/member_list";//?success=ok
+	}
+	
+	
 	//member_list.jsp에서 데이터를 수신하는 역할 @RequestParam("키 이름") 리퀘스트파라미터 클래스 사용
 	//현재 컨트롤러 클래스에서 member_view.jsp로 데이터를 보내는 역할. Model 클래스 사용
 	//데이터 흐름: member_list.jsp -> @RequestParam("user_id)수신, Model송신 -> member_view.jsp
 	@RequestMapping(value="/admin/member/member_view",method=RequestMethod.GET)
-	public String member_view(@RequestParam("user_id") String user_id, Model model ) throws Exception {
+	public String member_view(@ModelAttribute("pageVO") PageVO pageVO,@RequestParam("user_id") String user_id, Model model ) throws Exception {
 		//위에서 수신한 user_id를 개발자가 만든 user_id2이름으로 member_view.jsp로 보냄.
-		model.addAttribute("user_id2", user_id + "<script>alert('어서오세요');</script> 님");
+		MemberVO memberVO = memberService.readMember(user_id);
+		model.addAttribute("memberVO", memberVO);
+		//model.addAttribute("user_id2", user_id + "<script>alert('어서오세요');</script> 님");
 		return "admin/member/member_view";
 	}
 	
 	@RequestMapping(value="/admin/member/member_list",method=RequestMethod.GET)
-	public String member_list(PageVO pageVO, Model model) throws Exception {
+	public String member_list(@ModelAttribute("pageVO") PageVO pageVO, Model model) throws Exception {
 		/*
 		 * (아래 한 줄)고전적인 방식의 검색 코드
 		 * @RequestParam(value="search_type",required=false) String search_type,@RequestParam (value="search_keyword",required=false) String search_keyword
@@ -161,17 +174,19 @@ public class AdminController {
 		if(pageVO.getPage() ==null) { //int일 때 null체크에러가 나와서 pageVO의 page변수형을 Integer로 변경함.
 			pageVO.setPage(1);
 		}
-		pageVO.setPerPageNum(5); //리스트 하단에 보이는 페이징 번호의 갯수
+		pageVO.setPerPageNum(8); //리스트 하단에 보이는 페이징 번호의 갯수
 		pageVO.setQueryPerPageNum(10); //1페이지당 보여줄 회원수 10명으로 입력하였음.(강제)
-		//검색된 전체 회원  명수 구하기 서비스 호출
 		//검색된 전체 회원 명수 구하기 서비스 호출
 			int countMember = 0;
 			countMember = memberService.countMember(pageVO);
 			pageVO.setTotalCount(countMember);//115전체 회원의 수를 구한 변수 값 매개변수로 입력하는 순간 calcPage()메서드실행.
+		
 		List<MemberVO> members_list = memberService.selectMember(pageVO);
 		model.addAttribute("members", members_list);//members 2차원배열을 members_array 클래스 오브젝트로 변경		
 		
-		model.addAttribute("pageVO", pageVO);
+		//상단의 @ModelAttribute("pageVO")는 jsp로 PageVO클래스 결과를 보내주는 역할.
+		//만약 위 @ModelAttribute를 사용한다면, 아래 model.~("pageVO",~)없어도 됨.
+		//model.addAttribute("pageVO", pageVO);
 		//System.out.println("디버그 스타트페이지는" + pageVO.getStartPage());
 		//System.out.println("디버그 엔드페이지는" + pageVO.getEndPage());
 		return "admin/member/member_list";//member_list.jsp로 members변수명으로 데이터를 전송.
