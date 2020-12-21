@@ -12,9 +12,9 @@ package org.edu.vo;
 public class PageVO {
 	//페이징 처리 부분
 	private int perPageNum; //리스트 하단에 보이는 번호의 갯수 값이 들어가는 변수
-	private int perQueryPageNum; //쿼리에서 1페이지당 출력할 개수값이 들어가는 변수
+	private int queryPerPageNum; //쿼리에서 사용하는 1페이지당 출력할 개수값 변수
 	private Integer page; //jsp에서 선택한 페이지 번호 변수
-	private int startNo; //[계산식필요]쿼리에서 사용 될 시작번호 값이 들어가는 변수
+	private int queryStartNo; //[계산식필요]쿼리에서 사용 되는 시작인덱스값 변수
 	private boolean prev; //[계산식필요]페이징에서 이전 번호가 있을 때 표시값이 들어가는 변수
 	private boolean next; //[계산식필요]페이징에서 이후 번호가 있을 때 표시값이 들어가는 변수
 	//boolean:일반형데이터 변수- 클래스형변수,null로 입력되었을 때 처리하는 로직
@@ -51,10 +51,11 @@ public class PageVO {
 		/*(아래) 20×10 = 200 개의 레코드 (회원(게시물))
 		 *만약 회원(게시물) 195개 일 경우가 있음.
 		 */	
-		if(tempEnd*this.perPageNum > this.totalCount) {
+		if(tempEnd*this.queryPerPageNum > this.totalCount) {
+			//--수정--(임시끝페이지×쿼리에서 1페이지당 출력할 개수 > 실제 전체 개수)
 			//클릭한 page번호로 계산된 게시물 추가 실제 게시물(totalCount)수보다 클 때
 			this.endPage =  (int)Math.ceil(
-					this.totalCount/(double)this.perPageNum
+					this.totalCount/(double)this.queryPerPageNum
 					); // 195/10 -> 19.5의 ceil은 20. 결과적으로 20출력			
 		} else {
 			//ex) 전체회원(게시물)수가 195일 때 page 1을 클릭한 경우 100 > 195
@@ -65,7 +66,7 @@ public class PageVO {
 		//아래는 prev, next 구하는 계산식.
 		this.prev = (this.startPage != 1); //시작페이지가 1조다 크면 무조건 페이지가 있다고 본다.
 		//ex) 스타트페이지 11. 결과값은 true.
-		this.next = (this.endPage*this.perPageNum < this.totalCount);
+		this.next = (this.endPage*this.queryPerPageNum < this.totalCount);
 		//20×10 < 195 결과는 false이기 때문에 jsp에서 '<'표시가 안보이게 함.
 	}
 	
@@ -74,7 +75,7 @@ public class PageVO {
 		return perPageNum;
 	}
 	public void setPerPageNum(int perPageNum) {
-		perPageNum = 10; //강제로 1페이지당 보여줄 개수 값을 10개로 저장
+		//perPageNum = 5; //강제로 1페이지당 보여줄 개수 값을 10개로 저장
 		this.perPageNum = perPageNum;
 	}
 	public Integer getPage() {
@@ -83,14 +84,14 @@ public class PageVO {
 	public void setPage(Integer page) {
 		this.page = page;
 	}
-	public int getStartNo() {
+	public int getQueryStartNo() {
 		//DB쿼리에서 사용. 결과값은 시작인덱스 번호를 구하는 계산식. 0부터 사용.
 		//(jsp에서 클릭한 페이지번호 -1)×페이지당 보여지는 개수
-		startNo = perQueryPageNum*(this.page-1); //개발자가 추가한 계산식.perPageNum=5
-		return startNo;
+		queryStartNo = queryPerPageNum*(this.page-1); //개발자가 추가한 계산식.queryPerPageNum=10
+		return queryStartNo;
 	}
-	public void setStartNo(int startNo) {
-		this.startNo = startNo;
+	public void setQueryStartNo(int queryStartNo) {
+		this.queryStartNo = queryStartNo;
 	}
 	public boolean getPrev() {
 		return prev;
@@ -137,12 +138,12 @@ public class PageVO {
 		this.search_keyword = search_keyword;
 	}
 
-	public int getPerQueryPageNum() {
-		return perQueryPageNum;
+	public int getQueryPerPageNum() {
+		return queryPerPageNum;
 	}
 
-	public void setPerQueryPageNum(int perQueryPageNum) {
-		this.perQueryPageNum = perQueryPageNum;
+	public void setQueryPerPageNum(int queryPerPageNum) {
+		this.queryPerPageNum = queryPerPageNum;
 	}
 	
 }

@@ -54,6 +54,12 @@ public class MemeberDAOImpl implements IF_MemberDAO {
 		sqlSession.update("memberMapper.updateMember", memberVO);//(쿼리 위치, 매개변수)
 	}
 
+	@Override
+	public int countMember(PageVO pageVO) throws Exception {
+		// mapper.xml에 접근하는 방법
+		return sqlSession.selectOne("memberMapper.countMember", pageVO);
+	}
+
 	
 	
 	
