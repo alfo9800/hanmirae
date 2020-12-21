@@ -71,12 +71,12 @@
             </div>
           
           
-          <form name="delete_form" action="/admin/member/member_delete" method="post">
+          <form name="action_form" id="action_form" action="">
             <!-- 버튼영역 시작 -->
             <div class="card-body">
             	<a href="/admin/member/member_list?page=${pageVO.page}" class="btn btn-primary float-right mr-1">LIST ALL</a>              	
-              	<button type="submit" class="btn btn-danger float-right mr-1">DELETE</button>
-              	<button type="button" class="btn btn-warning float-right mr-1">UPDATE</button> 
+              	<button type="button" id="deleteBtn" class="btn btn-danger float-right mr-1">DELETE</button>
+              	<button type="button" id="updateBtn" class="btn btn-warning float-right mr-1">UPDATE</button> 
               	
               	<!-- 부트스트랩 디자인 버튼클래스를 이용해서 a태그를 버튼모양 만들기(위) -->
               	<!-- btn클래스명이 버튼모양으로 변경, btn-primary클래스명은 버튼색상을 변경하는역할 -->
@@ -103,3 +103,22 @@
   
 
 <%@ include file="../include/footer.jsp" %>
+
+<!-- 위 DELETE 할 때 나오는 알림창 (쿼리적용) /하나의 action_form인데, 버튼에 따라서 달라지는 것을 할 수 있음.-->
+<script>
+$(document).ready(function(){
+	$("#deleteBtn").bind("click", function(){
+		if(confirm("정말 삭제하시겠습니까?")) {//confirm()자바스크립트 함수의 반환값은 true
+			$("#action_form").attr("action","/admin/member/member_delete");
+			$("#action_form").attr("method","post");
+			$("#action_form").submit();
+		}
+	});
+	
+	$("$updateBtn").bind("click", function(){
+		$("#action_form").attr("action","/admin/member/member_update");
+		$("#action_form").attr("method","get");
+		$("#action_form").submit();
+	});
+});
+</script>
