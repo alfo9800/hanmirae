@@ -59,7 +59,7 @@
                   </div>
                   <div class="form-group">
                    <label for="point">point</label>
-                   <input type="text" class="form-control" name="point" id="point" placeholder="포인트를 입력해주세요." required>
+                   <input type="number" class="form-control" name="point" id="point" placeholder="포인트를 입력해주세요." required>
                   </div>
                   <div class="form-group">
 					<label for="enabled">enabled</label>
@@ -83,7 +83,7 @@
           <!-- 버튼영역 시작 -->
             <div class="card-body">
             	<a href="/admin/member/member_list" class="btn btn-primary float-right mr-1">LIST ALL</a>              	
-              	<button type="submit" class="btn btn-danger float-right mr-1">SUBMIT</button>
+              	<button type="submit" class="btn btn-danger float-right mr-1" disabled>SUBMIT</button>
               	<!-- a태그는 링크이동은 되지만, post값을 전송하지 못함. 그래서, button태그를 사용. -->
               </div>
           <!-- 버튼영역 끝 -->
@@ -99,3 +99,30 @@
   
 
 <%@ include file="../include/footer.jsp" %>
+
+<script>
+$(document).ready(function() {
+	$("#user_id").bind("blur", function() {
+		//alert("여기까지" + $(this).val());//디버그용
+		var p_user_id = $(this).val();
+		$.ajax({
+			type:'get',
+			url:'/id_check?user_id=' +p_user_id,
+			dataType:'text',
+			success:function(result){
+				//alert('디버그' + result);
+				if(result == '0'){
+					alert('사용 가능한 아이디 입니다.');
+					$(".btn-danger").attr("disabled",false);
+				}else if(result == '1') {
+					alert('중복 아이디가 존재 합니다.');
+					$(".btn-danger").attr("disabled",true);
+				}else{
+					//에러메세지출력
+					alert('API서버에 문제가 발생 했습니다. 나중에 이용해 주세요.');
+				}
+			}
+		});
+	});
+});
+</script>

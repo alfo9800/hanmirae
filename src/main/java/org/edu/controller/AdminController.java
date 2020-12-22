@@ -95,9 +95,10 @@ public class AdminController {
 	
 	//메서드 오버로딩(예로, 동영상 로딩중..., 로딩된 매개변수가 다르면, 메서드 이름을 중복해서 사용가능함.
 	@RequestMapping(value="/admin/member/member_write",method=RequestMethod.POST)
-	public String member_write_(@RequestParam("user_name") String user_name) throws Exception {
+	public String member_write_(MemberVO memberVO) throws Exception {
 		//아래 get방식의 폼 풀력 화면에서 데이터 전송받은 내용을 처리하는 바인딩.
 		//DB베이스 입력/출력/삭제/수정 처리 다음에...
+		memberService.insertMember(memberVO);
 		return "redirect:/admin/member/member_list";
 	}
 	
