@@ -43,5 +43,11 @@ public class MemberServiceImpl implements IF_MemeberService  {
 		//선택한 회원의 정보를 삭제하기
 		memberDAO.deleteMember(user_id);
 	}
+
+	@Override
+	public void updateMember(MemberVO memberVO) throws Exception {
+		//선택한 회원의 정보를 수정하기
+		memberDAO.updateMember(memberVO);
+	}
 	
 }

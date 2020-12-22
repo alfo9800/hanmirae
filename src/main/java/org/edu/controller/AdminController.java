@@ -107,6 +107,22 @@ public class AdminController {
 		return "admin/member/member_write";
 	}
 	
+	@RequestMapping(value="/admin/member/member_update",method=RequestMethod.GET)
+	public String member_update(@RequestParam("user_id")String user_id, @ModelAttribute("pageVO") PageVO pageVO, Model model) throws Exception {
+		//GET방식으로 업데이트 폼파일만 보여줌.
+		MemberVO memberVO = memberService.readMember(user_id);
+		model.addAttribute("memberVO", memberVO);
+		return "admin/member/member_update";
+	}
+	
+	@RequestMapping(value="/admin/member/member_update",method=RequestMethod.POST)
+	public String member_update(PageVO pageVO, MemberVO memberVO) throws Exception {
+		//POST방식으로 넘어온 값을 DB에 수정처리하는 역할.
+		memberService.updateMember(memberVO);
+		return "redirect:/admin/member/member_view?page="+pageVO.getPage() +"&user_id="+memberVO.getUser_id();
+		//redirect를 사용하는 목적: 새로고침 했을 때, 위 updateMember메서드를 재 실행 방지하기 위해.
+	}
+			
 	@RequestMapping(value="/admin/member/member_delete",method=RequestMethod.POST)
 	public String member_delete(RedirectAttributes rdat, @RequestParam("user_id") String user_id) throws Exception {
 		memberService.deleteMember(user_id);
