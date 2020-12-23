@@ -18,8 +18,9 @@ public class OpenAPI {
 	
 	//외부연계 역할 메서드
 	public static void serviceApi() {
-		BufferedReader bufferedReader = null; //HRD-Net에서 전송받은 데이터를 임시 저장하는 공간.
+		BufferedReader bufferedReader = null; //HRD-Net에서 전송받은 데이터를 임시 저장하는 공간. 
 		String urlStr = "http://www.hrd.go.kr/hrdp/api/apipo/APIPO0101T.do?srchTraEndDt=20210317&pageSize=10&srchTraArea1=44&srchTraOrganNm=%ED%9C%B4%EB%A8%BC%EA%B5%90%EC%9C%A1%EC%84%BC%ED%84%B0&srchTraStDt=20201108&sortCol=TR_STT_DT&authKey=XwG9BpRdfR1eXASUmvVrDnus1BlGDbVm&sort=ASC&returnType=XML&outType=1&pageNum=1&srchTraPattern=N1&srchPart=-99&apiRequstPageUrlAdres=/jsp/HRDP/HRDPO00/HRDPOA60/HRDPOA60_1.jsp&apiRequstIp=27.117.246.232";
+		//위 링크를 통해 API값을 읽어들이게 됨.
 		try {
 			URL url = new URL(urlStr);
 			try {
@@ -37,7 +38,8 @@ public class OpenAPI {
 				System.out.println("버퍼리더로 읽어들인 최종결과 값은 아래와 같습니다. while반복 횟수는" + cnt);
 				//System.out.println(result);
 				
-				//XmlUtils.java 클래스를 이용해서 xml태그내용을 눈에 보기 쉽게 출력
+				//XmlUtils.java 클래스를 이용해서 xml태그내용을 눈에 보기 쉽게 출력.
+				//사용이유: 읽어들인 API값이 한 줄로 출력 되기 때문에 보기 쉽게 출력.
 				String result_xmlUtils = XmlUtils.formatXml(result);
 				System.out.println(result_xmlUtils);
 			} catch (IOException e) {
