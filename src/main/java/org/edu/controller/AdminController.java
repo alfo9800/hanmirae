@@ -55,8 +55,8 @@ public class AdminController {
 		boardVO.setContent(securityCode.unscript(xss_data));
 		//---------------------------------------
 		boardVO.setWriter("admin");
-		Date regdate = new Date();
-		boardVO.setRegdate(regdate);
+		Date reg_date = new Date();
+		boardVO.setReg_date(reg_date);
 		boardVO.setView_count(2);
 		boardVO.setReply_count(0);
 		model.addAttribute("boardVO", boardVO);
@@ -70,8 +70,8 @@ public class AdminController {
 		input_board.setTitle("첫 번째 게시물입니다.");
 		input_board.setContent("첫 번째 내용 입니다.<br>줄 바꿈 테스트");
 		input_board.setWriter("admin");
-		Date regdate = new Date();
-		input_board.setRegdate(regdate);
+		Date reg_date = new Date();
+		input_board.setReg_date(reg_date);
 		input_board.setView_count(2);
 		input_board.setReply_count(0);
 		//위 결과는 input_board={1,"첫 번째 게시물입니다.","첫 번째 내용 입니다.<br>줄 바꿈 테스트","admin",now(),2,0}
@@ -83,7 +83,7 @@ public class AdminController {
 		input_board2.setTitle("두 번째 게시물입니다.");
 		input_board2.setContent("두 번째 내용 입니다.<br>줄 바꿈 테스트");
 		input_board2.setWriter("user02");
-		input_board2.setRegdate(regdate);
+		input_board2.setReg_date(reg_date);
 		input_board2.setView_count(2);
 		input_board2.setReply_count(0);
 		board_array[1] = input_board2; 

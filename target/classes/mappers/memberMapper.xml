@@ -41,7 +41,7 @@ select count(*) from tbl_member
   
 <select id="selectMember" resultType="org.edu.vo.MemberVO">
 select * from tbl_member 
- <include refid="sqlWhere"></include>
+<include refid="sqlWhere"></include>
 order by reg_date desc
 limit #{queryStartNo},#{queryPerPageNum}
 </select>
