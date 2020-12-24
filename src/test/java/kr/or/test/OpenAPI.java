@@ -19,7 +19,7 @@ public class OpenAPI {
 	//외부연계 역할 메서드
 	public static void serviceApi() {
 		BufferedReader bufferedReader = null; //HRD-Net에서 전송받은 데이터를 임시 저장하는 공간. 
-		String urlStr = "http://www.hrd.go.kr/hrdp/api/apipo/APIPO0101T.do?srchTraEndDt=20210317&pageSize=10&srchTraArea1=44&srchTraOrganNm=%ED%9C%B4%EB%A8%BC%EA%B5%90%EC%9C%A1%EC%84%BC%ED%84%B0&srchTraStDt=20201108&sortCol=TR_STT_DT&authKey=XwG9BpRdfR1eXASUmvVrDnus1BlGDbVm&sort=ASC&returnType=XML&outType=1&pageNum=1&srchTraPattern=N1&srchPart=-99&apiRequstPageUrlAdres=/jsp/HRDP/HRDPO00/HRDPOA60/HRDPOA60_1.jsp&apiRequstIp=27.117.246.232";
+		String urlStr = "http://www.hrd.go.kr/hrdp/api/apipo/APIPO0101T.do?returnType=XML&srchTraOrganNm=%ED%9C%B4%EB%A8%BC%EA%B5%90%EC%9C%A1%EC%84%BC%ED%84%B0&pageSize=10&srchTraArea1=44&authKey=XwG9BpRdfR1eXASUmvVrDnus1BlGDbVm&sort=DESC&outType=1&srchTraStDt=20201108&srchTraArea2=44133&pageNum=1&sortCol=TR_STT_DT&srchTraEndDt=20201231&srchTraPattern=N1&srchPart=-99&apiRequstPageUrlAdres=/jsp/HRDP/HRDPO00/HRDPOA60/HRDPOA60_1.jsp&apiRequstIp=27.117.246.232";
 		//위 링크를 통해 API값을 읽어들이게 됨.
 		try {
 			URL url = new URL(urlStr);
@@ -60,7 +60,7 @@ public class OpenAPI {
 	public static void main(String[] args) {
 		//메인스레드는 1개 다른 스레드를 추가로 실행할 때, Runnable메서드를 사용
 		//추가스레드를 스케줄로 실행 할 때 실행간격 변수(5초)
-		int sleepSec = 5;
+		int sleepSec = 10;
 		
 		//주기적인 스레드작업(Concurrent동시작업)을 위한 코딩:new키워드로 실행가능한 오브젝트 변수인 exec변수 생성.
 		//final 인 현재클래스에서만 사용하겠다는 명시적 의미
