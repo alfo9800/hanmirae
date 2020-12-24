@@ -42,7 +42,7 @@ public class DebugAdvice {
 		
 		Object result = pjp.proceed(); //AdminController에 있는 메서드가 실행됨.(시간이 소요)
 		long endTime = System.currentTimeMillis(); //현재 컴퓨터시간을 저장하는 변수
-		logger.info(pjp.getSignature().getName() + "메서드명의 실행시간은:" + (endTime-startTime));
+		logger.info(pjp.getSignature().getName() + "메서드명의 실행시간은:" + (double)(endTime-startTime)/1000 + "초 입니다.");
 		
 		logger.info("AOP 디버그 끝 =================================");
 		return result;
