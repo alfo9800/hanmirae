@@ -47,27 +47,51 @@ public class AdminController {
 		return "redirect:/admin/board/board_list";
 	}
  	@RequestMapping(value="/admin/board/board_view",method=RequestMethod.GET)
-	public String board_view(@RequestParam("bno") Integer bno, Model model) throws Exception {
+	public String board_view(@ModelAttribute("pageVO") PageVO pageVO, @RequestParam("bno") Integer bno, Model model) throws Exception {
 		//jsp로 보낼 더미데이터 만들기. BoardVO에 담아서.
 		//실제로는 아래처럼 더미데이터를 만드는 것이 아닌 쿼리스트링(질의문자열)로 받아온 bno(게시물 고유번호)를 이용해서 DB에서
 		//select * from tbl_board where bno = ? 실행이 된 결과값이 BoardVO형으로 받아서 jsp 보내줌.
-		BoardVO boardVO = new BoardVO();
-		boardVO.setBno(1);
-		boardVO.setTitle("첫 번째 게시물입니다.");
-		//---------------------------------------
-		String xss_data = "첫 번째 내용입니다.<br><br><br>줄바꿈 테스트. <script>location.href('이상');</script>";
+		/*
+		 * BoardVO boardVO = new BoardVO(); boardVO.setBno(1);
+		 * boardVO.setTitle("첫 번째 게시물입니다."); //---------------------------------------
+		 * String xss_data =
+		 * "첫 번째 내용입니다.<br><br><br>줄바꿈 테스트. <script>location.href('이상');</script>";
+		 * boardVO.setContent(securityCode.unscript(xss_data));
+		 * //--------------------------------------- boardVO.setWriter("admin"); Date
+		 * reg_date = new Date(); boardVO.setReg_date(reg_date);
+		 * boardVO.setView_count(2); boardVO.setReply_count(0);
+		 */
+ 		BoardVO boardVO = boardService.readBoard(bno);
+		//시큐어코딩 시작
+ 		String xss_data = boardVO.getContent();
 		boardVO.setContent(securityCode.unscript(xss_data));
-		//---------------------------------------
-		boardVO.setWriter("admin");
-		Date reg_date = new Date();
-		boardVO.setReg_date(reg_date);
-		boardVO.setView_count(2);
-		boardVO.setReply_count(0);
+		//시큐어코딩 끝
+		
+		/*첨부파일 리스트 갓을 가져와서 세로데이터(jsp에서는 forEach문사용)를 가로데이터(jsp에서 배열사용)로 바꾸기
+		 *첨부파일을 1개만 올리기 때문에 리스트형 데이터를 배열데이터로 변경
+		  리스트형 입력값(세로)
+		  [
+		  {'save_file_name1'},
+		  {'save_file_name2'},
+		  ..
+		  ]
+		 */
+		List<String> files = boardService.readAttach(bno);
+		String[] save_file_names = new String[files.size()];
+		int cnt =0;
+		for(String save_file_name:files) { //세로데이터->가로데이터 변환
+			save_file_names[cnt] = save_file_name;
+			cnt = cnt+1;
+		}
+		//배열형 출력값(가로) {'save_file_name0',save_file_name1',...}
+		boardVO.setSave_file_names(save_file_names); //배치를 바꾸고 get,set하는 이유: attachVO를 만들지 않아서.
+		// * 아래는 위에 복잡하게 배치를 바꾸는 것이 이상하면, 이렇게 처리도 가능하다.
+		// * model.addAttribute("save_file_name", files);
 		model.addAttribute("boardVO", boardVO);
 		return "admin/board/board_view";
 	}
 	@RequestMapping(value="/admin/board/board_list",method=RequestMethod.GET)
-	public String board_list(PageVO pageVO, Model model) throws Exception {
+	public String board_list(@ModelAttribute("pageVO") PageVO pageVO, Model model) throws Exception {
 		//테스트용 더미데이터 만들기
 		/*
 		 * BoardVO input_board = new BoardVO(); input_board.setBno(1);
@@ -102,7 +126,7 @@ public class AdminController {
 		
 		List<BoardVO> board_list = boardService.selectBoard(pageVO); 
 		model.addAttribute("board_list", board_list);
-		model.addAttribute("pageVO", pageVO);
+		//model.addAttribute("pageVO", pageVO); //@ModelAttribute 애노테이션으로 대체함.
 		return "admin/board/board_list";
 	}
 	
