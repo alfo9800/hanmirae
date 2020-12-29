@@ -95,13 +95,30 @@ $(document).ready(function () {
 </script>
 
 <link rel="stylesheet" href="/resources/plugins/summernote/summernote.css">
+<style>
+.note-editor.note-frame.fullscreen{background:white;}
+</style>
+
 <script src="/resources/plugins/summernote/summernote.js"></script>
 <script>
 $(document).ready(function(){
 	$('#content').summernote({
 		height:150,
 		lang:"ko-KR",
-		placeholder:'글 내용을 입력해 주세요'
+		placeholder:'글 내용을 입력해 주세요',
+		toolbar: [ 
+				    ['fontname', ['fontname']],
+				    ['fontsize', ['fontsize']],
+				    ['style', ['bold', 'italic', 'underline','strikethrough', 'clear']],
+				    ['color', ['forecolor','color']],
+				    ['table', ['table']],
+				    ['para', ['ul', 'ol', 'paragraph']],
+				    ['height', ['height']],
+				    ['insert',['link','video']], //'picture'
+				    ['view', ['fullscreen', 'help']]
+		 		 ],
+		fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New','맑은 고딕','궁서','굴림체','굴림','돋음체','바탕체'],
+		fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72']
 	});
 });
 //textarea 중 content아이디영역을 섬머노트에디터로 변경처리 함수실행

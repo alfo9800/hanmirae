@@ -37,8 +37,9 @@ public class AdminController {
 	IF_BoardService boardService; //보드인터페이스를 주입 받아 boardService 오브젝트 실행.
 	
 	@RequestMapping(value="/admin/board/board_delete",method=RequestMethod.POST)
-	public String board_delete(PageVO pageVO, @RequestParam("bno") Integer bno) throws Exception {
+	public String board_delete(RedirectAttributes rdat, PageVO pageVO, @RequestParam("bno") Integer bno) throws Exception {
 		boardService.deleteBoard(bno);
+		rdat.addFlashAttribute("msg", "삭제");
 		return "redirect:/admin/board/board_list?page=" + pageVO.getPage(); //삭제할 당시의 현재페이지를 가져가서 리스트로 보여줌
 	}
 	
@@ -47,10 +48,11 @@ public class AdminController {
 		return "admin/board/board_write";//파일경로
 	}
 	@RequestMapping(value="/admin/board/board_write",method=RequestMethod.POST)
-	public String board_write(MultipartFile file, BoardVO boardVO) throws Exception {
+	public String board_write(RedirectAttributes rdat, MultipartFile file, BoardVO boardVO) throws Exception {
 		//post로 받은 boardVO내용을 DB서비스에 입력하면 됨.
 		//DB에 입력후 새로고침 명령으로 게시물 테터를 당하지 않으려면, redirect로 이동처리함.
 		boardService.insertBoard(boardVO);
+		rdat.addFlashAttribute("msg", "저장");
 		return "redirect:/admin/board/board_list";
 	}
  	@RequestMapping(value="/admin/board/board_view",method=RequestMethod.GET)
