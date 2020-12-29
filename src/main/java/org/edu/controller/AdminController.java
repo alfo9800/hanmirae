@@ -36,6 +36,12 @@ public class AdminController {
 	@Inject
 	IF_BoardService boardService; //보드인터페이스를 주입 받아 boardService 오브젝트 실행.
 	
+	@RequestMapping(value="/admin/board/board_delete",method=RequestMethod.POST)
+	public String board_delete(PageVO pageVO, @RequestParam("bno") Integer bno) throws Exception {
+		boardService.deleteBoard(bno);
+		return "redirect:/admin/board/board_list?page=" + pageVO.getPage(); //삭제할 당시의 현재페이지를 가져가서 리스트로 보여줌
+	}
+	
 	@RequestMapping(value="/admin/board/board_write",method=RequestMethod.GET)//Url경로
 	public String board_write() throws Exception {
 		return "admin/board/board_write";//파일경로
@@ -44,6 +50,7 @@ public class AdminController {
 	public String board_write(MultipartFile file, BoardVO boardVO) throws Exception {
 		//post로 받은 boardVO내용을 DB서비스에 입력하면 됨.
 		//DB에 입력후 새로고침 명령으로 게시물 테터를 당하지 않으려면, redirect로 이동처리함.
+		boardService.insertBoard(boardVO);
 		return "redirect:/admin/board/board_list";
 	}
  	@RequestMapping(value="/admin/board/board_view",method=RequestMethod.GET)

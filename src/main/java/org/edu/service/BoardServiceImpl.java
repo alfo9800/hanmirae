@@ -42,5 +42,17 @@ public class BoardServiceImpl implements IF_BoardService {
 		//bno번호에 해당하는 첨부파일조회 쿼리DAO 연결
 		return boardDAO.readAttach(bno);
 	}
+
+	@Override
+	public void insertBoard(BoardVO boardVO) throws Exception {
+		//게시물 등록 쿼리DAO 연결
+		boardDAO.insertBoard(boardVO);
+	}
+
+	@Override
+	public void deleteBoard(Integer bno) throws Exception {
+		//게시물 삭제 쿼리DAO 연결
+		boardDAO.deleteBoard(bno);
+	}
 	
 }
