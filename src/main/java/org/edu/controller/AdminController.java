@@ -38,9 +38,26 @@ public class AdminController {
 	
 	@RequestMapping(value="/admin/board/board_delete",method=RequestMethod.POST)
 	public String board_delete(RedirectAttributes rdat, PageVO pageVO, @RequestParam("bno") Integer bno) throws Exception {
+		//----이곳은 첨부파일 처리자리(추가예정)------ 이곳은 자식부터 지우고 부모 삭제.
 		boardService.deleteBoard(bno);
 		rdat.addFlashAttribute("msg", "삭제");
 		return "redirect:/admin/board/board_list?page=" + pageVO.getPage(); //삭제할 당시의 현재페이지를 가져가서 리스트로 보여줌
+	}
+	
+	
+	@RequestMapping(value="/admin/board/board_update",method=RequestMethod.GET)
+	public String board_update(@RequestParam("bno") Integer bno, @ModelAttribute("pageVO") PageVO pageVO, Model model) throws Exception {	
+		BoardVO boardVO = boardService.readBoard(bno);
+		model.addAttribute("boardVO", boardVO);
+		return "admin/board/board_update"; //파일경로
+	}
+	
+	@RequestMapping(value="/admin/board/board_update",method=RequestMethod.POST)
+	public String board_update(RedirectAttributes rdat, MultipartFile file, BoardVO boardVO, PageVO pageVO) throws Exception {
+		boardService.updateBoard(boardVO);
+		//----이곳은 첨부파일 처리자리(추가예정)------ 이곳은 부모부터 수정하고 자식 수정.
+		rdat.addFlashAttribute("msg", "수정");
+		return "redirect:/admin/board/board_view?page=" +pageVO.getPage() +"&bno=" +boardVO.getBno(); //수정한 다음 view로 간다.
 	}
 	
 	@RequestMapping(value="/admin/board/board_write",method=RequestMethod.GET)//Url경로
@@ -52,6 +69,7 @@ public class AdminController {
 		//post로 받은 boardVO내용을 DB서비스에 입력하면 됨.
 		//DB에 입력후 새로고침 명령으로 게시물 테터를 당하지 않으려면, redirect로 이동처리함.
 		boardService.insertBoard(boardVO);
+		//----이곳은 첨부파일 처리자리(추가예정)------ 이곳은 부모부터 등록하고 자식 등록.
 		rdat.addFlashAttribute("msg", "저장");
 		return "redirect:/admin/board/board_list";
 	}

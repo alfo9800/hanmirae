@@ -54,5 +54,11 @@ public class BoardServiceImpl implements IF_BoardService {
 		//게시물 삭제 쿼리DAO 연결
 		boardDAO.deleteBoard(bno);
 	}
+
+	@Override
+	public void updateBoard(BoardVO boardVO) throws Exception {
+		//게시물 수정 쿼리DAO 연결
+		boardDAO.updateBoard(boardVO);
+	}
 	
 }
