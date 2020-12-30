@@ -53,13 +53,15 @@
                 <hr>
                 <strong><i class="fas fa-pencil-alt mr-1"></i> 작성자</strong>
                 <p class="text-muted">
-				<c:out value="${boardVO.writer}"></c:out>	
-				</p>
-                <c:if test="${board.save_file_names[0] !=null}">
-	                <hr>
+                <c:out value="${boardVO.writer}"></c:out>
+                </p>
+                <c:if test="${boardVO.save_file_names[0] != null}">
+                	<hr>
 	                <strong><i class="far fa-save mr-1"></i> 첨부파일</strong>
 	                <p class="text-muted">
-	                <a href="#">${boardVO.save_file_names[0]}-파일다운로드</a>
+	                <a href="#">
+	                ${boardVO.save_file_names[0]}-파일다운로드
+	                </a>
 	                </p>
                 </c:if>
               </div>
