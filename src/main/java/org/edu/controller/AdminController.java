@@ -10,6 +10,7 @@ import javax.inject.Inject;
 
 import org.edu.service.IF_BoardService;
 import org.edu.service.IF_MemeberService;
+import org.edu.util.CommonController;
 import org.edu.util.SecurityCode;
 import org.edu.vo.BoardVO;
 import org.edu.vo.MemberVO;
@@ -35,6 +36,9 @@ public class AdminController {
 	
 	@Inject
 	IF_BoardService boardService; //보드인터페이스를 주입 받아 boardService 오브젝트 실행.
+	
+	@Inject
+	CommonController commonController;
 	
 	@RequestMapping(value="/admin/board/board_delete",method=RequestMethod.POST)
 	public String board_delete(RedirectAttributes rdat, PageVO pageVO, @RequestParam("bno") Integer bno) throws Exception {
@@ -68,12 +72,14 @@ public class AdminController {
 	public String board_write(RedirectAttributes rdat, MultipartFile file, BoardVO boardVO) throws Exception {
 		//post로 받은 boardVO내용을 DB서비스에 입력하면 됨.
 		//DB에 입력후 새로고침 명령으로 게시물 테터를 당하지 않으려면, redirect로 이동처리함.
+		
 		//----이곳은 첨부파일 처리자리(추가예정)------ 이곳은 부모부터 등록하고 자식 등록.
-		//첨부파일이 없으면, 게시판만 저장, 그렇지 않으면, 첨부파일 업로드 처리 후 게시판DB저장+첨부파일DB저장
-		if(file.getOriginalFilename() == "") { //첨부파일명이 공백 일 때.
-			
-		}else { //첨부파일명이 공백이 아닐 때.
-			
+		//첨부파일이 있으면, 첨부파일 업로드 처리 후 게시판DB저장+첨부파일DB저장
+		if(file.getOriginalFilename() != "") { //첨부파일명이 공백이 아닐 때.
+			String[] save_file_names = commonController.fileUpload(file); //UUID로 생성된 유니크한 파일명
+			boardVO.setSave_file_names(save_file_names);
+			String[] real_file_names = new String[] {file.getOriginalFilename()}; //한글파일명.jpg
+			boardVO.setReal_file_names(real_file_names);
 		}
 		boardService.insertBoard(boardVO);
 		
