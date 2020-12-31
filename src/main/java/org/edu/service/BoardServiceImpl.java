@@ -79,6 +79,22 @@ public class BoardServiceImpl implements IF_BoardService {
 	public void updateBoard(BoardVO boardVO) throws Exception {
 		//게시물 수정 쿼리DAO 연결
 		boardDAO.updateBoard(boardVO);
+		
+		//조건: 기존 첨부파일 DB를 삭제한 후
+		
+		//첨부파일 수정 쿼리DAO 연결(=insert)
+		Integer bno = boardVO.getBno();
+		String[] save_file_names = boardVO.getSave_file_names();
+		String[] real_file_names = boardVO.getReal_file_names();
+		//첨부파일 여러개 일 때의 상황
+		int index = 0;
+		String real_file_name = "";
+			if(save_file_names == null) {return;}
+			for(String save_file_name: save_file_names) { //첨부파일 1개 일 때는 1번만 반복함.
+				real_file_name = real_file_names[index];
+				boardDAO.updateAttach(save_file_name, real_file_name, bno);
+		index = index +1;
+		}
 	}
 	
 }
