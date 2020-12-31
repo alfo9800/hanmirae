@@ -1,5 +1,6 @@
 package org.edu.controller;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -42,8 +43,19 @@ public class AdminController {
 	
 	@RequestMapping(value="/admin/board/board_delete",method=RequestMethod.POST)
 	public String board_delete(RedirectAttributes rdat, PageVO pageVO, @RequestParam("bno") Integer bno) throws Exception {
-		//----이곳은 첨부파일 처리자리(추가예정)------ 이곳은 자식부터 지우고 부모 삭제.
+		//기존 등록된 첨부파일 폴더에서 삭제 할 UUID파일명 구하기
+		List<HashMap<String,Object>> delFiles = boardService.readAttach(bno);
 		boardService.deleteBoard(bno);
+		
+		//----이곳은 첨부파일 처리자리------ DB부터 먼저 삭제 후 폴더에서 첨부파일 삭제
+		for(HashMap<String,Object> file_name:delFiles) {
+			//실제파일 삭제 로직
+			File target = new File(commonController.getUploadPath(), (String) file_name.get("save_file_name"));
+			if(target.exists()) { //타겟 안에 파일이 존재 한다면
+				target.delete(); //실제 지워짐.
+			}
+		}
+		
 		rdat.addFlashAttribute("msg", "삭제");
 		return "redirect:/admin/board/board_list?page=" + pageVO.getPage(); //삭제할 당시의 현재페이지를 가져가서 리스트로 보여줌
 	}
@@ -73,7 +85,7 @@ public class AdminController {
 		//post로 받은 boardVO내용을 DB서비스에 입력하면 됨.
 		//DB에 입력후 새로고침 명령으로 게시물 테터를 당하지 않으려면, redirect로 이동처리함.
 		
-		//----이곳은 첨부파일 처리자리(추가예정)------ 이곳은 부모부터 등록하고 자식 등록.
+		//----이곳은 첨부파일 처리자리------ 이곳은 부모부터 등록하고 자식 등록.
 		//첨부파일이 있으면, 첨부파일 업로드 처리 후 게시판DB저장+첨부파일DB저장
 		if(file.getOriginalFilename() != "") { //첨부파일명이 공백이 아닐 때.
 			String[] save_file_names = commonController.fileUpload(file); //UUID로 생성된 유니크한 파일명
@@ -81,8 +93,8 @@ public class AdminController {
 			String[] real_file_names = new String[] {file.getOriginalFilename()}; //한글파일명.jpg
 			boardVO.setReal_file_names(real_file_names);
 		}
-		boardService.insertBoard(boardVO);
 		
+		boardService.insertBoard(boardVO);	
 		rdat.addFlashAttribute("msg", "저장");
 		return "redirect:/admin/board/board_list";
 	}

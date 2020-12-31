@@ -64,9 +64,13 @@ public class BoardServiceImpl implements IF_BoardService {
 		index = index +1;
 		}
 	}
-
+	
+	@Transactional
 	@Override
 	public void deleteBoard(Integer bno) throws Exception {
+		//첨부파일 먼저 삭제 후 게시물 삭제
+		boardDAO.deleteAttachAll(bno);
+		
 		//게시물 삭제 쿼리DAO 연결
 		boardDAO.deleteBoard(bno);
 	}

@@ -20,6 +20,12 @@ public interface IF_BoardDAO {
 	public void deleteBoard(Integer bno) throws Exception;
 	public void updateBoard(BoardVO boardVO) throws Exception;
 	
-	//첨부파일 저장
+	//---첨부파일 관련---
+	//저장
 	public void insertAttach(String save_file_name, String real_file_name) throws Exception;
+	//삭제
+	public void deleteAttach(String save_file_name) throws Exception;
+	public void deleteAttachAll(Integer bno) throws Exception;
+	
 }
+

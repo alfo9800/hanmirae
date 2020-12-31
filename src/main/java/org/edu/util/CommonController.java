@@ -2,14 +2,17 @@ package org.edu.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletResponse;
 
 import org.edu.service.IF_MemeberService;
 import org.edu.vo.MemberVO;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,6 +39,7 @@ public class CommonController {
 	  			만약 첨부파일 이미지가 아니면, 대체이미지를 보여주기 위해 확장자 체크를 함.
 	 * 변수생성 후 바로 리스트3개 입력처리.
 	*/
+	
 	@SuppressWarnings("serial")
 	private ArrayList<String> extNameArray = new ArrayList<String>() {
 		{
@@ -48,13 +52,31 @@ public class CommonController {
 	@Resource(name="uploadPath")
 	private String uploadPath; //위 uploadPath영역의 값을 uploadPath변수에 저장.
 		
-	public String getUploadPath() {
+	public String getUploadPath() { //컨트롤러에서 파일 삭제 시 호출로 사용
 		return uploadPath;
 	}
 	
 	public void setUploadPath(String uploadPath) {
 		this.uploadPath = uploadPath;
 	}
+	
+	//파일 다운로드 구현한 메서드
+	@RequestMapping(value="download",method=RequestMethod.GET)
+	@ResponseBody //이 메서드는 페이지 이동처리 아님. RestAPI처럼 현재페이지에 구현결과를 전송 받음.
+	public FileSystemResource download(
+				@RequestParam("save_file_name") String save_file_name,
+				@RequestParam("real_file_name") String real_file_name,
+				HttpServletResponse response
+			) throws Exception { //파일시스템리소스로 현재페이지에서 반환 받는다.
+		File file = new File(uploadPath + "/" + save_file_name); //다운받을 경로 지정.
+		
+		response.setContentType("application/download; utf-8"); //파일내용 중 한글이 깨지는 것을 방지
+		real_file_name = URLEncoder.encode(real_file_name, "UTF-8").replaceAll("\\+", "%20"); //위에 URLEncoder는 파일명이 한글(일,중 등)일 때 깨지는 것을 방지 //replaceAll(정규식:패턴, 받을 값)
+		response.setHeader("Content-Disposition", "attachment; filename=" + real_file_name);
+		
+		return new FileSystemResource(file); //실제 다운로드 시작
+	}
+	
 	//파일 업로드-xml에서 지정한 폴더에 실제파일 저장을 구현한 메서드
 	public String[] fileUpload(MultipartFile file) throws IOException {
 			String realFileName = file.getOriginalFilename(); //jsp에서 전송한 파일명 ->확장자를 구하려고 사용함.
