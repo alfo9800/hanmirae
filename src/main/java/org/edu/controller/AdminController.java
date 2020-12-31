@@ -182,6 +182,7 @@ public class AdminController {
 		// * 아래는 위에 복잡하게 배치를 바꾸는 것이 이상하면, 이렇게 처리도 가능하다.
 		// * model.addAttribute("save_file_name", files);
 		model.addAttribute("boardVO", boardVO);
+		model.addAttribute("checkImgArray", commonController.getCheckImgArray());
 		return "admin/board/board_view";
 	}
 	@RequestMapping(value="/admin/board/board_list",method=RequestMethod.GET)

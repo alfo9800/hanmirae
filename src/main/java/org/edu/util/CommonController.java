@@ -15,11 +15,13 @@ import org.edu.vo.MemberVO;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+
 
 /**
  * CommonController 공통사용(Admin, Home)
@@ -41,13 +43,24 @@ public class CommonController {
 	*/
 	
 	@SuppressWarnings("serial")
-	private ArrayList<String> extNameArray = new ArrayList<String>() {
+	private ArrayList<String> checkImgArray = new ArrayList<String>() {
 		{
 			add("gif");
 			add("jpg");
+			add("jpeg");
 			add("png");
+			add("bmp");
 		}
 	};
+	
+	public ArrayList<String> getCheckImgArray() {
+		return checkImgArray;
+	}
+
+	public void setCheckImgArray(ArrayList<String> checkImgArray) {
+		this.checkImgArray = checkImgArray;
+	}
+	
 	//첨부파일 업로드 할 경로를 변수 값으로 가져옴. servlet-context.xml에 있는 내용 중 id값이 uploadPath를 가져와서 사용.
 	@Resource(name="uploadPath")
 	private String uploadPath; //위 uploadPath영역의 값을 uploadPath변수에 저장.
@@ -83,7 +96,9 @@ public class CommonController {
 		
 			//폴더에 저장할 PK(프라이머리 키)용 파일명 만들기
 			UUID uid = UUID.randomUUID(); //unique ID 생성 (여러개 중의 하나/고유 아이디): 폴더에 저장할 파일명으로 사용.
-			String saveFileName = uid.toString() + "." + realFileName.split("\\.")[1];
+			
+			//String saveFileName = uid.toString() + "." + realFileName.split("\\.")[1];//문제발생 아래코드 대체
+			String saveFileName = uid.toString() + "." + StringUtils.getFilenameExtension(realFileName);
 			//split("정규표현식");(Reular Expression):---해석---realFileName을 .(점)으로 분할해서 배열변수로 만드는 매서드
 			//ex) abc.jpg -> realFileName[0]=abc, realFileName[1]=jpg 으로 결과가 나옴.		
 		
@@ -116,4 +131,5 @@ public class CommonController {
 		}
 		return result; //에러 -1 //성공 0 ,1
 	}
+
 }
