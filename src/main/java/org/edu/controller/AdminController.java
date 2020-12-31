@@ -82,6 +82,10 @@ public class AdminController {
 		boardVO.setSave_file_names(save_file_names); //배치를 바꾸고 get,set하는 이유: attachVO를 만들지 않아서.
 		boardVO.setReal_file_names(real_file_names);
 		
+		//시큐어코딩 시작 적용(아래) jsp에서 c:out jstl로 대체
+		//String xss_date = boardVO.getContent();
+		//boardVO.setContent(securityCode.unscript(xss_date));
+		//시큐어코딩 끝
 		model.addAttribute("boardVO", boardVO);
 		return "admin/board/board_update"; //파일경로
 	}

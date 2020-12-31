@@ -46,7 +46,7 @@
                   </div>
                   <div class="form-group">
                    <label for="content">Content</label>
-                   <textarea rows="5" name="content" id="content" class="form-control">${boardVO.content}</textarea>
+                   <textarea rows="5" name="content" id="content" class="form-control"><c:out value="${boardVO.content}" /></textarea>
                    <!-- 필수입력 값은 html5에서 지원하는 유효성 검사 중 required 속성을 사용해서 빈(null)값체크(유효성검사)를 함. -->
                   </div>
                   <div class="form-group">
@@ -75,7 +75,7 @@
           
           <!-- 버튼영역 시작 -->
             <div class="card-body">
-            	<a href="/admin/board/board_list?page=${pageVO.page}" class="btn btn-primary float-right mr-1">LIST ALL</a>              	
+            	<a href="/admin/board/board_view?page=${pageVO.page}&bno=${boardVO.bno}" class="btn btn-primary float-right mr-1">이전 화면</a>              	
               	<button type="submit" class="btn btn-danger float-right mr-1">SUBMIT</button>
               	<!-- a태그는 링크이동은 되지만, post값을 전송하지 못함. 그래서, button태그를 사용. -->
             </div>
