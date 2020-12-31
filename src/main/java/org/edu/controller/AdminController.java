@@ -9,6 +9,7 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
+import org.edu.dao.IF_BoardDAO;
 import org.edu.service.IF_BoardService;
 import org.edu.service.IF_MemeberService;
 import org.edu.util.CommonController;
@@ -39,6 +40,9 @@ public class AdminController {
 	IF_BoardService boardService; //보드인터페이스를 주입 받아 boardService 오브젝트 실행.
 	
 	@Inject
+	IF_BoardDAO boardDAO; 
+	
+	@Inject
 	CommonController commonController;
 	
 	@RequestMapping(value="/admin/board/board_delete",method=RequestMethod.POST)
@@ -64,14 +68,49 @@ public class AdminController {
 	@RequestMapping(value="/admin/board/board_update",method=RequestMethod.GET)
 	public String board_update(@RequestParam("bno") Integer bno, @ModelAttribute("pageVO") PageVO pageVO, Model model) throws Exception {	
 		BoardVO boardVO = boardService.readBoard(bno);
+		
+		List<HashMap<String, Object>> files = boardService.readAttach(bno);
+		String[] save_file_names = new String[files.size()];
+		String[] real_file_names = new String[files.size()];
+		int cnt =0;
+		for(HashMap<String, Object> file_name:files) { //세로데이터->가로데이터 변환
+			save_file_names[cnt] = (String) file_name.get("save_file_name");
+			real_file_names[cnt] = (String) file_name.get("real_file_name");
+			cnt = cnt+1;
+		}
+		//배열형 출력값(가로) {'save_file_name0',save_file_name1',...}
+		boardVO.setSave_file_names(save_file_names); //배치를 바꾸고 get,set하는 이유: attachVO를 만들지 않아서.
+		boardVO.setReal_file_names(real_file_names);
+		
 		model.addAttribute("boardVO", boardVO);
 		return "admin/board/board_update"; //파일경로
 	}
 	
 	@RequestMapping(value="/admin/board/board_update",method=RequestMethod.POST)
 	public String board_update(RedirectAttributes rdat, MultipartFile file, BoardVO boardVO, PageVO pageVO) throws Exception {
-		boardService.updateBoard(boardVO);
-		//----이곳은 첨부파일 처리자리(추가예정)------ 이곳은 부모부터 수정하고 자식 수정.
+		//기존 등록된 첨부파일 목록 구하기
+		List<HashMap<String,Object>> delFiles = boardService.readAttach(boardVO.getBno());
+		
+		//----이곳은 첨부파일 처리자리------ 기존 등록된 첨부파일 삭제 후 신규파일 업로드
+		if(file.getOriginalFilename() != "") { //첨부파일명이 공백이 아닐 때.
+			//기존파일 폴더에 삭제 처리
+			for(HashMap<String,Object> file_name:delFiles) {
+				File target = new File(commonController.getUploadPath(),(String) file_name.get("save_file_name"));
+				if(target.exists()) {
+					target.delete(); //폴더에서 기존 첨부파일 지우기 완료.
+					//서비스클래스에는 첨부파일DB를 지우는 메서드가 없음.그래서  DAO에 접근해서 tbl_attach 지움.
+					boardDAO.deleteAttach((String) file_name.get("save_file_name"));
+				}
+			}
+			
+			//신규파일 폴더에 업로드
+			String[] save_file_names = commonController.fileUpload(file); //UUID로 생성된 유니크한 파일명
+			boardVO.setSave_file_names(save_file_names);
+			String[] real_file_names = new String[] {file.getOriginalFilename()}; //한글파일명.jpg
+			boardVO.setReal_file_names(real_file_names);
+		}
+		
+		boardService.updateBoard(boardVO); //DB에서 업데이트
 		rdat.addFlashAttribute("msg", "수정");
 		return "redirect:/admin/board/board_view?page=" +pageVO.getPage() +"&bno=" +boardVO.getBno(); //수정한 다음 view로 간다.
 	}
