@@ -41,8 +41,8 @@ values (#{title},#{content},#{writer},now())
 </insert>
 
 
-<select id="readAttach" resultType="String">
-select save_file_name from tbl_attach where bno = #{bno} order by reg_date desc <!-- 첨부파일을 읽어들이는 쿼리 -->
+<select id="readAttach" resultType="java.util.HashMap">
+select save_file_name,real_file_name from tbl_attach where bno = #{bno} order by reg_date desc <!-- 첨부파일을 읽어들이는 쿼리 --> <!-- save,real 대신에 * 써도 된다. -->
 </select>
 <select id="readBoard" resultType="org.edu.vo.BoardVO">
 select * from tbl_board where bno = #{bno} <!-- 입력 후 되도록이면 sql에 테스트 해보기 -->

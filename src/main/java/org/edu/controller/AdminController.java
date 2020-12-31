@@ -116,15 +116,18 @@ public class AdminController {
 		  ..
 		  ]
 		 */
-		List<String> files = boardService.readAttach(bno);
+		List<HashMap<String, Object>> files = boardService.readAttach(bno);
 		String[] save_file_names = new String[files.size()];
+		String[] real_file_names = new String[files.size()];
 		int cnt =0;
-		for(String save_file_name:files) { //세로데이터->가로데이터 변환
-			save_file_names[cnt] = save_file_name;
+		for(HashMap<String, Object> file_name:files) { //세로데이터->가로데이터 변환
+			save_file_names[cnt] = (String) file_name.get("save_file_name");
+			real_file_names[cnt] = (String) file_name.get("real_file_name");
 			cnt = cnt+1;
 		}
 		//배열형 출력값(가로) {'save_file_name0',save_file_name1',...}
 		boardVO.setSave_file_names(save_file_names); //배치를 바꾸고 get,set하는 이유: attachVO를 만들지 않아서.
+		boardVO.setReal_file_names(real_file_names);
 		// * 아래는 위에 복잡하게 배치를 바꾸는 것이 이상하면, 이렇게 처리도 가능하다.
 		// * model.addAttribute("save_file_name", files);
 		model.addAttribute("boardVO", boardVO);

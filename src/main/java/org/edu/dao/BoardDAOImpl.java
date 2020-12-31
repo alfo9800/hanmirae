@@ -35,7 +35,7 @@ public class BoardDAOImpl implements IF_BoardDAO {
 			return sqlSession.selectOne("boardMapper.readBoard", bno);
 		}
 		@Override
-		public List<String> readAttach(Integer bno) throws Exception {
+		public List< HashMap<String,Object> > readAttach(Integer bno) throws Exception {
 			//게시물에 딸린 첨부파일 보기 mapper쿼리 연결
 			return sqlSession.selectList("boardMapper.readAttach", bno);
 		}
