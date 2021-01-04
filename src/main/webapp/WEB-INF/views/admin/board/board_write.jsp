@@ -55,12 +55,16 @@
                   </div>
                   <div class="form-group" style="margin-bottom:0px;">
                   <label>attach</label>
-
                   </div>
-                  <div class="custom-file">
-                    <input type="file" name="file" class="custom-file-input" id="customFile">
-                    <label class="custom-file-label" for="customFile" style="color:#999;">파일첨부</label>
-                    </div>
+                  
+                  <!-- 다중파일 업로드 구현 (고전for문 사용:시작값과 끝 값이있다.)-->
+                  <c:forEach var="index" begin="0" end="1">
+	                  <div class="custom-file">
+	                    <input type="file" name="file" class="custom-file-input" id="customFile_${index}">
+	                    <label class="custom-file-label" for="customFile_${index}" style="color:#999;">파일첨부</label>
+	                  </div>
+                  	  <p></p> <!-- 사이에 공백주기 위해 -->
+                  </c:forEach>                 
                 </div>
                 <!-- /.card-body -->
             </div>

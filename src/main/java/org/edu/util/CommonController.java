@@ -91,7 +91,7 @@ public class CommonController {
 	}
 	
 	//파일 업로드-xml에서 지정한 폴더에 실제파일 저장을 구현한 메서드
-	public String[] fileUpload(MultipartFile file) throws IOException {
+	public String fileUpload(MultipartFile file) throws IOException {
 			String realFileName = file.getOriginalFilename(); //jsp에서 전송한 파일명 ->확장자를 구하려고 사용함.
 		
 			//폴더에 저장할 PK(프라이머리 키)용 파일명 만들기
@@ -102,13 +102,13 @@ public class CommonController {
 			//split("정규표현식");(Reular Expression):---해석---realFileName을 .(점)으로 분할해서 배열변수로 만드는 매서드
 			//ex) abc.jpg -> realFileName[0]=abc, realFileName[1]=jpg 으로 결과가 나옴.		
 		
-			String[] files = new String[] {saveFileName};//saveFileName 스트링형을 배열변수 files로 형 변환. =>저장할 파일명
+			//String[] files = new String[] {saveFileName};//saveFileName 스트링형을 배열변수 files로 형 변환. =>저장할 파일명
 			byte[] fileData = file.getBytes(); //jsp폼에서 전송된 파일이 fileData변수(메모리)에 저장됨. =>저장할 파일메모리
 			
 			File target = new File(uploadPath, saveFileName); //파일저장 하기 로 전 설정저장.
 			FileCopyUtils.copy(fileData, target);//실제로 target폴더에 파일로 저장되는 메서드. = 즉,업로드 종료.
-		return files; //1개이상의 파일 업로드 시 저장된 파일명을 배열로 저장한 변수
-	}//다중파일 업로드를 구현하고 싶으면, git의 칠판에 블로그 링크 참조.
+		return saveFileName; //copy로 업로드 이후에 저장된 real_file_name 스트링문자열값 1개를 반환.
+	}
 
 
 	//REST-API컨트롤러 사용 

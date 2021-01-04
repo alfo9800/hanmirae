@@ -79,9 +79,12 @@
                   </c:if>
                   
                   <!-- jstl표준태그 core태그 사용 반복문 Admin컨트롤러에서 가져온 board_list 오브젝트클래스 값을 출력 -->
-                  <c:forEach items="${board_list}" var="boardVO">                                               
+                  <c:forEach items="${board_list}" var="boardVO" varStatus="status">                                               
                     <tr>
-                    <td>${boardVO.bno}</td>
+                     <!-- ${boardVO.bno} 대신에 보기편한 넘버링으로 변환 (계산식 사용) -->
+                     <td>
+                     ${pageVO.totalCount-(pageVO.page*pageVO.queryPerPageNum)+pageVO.queryPerPageNum-status.index} <!-- 전체게시물-(현재페이지*1페이지당 보여줄 개수)+1페이지당 보여줄 갯수-현재인덱스 값 -->                   
+                     </td>
                       <!-- a링크값은 리스트가 늘어날 수록 동적으로 bno값이 변하게 됩니다. 개발자가 jsp처리 -->
                       <td><a href="/admin/board/board_view?page=${pageVO.page}&bno=${boardVO.bno}">
                       <!-- c:out을 사용하는 이유는 불필요한 알림창,링크가 뜨지 않게 하기위해서 시큐어리코딩처리 -->

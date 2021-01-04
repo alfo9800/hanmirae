@@ -56,31 +56,36 @@
                 <p class="text-muted">
                 <c:out value="${boardVO.writer}"></c:out>
                 </p>
-                <c:if test="${boardVO.save_file_names[0] != null}">
-                	<hr>
-	                <strong><i class="far fa-save mr-1"></i> 첨부파일</strong>
-	                <p class="text-muted">
-	                <a href="/download?save_file_name=${boardVO.save_file_names[0]}&real_file_name=${boardVO.real_file_names[0]}">
-	                ${boardVO.real_file_names[0]}-파일다운로드
-	                </a>
-	                <c:set var="fileNameArray" value="${fn:split(boardVO.save_file_names[0], '.')}" />
-	               	<c:set var="chName" value="${fileNameArray[fn:length(fileNameArray)-1]}" />
-	                
-	                <!-- length의 결과는 2-1 = 배열의 인덱스1 -->
-	                
-	                <!-- 첨부파일이 이미지 인지 아닌지 비교해서 img태그를 사용할지 결정 -->
-	                <!-- fn:contains함수: (비교배열내용,첨부파일확장자) -->  <!-- true,false -->
-	                <c:choose> 
-	                	<c:when test="${fn:containsIgnoreCase(checkImgArray,extName)}"> 
-	                		<img style="width:100%" src="/download?save_file_name=${boardVO.save_file_names[0]}&real_file_name=${boardVO.real_file_names[0]}">
-	                	</c:when>
-	                	<c:otherwise>
-	                		<c:out value="${checkImgArray}" />
-	                	</c:otherwise>
-	                </c:choose>
-
-	                </p>
-                </c:if>
+                
+                <!-- 다중파일 업로드 구현하기 (상수값[0]에서 -> 변수값[index]로 변환) -->
+                <c:forEach var="index" begin="0" end="1">
+	                <c:if test="${boardVO.save_file_names[index] != null}">
+	                	<hr>
+		                <strong><i class="far fa-save mr-1"></i> 첨부파일${index}</strong>
+		                <p class="text-muted">
+		                <a href="/download?save_file_name=${boardVO.save_file_names[index]}&real_file_name=${boardVO.real_file_names[index]}">
+		                ${boardVO.real_file_names[index]}-파일다운로드
+		                </a>
+		                <c:set var="fileNameArray" value="${fn:split(boardVO.save_file_names[index], '.')}" />
+		               	<c:set var="chName" value="${fileNameArray[fn:length(fileNameArray)-1]}" />
+		                
+		                <!-- length의 결과는 2-1 = 배열의 인덱스1 -->
+		                
+		                <!-- 첨부파일이 이미지 인지 아닌지 비교해서 img태그를 사용할지 결정 -->
+		                <!-- fn:contains함수: (비교배열내용,첨부파일확장자) -->  <!-- true,false -->
+		                <c:choose> 
+		                	<c:when test="${fn:containsIgnoreCase(checkImgArray,extName)}"> 
+		                		<img style="width:100%" src="/download?save_file_name=${boardVO.save_file_names[index]}&real_file_name=${boardVO.real_file_names[index]}">
+		                	</c:when>
+		                	<c:otherwise>
+		                		<c:out value="${checkImgArray}" />
+		                	</c:otherwise>
+		                </c:choose>
+	
+		                </p>
+	                </c:if>
+                </c:forEach>
+                
               </div>
               <!-- /.card-body -->
             </div>
