@@ -169,6 +169,7 @@ public class AdminController {
 		rdat.addFlashAttribute("msg", "저장");
 		return "redirect:/admin/board/board_list";
 	}
+	
  	@RequestMapping(value="/admin/board/board_view",method=RequestMethod.GET)
 	public String board_view(@ModelAttribute("pageVO") PageVO pageVO, @RequestParam("bno") Integer bno, Model model) throws Exception {
 		//jsp로 보낼 더미데이터 만들기. BoardVO에 담아서.

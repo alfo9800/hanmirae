@@ -59,6 +59,7 @@
                   
                   <!-- 다중파일 업로드구현 ($안[0] -> [index]로 변경 추가 -->
                   <c:forEach var="index" begin="0" end="1">
+                  <div class="div_file_delete"> <!-- 폴더삭제+DB삭제+화면삭제용 div영역지정 -->
 	                  <div class="custom-file">
 	                    <input type="file" name="file" class="custom-file-input" id="customFile_${index}">
 	                    <label class="custom-file-label" for="customFile_${index}" style="color:#999;">파일첨부${index}</label>
@@ -69,10 +70,13 @@
 			                <a href="/download?save_file_name=${boardVO.save_file_names[index]}&real_file_name=${boardVO.real_file_names[index]}">
 			                ${boardVO.real_file_names[index]}-파일다운로드
 			                </a>
-			                </p>
-			                <button class="btn btn-info">삭제</button>	
+			                &nbsp;
+			                <input type="hidden" name="save_file_name" value="${boardVO.save_file_names[index]}" />
+			                <button type="button" class="btn btn-info btn_file_delete">삭제</button>
+			                </p>			                	
 	               	  </c:if>
 	               	  <hr>
+	               	  </div>
                   </c:forEach>
                 </div>
                 <!-- /.card-body -->
@@ -138,4 +142,31 @@ $(document).ready(function(){
 	});
 });
 //textarea 중 content아이디영역을 섬머노트에디터로 변경처리 함수실행
+</script>
+
+<script>
+$(document).ready(function(){
+	$(".btn_file_delete").on("click",function(){
+		if(confirm("선택한 첨부파일을 삭제 하시겠습니까?")) {
+			//alert('디버그');
+			var click_element = $(this); //클릭한 현재 element(요소) => 즉, 삭제버튼.
+			var save_file_name = click_element.parent().find('input[name=save_file_name]').val();
+			//alert("디버그: 삭제할 파일명은 " + save_file_name);return false;
+			$.ajax({
+				type:"post",
+				url:"/file_delete?save_file_name="+save_file_name,//RestAPI컨트롤러호출
+				dataType:"text",
+				success:function(result){
+					if(result=="success") {//실제파일+DB테이블삭제 후 화면에서도 삭제처리
+						click_element.parents(".div_file_delete").remove();
+					}
+				},
+				error:function(result){
+					alert("RestAPI접근에 실패했습니다.");
+					//click_element.parents(".div_file_delete").remove();//디버그
+				}
+			});
+		}
+	});
+});
 </script>
