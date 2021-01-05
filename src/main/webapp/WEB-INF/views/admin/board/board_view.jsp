@@ -195,7 +195,7 @@ jstl을 사용하려면, --jsp에서 %@ taglib uri=...-- 처럼 외부 core를 �
  <i class="fas fa-envelope bg-blue"></i>
  <div class="timeline-item">
    <h3 class="timeline-header">{{replyer}}</h3>
-   <div class="timeline-body">{{replytext}}</div>
+   <div class="timeline-body">{{reply_text}}</div>
    <div class="timeline-footer">
 	 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#replyModal">
   		수정
@@ -206,33 +206,6 @@ jstl을 사용하려면, --jsp에서 %@ taglib uri=...-- 처럼 외부 core를 �
 {{/each}}
 </script>
 
-<!-- 댓글 리스트 버튼 클릭시  AjaxApi컨트롤러 호출해서 댓글 목록 Json데이터로 가져오기-->
-<script>
-$(document).ready(function(){
-	$("#btn_reply_list").on("click", function(){
-		//alert("디버그");
-		
-/* 		$.getJSON(
-			"/reply/reply_list/108/1",
-			
-		); */
-		
-		/* $.ajax({
-			type:"get",
-			url:"/reply_list",
-			dataType:"text",
-			success:function(result) { //result에는 댓글 목록을 json데이터로 받음.
-				//빵틀에 result데이터를 binding해서 출력한다.
-				
-			},
-			error:function(result) {
-				alert("RestAPI서버에 문제가 발생했습니다. 다음에 이용해 주세요!");
-			}
-		}); */
-	});
-});
-</script>
-
 <!-- 화면을 재구현Representation하는 함수(아래) -->
 <script>
 var printReplyList = function(data, target, templateObject) {
@@ -241,6 +214,30 @@ var printReplyList = function(data, target, templateObject) {
 	$(".template-div").remove();//화면에 보이는 댓글리스트만 지우기.
 	target.after(html);//target은 .time-label 클래스영역임.
 };
+</script>
+
+<!-- 댓글 리스트 버튼 클릭시  AjaxApi컨트롤러 호출해서 댓글 목록 Json데이터로 가져오기-->
+<script>
+$(document).ready(function(){
+	$("#btn_reply_list").on("click", function(){
+		//alert("디버그");
+		$.ajax({
+			type:"get",
+			url:"/reply/reply_list/108", //108게시물번호에 대한 댓글목록을 가져오는 URL
+			dataType:"json",
+			success:function(result) { //result에는 댓글 목록을 json데이터로 받음.
+				//빵틀에 result데이터를 binding해서 출력한다.
+				//console.log(result);
+				//var jsonData = JSON.parse(result); //Datatype
+				//console.log("여기까지" + jsonData.replyList);				
+				printReplyList(result.replyList, $(".time-label"), $("#template"));//화면에 출력하는 구현함수를 호출하면 실행.
+			},
+			error:function(result) {
+				alert("RestAPI서버에 문제가 발생했습니다. 다음에 이용해 주세요!");
+			}
+		}); 
+	});
+});
 </script>
 
 <!-- 댓글 등록 버튼 액션 처리(아래) -->
@@ -258,8 +255,8 @@ $(document).ready(function() {
 				//지금은 html이라서 result값을 이용할 수가 없어서 댓글 더미데이터를 만듦.
 				result = [
 					//{rno:댓글번호,bno:게시물번호,replytext:"첫번째 댓글",replyer:"admin",regdate:타임스탬프}
-					{rno:1,bno:15,replytext:"첫번째 댓글",replyer:"admin",regdate:1601234512345},//첫번째 댓글 데이터
-					{rno:2,bnt:15,replytext:"두번째 댓글",replyer:"admin",regdate:1601234512345}//두번째 댓글 데이터
+					{rno:1,bno:15,reply_text:"첫번째 댓글",replyer:"admin",reg_date:1601234512345},//첫번째 댓글 데이터
+					{rno:2,bno:15,reply_text:"두번째 댓글",replyer:"admin",reg_date:1601234512345}//두번째 댓글 데이터
 				];//위 URL이 공공데이터생각하여, 화면에 구현하면 빅데이터의 시각화라고 함.
 				//printReplyList(빅데이터, $출력할 타켓위치, $빅데이터를 가지고 바인딩된 템플릿화면);
 				printReplyList(result, $(".time-label"), $("#template"));//화면에 출력하는 구현함수를 호출하면 실행.
