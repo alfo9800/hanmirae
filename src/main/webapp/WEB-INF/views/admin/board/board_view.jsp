@@ -223,14 +223,19 @@ $(document).ready(function(){
 		//alert("디버그");
 		$.ajax({
 			type:"post", //보내는 데이터 //특이사항:RestAPIdptj Select는 GET이 기본.
-			url:"/reply/reply_list/28", //108게시물번호에 대한 댓글목록을 가져오는 URL
+			url:"/reply/reply_list/${boardVO.bno}", //108게시물번호에 대한 댓글목록을 가져오는 URL
 			dataType:"json", //받는 데이터(json데이터로 받는다.)
 			success:function(result) { //result에는 댓글 목록을 json데이터로 받음.
+				//alert("디버그" + result);
+				if(typeof result =="undefined" || result=="" || result==null) {
+					alert("조회된 값이 없습니다.");
+				}else {
 				//빵틀에 result데이터를 binding해서 출력한다.
 				//console.log(result);
 				//var jsonData = JSON.parse(result); //Datatype
 				//console.log("여기까지" + jsonData.replyList);				
 				printReplyList(result.replyList, $(".time-label"), $("#template"));//화면에 출력하는 구현함수를 호출하면 실행.
+				}
 			},
 			error:function(result) {
 				alert("RestAPI서버에 문제가 발생했습니다. 다음에 이용해 주세요!");

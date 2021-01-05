@@ -55,8 +55,9 @@ public class ReplyController {
 		try {
 			List<ReplyVO> replyList = replyDAO.selectReply(bno);
 			if(replyList.isEmpty()) {
-				//result = null;
-				result = new ResponseEntity<Map<String,Object>>(HttpStatus.NO_CONTENT); //코드204
+				//result = null; //jsp에서 받는 값이 text일 때 적용.
+				resultMap.put("replyList", null);
+				result = new ResponseEntity<Map<String,Object>>(resultMap, HttpStatus.NO_CONTENT); //코드204
 			}else {
 				resultMap.put("replyList", replyList);
 				//resultMap을 Json데이터로 반환하려면, jackson-databind 모듈필수 (pom.xml에 추가함.)
