@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="replyMapper">
+
+<select id="selectReply" resultType="org.edu.vo.ReplyVO">
+select * from tbl_reply 
+where bno = #{bno}
+order by rno desc
+</select>
+
+<select id="countReply" resultType="int">
+select count(*) from tbl_reply where bno = #{bno}
+</select>
+
+<insert id="insertReply">
+insert into tbl_reply (bno, reply_text, replyer, reg_date)
+	values(#{bno}, #{reply_text}, #{replyer}, now())
+</insert>
+
+<update id="updateReply">
+update tbl_reply set
+	reply_text = #{reply_text},
+	update_date = now()
+where rno = #{rno} <!-- 해당되는 게시물 번호만 update -->
+</update>
+
+<delete id="deleteReply">
+delete from tbl_reply
+where rno = #{rno} <!-- 해당되는 게시물 번호만 delete -->
+</delete>
+
+</mapper>

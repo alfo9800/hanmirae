@@ -222,9 +222,9 @@ $(document).ready(function(){
 	$("#btn_reply_list").on("click", function(){
 		//alert("디버그");
 		$.ajax({
-			type:"get",
-			url:"/reply/reply_list/108", //108게시물번호에 대한 댓글목록을 가져오는 URL
-			dataType:"json",
+			type:"post", //보내는 데이터 //특이사항:RestAPIdptj Select는 GET이 기본.
+			url:"/reply/reply_list/28", //108게시물번호에 대한 댓글목록을 가져오는 URL
+			dataType:"json", //받는 데이터(json데이터로 받는다.)
 			success:function(result) { //result에는 댓글 목록을 json데이터로 받음.
 				//빵틀에 result데이터를 binding해서 출력한다.
 				//console.log(result);
