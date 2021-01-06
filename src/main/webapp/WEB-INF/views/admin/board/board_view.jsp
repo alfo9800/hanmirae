@@ -218,7 +218,7 @@ var printPageVO = function(pageVO, target) {
 	//이전 댓글 링크-pageVO에 있는 .prev 변수 사용
 	if(pageVO.prev) {
 		paging = paging + 
-	'<li class="paginate_button page-item previous disabled" id="example2_previous"><a href=" '+(pageVO.startPage-1)+' " aria-controls="example2" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li>';
+	'<li class="paginate_button page-item previous" id="example2_previous"><a href=" '+(pageVO.startPage-1)+' " aria-controls="example2" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li>';
 	}
 	
 	//pageVO를 target영역에 페이징번호 파싱-반복문사용
