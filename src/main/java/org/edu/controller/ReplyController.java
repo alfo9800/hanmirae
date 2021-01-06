@@ -12,6 +12,7 @@ import org.edu.vo.ReplyVO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -70,16 +71,52 @@ public class ReplyController {
 		return result;
 	}
 	
+	//댓글 삭제 메서드
+	@RequestMapping(value="/reply/reply_delete/{rno}",method=RequestMethod.DELETE)
+	public ResponseEntity<String> reply_delete(@PathVariable("rno") Integer rno) {
+		ResponseEntity<String> result = null;
+		try {
+			replyDAO.deleteReply(rno);
+			result = new ResponseEntity<String>("success",HttpStatus.OK);
+		} catch (Exception e) {
+			result = new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+		}
+		return result;
+	}
+	
+	//댓글 수정 메서드
+	@RequestMapping(value="/reply/reply_update",method=RequestMethod.PATCH) //post(전통방식),patch(최근방식:RestAPI)
+	public ResponseEntity<String> reply_update(@RequestBody ReplyVO replyVO) {
+		ResponseEntity<String> result = null;
+		try {
+			replyDAO.updateReply(replyVO);
+			result = new ResponseEntity<String>("success",HttpStatus.OK);
+		} catch (Exception e) {
+			result = new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+		}
+		return result;
+	}
 	
 	//댓글 입력 메서드
 	@RequestMapping(value="/reply/reply_write",method=RequestMethod.POST)
-	public ResponseEntity<String>reply_write() {
-		ResponseEntity<String> responseEntity =
-				new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
+	public ResponseEntity<String>reply_write(@RequestBody ReplyVO replyVO) {
+		//@RequestBody클래스는 ajax로 보내온 폼데이터응 ReplyVO클래스레 바인딩 시켜주는 애노테이션클래스이다.
+		//ResponseEntity<String> responseEntity =	new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
 		//ResponseEntity는 json텍스트를 반환하는데,
 		//전송내용:"SUCESS",					전송상태:Httstatus.OK(200)
 		//전송내용:e.getMessage() 실패메세지 값. 전송상태:HttpStatus.BAD_REQUEST(400)
-		return responseEntity;
+		ResponseEntity<String> result = null;
+		
+		/* 여기서try/catch(예외처리)를 하는 이유=상위 메서드(Spring)로 보내지 않는 이유:
+			:RestAPI에서 예외 메세지를 개발자가 제공하기 위해서. */
+		//ResponseEntity객체클래스형 String값을 ajax로 호출한 페이지 반환.
+		try {
+			replyDAO.insertReply(replyVO);
+			result = new ResponseEntity<String>("success", HttpStatus.OK);
+		} catch (Exception e) {
+			result = new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+		}
+		return result;
 	}
 	//기존 @Controller의 메서드의 반환 값은 파일 위치였음.
 	//대신 @RestController의 메서드 반환 값ResponseEntity는 json텍스트로서 Ajax로 호출한 jsp로 리턴값을 보내게 됨.
