@@ -29,7 +29,7 @@ public class ReplyDAOImpl implements IF_ReplyDAO {
 	@Override
 	public void updateCountReply(Integer bno) throws Exception {
 		// mapper쿼리 연결
-		sqlSession.selectOne("replyMapper.updateCountReply", bno);
+		sqlSession.update("replyMapper.updateCountReply", bno);
 	}
 
 	@Override

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="replyMapper">
 
-<select id="selectReplyCount">
+<select id="selectReplyCount" resultType="int">
 select count(*) from tbl_reply where bno = #{bno}
 </select>
 
@@ -20,8 +20,7 @@ where bno = #{bno}
 
 <insert id="insertReply">
 insert into tbl_reply (bno, reply_text, replyer, reg_date)
-	values(#{bno}, #{reply_text}, #{replyer}, now())
-update tbl_board set reply_count = reply_count+1 where bno = #{bno}	
+	values(#{bno}, #{reply_text}, #{replyer}, now())	
 </insert>
 
 <update id="updateReply">
