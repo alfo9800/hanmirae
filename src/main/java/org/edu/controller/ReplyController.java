@@ -44,6 +44,9 @@ public class ReplyController {
 		pageVO.setPerPageNum(3); //페이지 하단에 보이는 페이징 번호의 갯수
 		pageVO.setQueryPerPageNum(5); //한 페이지 당 보여줄 댓글 갯수
 		//현재 게시물에 달린 댓글 갯수 구하기는: 게시물관리테이블에 있는 reply_count를 가져다가 사용할 것임. 그래서 따로 만들지 않음.		
+		int replyCount = replyDAO.selectReplyCount(bno);
+		pageVO.setTotalCount(replyCount); //전체 댓글 개수 구해서 set하는 순간이 필수. prev,next구할 때 필요.
+
 		//-----------------------------------------------
 		System.out.println("디버그: 패스베리어블 변수는 " + bno);
 		ResponseEntity<Map<String,Object>> result = null;
@@ -74,6 +77,7 @@ public class ReplyController {
 				result = new ResponseEntity<Map<String,Object>>(resultMap, HttpStatus.NO_CONTENT); //코드204
 			}else {
 				resultMap.put("replyList", replyList);
+				resultMap.put("pageVO", pageVO); //페이징처리 때문에 추가함.
 				//resultMap을 Json데이터로 반환하려면, jackson-databind 모듈필수 (pom.xml에 추가함.)
 				result = new ResponseEntity<Map<String,Object>>(resultMap, HttpStatus.OK); //코드200
 			}
@@ -91,7 +95,7 @@ public class ReplyController {
 		try {
 			replyDAO.deleteReply(rno);
 			result = new ResponseEntity<String>("success",HttpStatus.OK);
-			replyDAO.updateCountReply(bno);
+			replyDAO.updateCountReply(bno); //서브쿼리를 사용해서 reply_count필드를 업데이트
 		} catch (Exception e) {
 			result = new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
 		}

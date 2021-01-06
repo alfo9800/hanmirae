@@ -2,6 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="replyMapper">
 
+<select id="selectReplyCount">
+select count(*) from tbl_reply where bno = #{bno}
+</select>
+
 <select id="selectReply" resultType="org.edu.vo.ReplyVO">
 select * from tbl_reply 
 where bno = #{bno}
@@ -12,7 +16,7 @@ limit #{pageVO.queryStartNo}, #{pageVO.queryPerPageNum}
 <update id="updateCountReply">
 update tbl_board set reply_count = (select count(*) from tbl_reply where bno = #{bno})
 where bno = #{bno}
-</update>>
+</update>
 
 <insert id="insertReply">
 insert into tbl_reply (bno, reply_text, replyer, reg_date)
@@ -24,7 +28,7 @@ update tbl_board set reply_count = reply_count+1 where bno = #{bno}
 update tbl_reply set
 	reply_text = #{reply_text},
 	update_date = now()
-where rno = #{rno} <!-- 해당되는 게시물 번호만 update -->
+where rno = #{rno}<!-- 해당되는 게시물 번호만 update -->
 </update>
 
 <delete id="deleteReply">
