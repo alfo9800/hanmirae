@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import org.edu.dao.IF_ReplyDAO;
+import org.edu.vo.PageVO;
 import org.edu.vo.ReplyVO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,8 +31,17 @@ public class ReplyController {
 	private IF_ReplyDAO replyDAO;
 	
 	//댓글 리스트 메서드
-	@RequestMapping(value="/reply/reply_list/{bno}", method=RequestMethod.POST) //특이사항:RestAPIdptj Select는 GET이 기본.
-	public ResponseEntity<Map<String,Object>>reply_list(@PathVariable("bno") Integer bno) {
+	@RequestMapping(value="/reply/reply_list/{bno}/{page}", method=RequestMethod.POST) //특이사항:RestAPIdptj Select는 GET이 기본.
+	public ResponseEntity<Map<String,Object>>reply_list(@PathVariable("page") Integer page, @PathVariable("bno") Integer bno) throws Exception {
+		//페이징 계산식 처리
+		PageVO pageVO = new PageVO();
+		pageVO.setPage(page); //조건은 Ajax로 호출 시 page변수는 반드시 보내야 합니다.
+		pageVO.setPerPageNum(3); //페이지 하단에 보이는 페이징 번호의 갯수
+		pageVO.setQueryPerPageNum(5); //한 페이지 당 보여줄 댓글 갯수
+		
+		//현재 게시물에 달린 댓글 갯수 구하기는: 게시물관리테이블에 있는 reply_count를 가져다가 사용할 것임. 그래서 따로 만들지 않음.
+		
+		//-----------------------------------------------
 		System.out.println("디버그: 패스베리어블 변수는 " + bno);
 		ResponseEntity<Map<String,Object>> result = null;
 		//-----------------------------------------------
