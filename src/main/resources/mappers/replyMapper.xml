@@ -35,9 +35,9 @@ delete from tbl_reply
 where rno = #{rno} <!-- 해당되는 게시물 번호만 delete -->
 </delete>
 
-<delete id="deleteReplyALl">
+<delete id="deleteReplyAll">
 delete from tbl_reply
-where rno = #{rno}
+where bno = #{bno}
 </delete>
 
 </mapper>
