@@ -259,6 +259,8 @@ var replyList = function () {
 		success:function(result) {//result에는 댓글 목록을 json데이터로 받음.
 			//alert("디버그" + result);
 			if(typeof result=="undefined" || result=="" || result==null) {
+				//$("#reply_list").html(""); //기존에 있던 댓글영역 html디자인 지우기
+				$("#div_reply").empty(""); //조회된 값이 없을 때, 화면 clear하는 역할.
 				alert('조회된 값이 없습니다.');
 			}else{
 				//빵틀에 result데이터를 바인딩해서 출력합니다.
@@ -290,7 +292,7 @@ $(document).ready(function(){
 		$("#reply_page").val(page);
 		//$("#btn_reply_list").click();//페이징번호에서 해당되는 번호를 클릭했을때, btn_reply_list버튼을클릭 
 		//위 버튼을 클릭하면 토글기능이 작동되기 때문에 댓글 목록만 가져오는 reply함수를 실행하게 됨.
-		replyList(); //-> 불러온다.
+		replyList(); //댓글리스트 메서드 호출
 	});
 });
 </script>
@@ -300,7 +302,7 @@ $(document).ready(function(){
 $(document).ready(function(){
 	$("#btn_reply_list").on("click", function(){
 		//여기에 자동으로 부트스트랩의 토글기능이 적용됨.(위에 구현)
-		replyList(); //-> 불러온다.
+		replyList(); //댓글리스트 메서드 호출
 	});
 });
 </script>
@@ -309,7 +311,25 @@ $(document).ready(function(){
 <script>
 $(document).ready(function(){
 	$("#deleteReplyBtn").on("click", function(){
-		
+		var rno = $("#rno").val(); //삭제할 댓글 번호 값 변수
+		//alert("선택한 게시물 댓글 번호는 : " + rno); //디버그	
+		$.ajax({
+			type:"delete",
+			url:"/reply/reply_delete/${boardVO.bno}/"+rno, //큰 따옴표 안에 있어야 자바변수가 인식됨. 
+			dataType:"text", //반환값 문자열
+			success:function(result){
+				if(result=="success"){
+					alert("삭제에 성공했습니다.");
+					var reply_count = $("#reply_count").text();//$("영역").val(input데이터),
+					$("#reply_count").text(parseInt(reply_count)-1);//$("영역").text(영역안쪽의문자열)
+					replyList(); //댓글리스트 메서드 호출 & 댓글영역 html재생성
+					$("#replyModal").modal("hide"); //모달창(=팝업창)숨기기
+				}				
+			},
+			error:function(result){
+				alert("RestAPI서버오류로 삭제에 실패했습니다.");
+			}
+		});
 	});
 });
 </script>
