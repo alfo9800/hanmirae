@@ -247,7 +247,7 @@ input::placeholder {
 	display: inline-block;
 	height: 45px;
 	padding: 0 10px;
-	background-color: #fff;
+	/* background-color: #fff; 이클립스에서 영향을 주기 때문에 주석처리*/
 	line-height: normal;
 	font-size: 15px;
 }
