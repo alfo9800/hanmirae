@@ -82,7 +82,7 @@ $(document).ready(function() {
 						</li>
 						<li class="clear">
 							<label for="agree_lbl" class="tit_lbl pilsoo_item">개인정보활용동의</label>
-							<div class="app_content checkbox_area"><input type="checkbox"" name="agree" class="css-checkbox" id="agree_lbl" required checked/>
+							<div class="app_content checkbox_area"><input type="checkbox" name="agree" class="css-checkbox" id="agree_lbl" required checked/>
 							<label for="agree_lbl" class="agree">동의함</label>
 							</div>
 						</li>

@@ -71,7 +71,7 @@ $(document).ready(function() {
 					<ul class="app_list">
 						<li class="clear">
 							<label for="email_lbl" class="tit_lbl pilsoo_item">이메일</label>
-							<div class="app_content"><input type="email" name="email"" class="w100p" id="email_lbl" placeholder="이메일을 입력해주세요" required/></div>
+							<div class="app_content"><input type="email" name="email" class="w100p" id="email_lbl" placeholder="이메일을 입력해주세요" required/></div>
 						</li>
 						<li class="clear">
 							<label for="name_lbl" class="tit_lbl pilsoo_item">작성자명</label>
@@ -87,7 +87,7 @@ $(document).ready(function() {
 						</li>
 						<li class="clear">
 							<label for="tel_lbl" class="tit_lbl pilsoo_item">연락처</label>
-							<div class="app_content"><input type="digits"" name="tel" class="w100p" id="tel_lbl" placeholder="휴대폰'-'없이 숫자만 입력해주세요" required/></div>
+							<div class="app_content"><input type="digits" name="tel" class="w100p" id="tel_lbl" placeholder="휴대폰'-'없이 숫자만 입력해주세요" required/></div>
 						</li>
 						<li class="clear">
 							<label for="gender_lbl" class="tit_lbl pilsoo_item">성별</label>
@@ -109,7 +109,7 @@ $(document).ready(function() {
 						</li>
 						<li class="clear">
 							<label for="agree_lbl" class="tit_lbl pilsoo_item">개인정보활용동의</label>
-							<div class="app_content checkbox_area"><input type="checkbox"" name="agree" class="css-checkbox" id="agree_lbl" required checked/>
+							<div class="app_content checkbox_area"><input type="checkbox" name="agree" class="css-checkbox" id="agree_lbl" required checked/>
 							<label for="agree_lbl" class="agree">동의함</label>
 							</div>
 						</li>
