@@ -17,13 +17,13 @@ public class ControllerAdviceException {
 		ModelAndView modelAndView = new ModelAndView();
 		
 		//model값을 보낼 jsp경로 지정하는 명령-> setViewName
-		modelAndView.setViewName("home/error"); //반환한 jsp위치 지정
+		modelAndView.setViewName("home/spring_error"); //반환한 jsp위치 지정
 		modelAndView.addObject("exception", ex); //만약 위 Http~~대신 Model model이라면. -> model.addAttribute("exception", ex); / return "home/error";로 사용한다.
 		//-------------------------------------------------------------------------------------------------------------------------------------------------------
 		String referer = request.getHeader("Referer"); //이전페이지로 이동 할 때 필요한 링크 값 = 크롬 확인 가능한 헤더값
 		request.getSession().setAttribute("prevPage", referer); //session이란: 클라이언트가 서버에 접속 시 서버에서 발생하는 고유 변수 값. prevPage세션키를 하나 생성. 저장된 prevPage키를 jsp에서 사용하게 됨.
 		//결과로 jsp에서 사용가능한 변수 2가지 : 오브젝트변수(클래스변수)인 exception, 세션변수인 prevPage.
 		
-		return null;
+		return modelAndView;
 	}
 }

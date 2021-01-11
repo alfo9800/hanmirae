@@ -54,5 +54,21 @@
 	    <url-pattern>/</url-pattern>
 	</filter-mapping>
 	
-
+	<!-- 4xx로 시작하는 에러 처리하는 페이지 매핑 : 스프링에서 가로채기 못하는 예외처리-->
+	<error-page>
+		<error-code>404</error-code>
+		<location>/home/error/404</location>
+	</error-page>
+	
+	<!-- 스프링 시큐리티때문에 필터(걸러주는)추가 -->
+	<filter>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+    <filter-mapping>
+          <filter-name>springSecurityFilterChain</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+	
+	
 </web-app>
