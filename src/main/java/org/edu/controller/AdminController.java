@@ -17,6 +17,7 @@ import org.edu.util.SecurityCode;
 import org.edu.vo.BoardVO;
 import org.edu.vo.MemberVO;
 import org.edu.vo.PageVO;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -261,6 +262,13 @@ public class AdminController {
 	//메서드 오버로딩(예로, 동영상 로딩중..., 로딩된 매개변수가 다르면, 메서드 이름을 중복해서 사용가능함.
 	@RequestMapping(value="/admin/member/member_write",method=RequestMethod.POST)
 	public String member_write_(MemberVO memberVO) throws Exception {
+		//POST방식으로 넘어온 user_pw값을 BCryptPasswordEncoder클래스로 암호 시킴
+		if(memberVO.getUser_pw() != null) {
+			BCryptPasswordEncoder passwordencoder = new BCryptPasswordEncoder();
+			String userPwEncoder = passwordencoder.encode(memberVO.getUser_pw());
+			memberVO.setUser_pw(userPwEncoder);
+		}
+		
 		//아래 get방식의 폼 풀력 화면에서 데이터 전송받은 내용을 처리하는 바인딩.
 		//DB베이스 입력/출력/삭제/수정 처리 다음에...
 		memberService.insertMember(memberVO);
@@ -283,6 +291,13 @@ public class AdminController {
 	
 	@RequestMapping(value="/admin/member/member_update",method=RequestMethod.POST)
 	public String member_update(PageVO pageVO, MemberVO memberVO) throws Exception {
+		//POST방식으로 넘어온 user_pw값을 BCryptPasswordEncoder클래스로 암호 시킴
+		if(memberVO.getUser_pw() != null) {
+			BCryptPasswordEncoder passwordencoder = new BCryptPasswordEncoder();
+			String userPwEncoder = passwordencoder.encode(memberVO.getUser_pw());
+			memberVO.setUser_pw(userPwEncoder);
+		}
+		
 		//POST방식으로 넘어온 값을 DB에 수정처리하는 역할.
 		memberService.updateMember(memberVO);
 		return "redirect:/admin/member/member_view?page="+pageVO.getPage() +"&user_id="+memberVO.getUser_id();
