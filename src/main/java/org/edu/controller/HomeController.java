@@ -2,13 +2,19 @@ package org.edu.controller;
 
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
+import javax.inject.Inject;
+
+import org.edu.service.IF_BoardService;
 import org.edu.vo.BoardVO;
+import org.edu.vo.PageVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -20,7 +26,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class HomeController {
 	
-	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
+	//private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
+	@Inject
+	private IF_BoardService boardService;
 	
 	//전체영역 홈페이지에서 스프링 진입전 발생하는 에러 페이지 처리
 	@RequestMapping(value="/home/error/404",method=RequestMethod.GET)
@@ -52,8 +60,18 @@ public class HomeController {
 	
 	//사용자 홈페이지 게시판 리스트 매핑
 	@RequestMapping(value="/home/board/board_list",method=RequestMethod.GET)
-	public String board_list() throws Exception {
+	public String board_list(@ModelAttribute("pageVO") PageVO pageVO, Model model) throws Exception {
+		//페이징 처리 추가
+		if(pageVO.getPage() == null) {
+			pageVO.setPage(1);
+		}
+		pageVO.setPerPageNum(5); //페이지 하단 페이징 번호 갯수
+		pageVO.setQueryPerPageNum(10); //1페이지당 보여줄 게시물 갯수
+		int totalCount = boardService.countBoard(pageVO); //페이징의 게시물 전체개수 구하기
+		pageVO.setTotalCount(totalCount);
 		
+		List<BoardVO> board_list = boardService.selectBoard(pageVO);
+		model.addAttribute("board_list", board_list);
 		return "home/board/board_list";
 	}
 	
