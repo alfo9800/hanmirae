@@ -2,12 +2,15 @@ package org.edu.controller;
 
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
 import javax.inject.Inject;
 
 import org.edu.service.IF_BoardService;
+import org.edu.util.CommonController;
+import org.edu.util.SecurityCode;
 import org.edu.vo.BoardVO;
 import org.edu.vo.PageVO;
 import org.slf4j.Logger;
@@ -17,6 +20,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * Handles requests for the application home page.
@@ -30,6 +34,12 @@ public class HomeController {
 	@Inject
 	private IF_BoardService boardService;
 	
+	@Inject
+	private SecurityCode securityCode;
+	
+	@Inject
+	private CommonController commonController;
+	
 	//전체영역 홈페이지에서 스프링 진입전 발생하는 에러 페이지 처리
 	@RequestMapping(value="/home/error/404",method=RequestMethod.GET)
 	public String error404() throws Exception {
@@ -38,8 +48,31 @@ public class HomeController {
 	
 	//사용자 홈페이지 게시판 상세보기 매핑
 	@RequestMapping(value="/home/board/board_view",method=RequestMethod.GET)
-	public String board_view() throws Exception {
+	public String board_view(@RequestParam("bno") Integer bno, @ModelAttribute("pageVO") PageVO pageVO, Model model) throws Exception {
+		BoardVO boardVO = boardService.readBoard(bno);
+		//내용에 대한 시큐어코딩
+		String xssData = securityCode.unscript(boardVO.getContent());
+		boardVO.setContent(xssData); //악성코드 제거한 결과를 다시 set 지정.
+				
+		//첨부파일 데이터 jsp 뷰 단으로 보내기
+		List<HashMap<String,Object>> files = boardService.readAttach(bno);
+		String[] save_file_names = new String[files.size()];
+		String[] real_file_names = new String[files.size()];
+		int cnt = 0;
+		for(HashMap<String,Object> file_name:files) { //위에 files데이터에서 값을 뽑아 오는 로직
+			save_file_names[cnt] = (String) file_name.get("save_file_name");
+			real_file_names[cnt] = (String) file_name.get("real_file_name");
+			cnt = cnt +1;
+		}
 		
+		boardVO.setSave_file_names(save_file_names);
+		boardVO.setReal_file_names(real_file_names);
+		//===============================================
+		model.addAttribute("boardVO", boardVO);
+		//model.addAttribute("pageVO", pageVO); //위 @modelAttribute로 대체. jps로 오브젝트를 전송
+		
+		//업로드 한 내용이 이미지인지 일반문서와 구분하는 역할을 jsp로 보냄.(아래)
+		model.addAttribute("checkImgArray", commonController.getCheckImgArray());
 		return "home/board/board_view";
 	}
 	
