@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ include file="../include/header.jsp" %>
 <link rel="stylesheet" href="/resources/home/css/board.css">
 <!-- Font Awesome -->
@@ -43,7 +43,24 @@
 					<c:forEach begin="0" end="1" var="index">
 						<c:if test="${boardVO.save_file_names[index] != null}">
 							<br>
-							<a href="/download?save_file_name=${boardVO.save_file_names[index]}&real_file_name=${boardVO.real_file_names[index]}" >파일 다운로드 링크[${index}]</a>
+							<a href="/download?save_file_name=${boardVO.save_file_names[index]}&real_file_name=${boardVO.real_file_names[index]}" >${boardVO.real_file_names[index]} 다운로드 링크[${index}]</a>
+							<c:set var="fileNameArray" value="${fn:split(boardVO.save_file_names[index],'.')}" />
+			                <c:set var="extName" value="${fileNameArray[fn:length(fileNameArray)-1]}" />
+							<!-- lenght의 결과는 2-1= 배열의 인덱스1 -->
+							<!-- 첨부파일이 이미지 인지 아닌지 비교해서 img태그를 사용할 지 결정 -->
+							
+							<!-- fn:contains함수({'jpg','gif','png'...}비교배열내용,JPG,jpg첨부파일확장자) -->
+							<c:choose>
+								<c:when test="${fn:containsIgnoreCase(checkImgArray,extName)}">
+									<br>
+									<img style="width:100%;" src="/image_preview?save_file_name=${boardVO.save_file_names[index]}&real_file_name=${boardVO.real_file_names[index]}">
+								</c:when>
+								<c:otherwise>
+									<c:out value="${checkImgArray}" />
+									<!-- 사용자 홈페이지 메인 최근게시물 미리보기 이미지가 없을 때 사용 예정. -->
+								</c:otherwise>
+							</c:choose>
+							<!-- true이면 이미지 파일이란 의미 -->		
 						</c:if>
 					</c:forEach>
 				</li>
@@ -78,46 +95,25 @@
                 <button type="button" class="btn btn-warning float-left mr-1 text-white" id="insertReplyBtn">댓글등록</button>
 	          </div>
 	          </form>
+	          
 	          <div class="timeline">
-	          	  <!-- .time-label의 before 위치 -->
+	          	  <!-- .time-label의 before 위치 -->		          
 		          <div class="time-label">
-	                <span class="bg-red">Reply List[1]&nbsp;&nbsp;</span>
+	                <span data-toggle="collapse" data-target="#div_reply" class="bg-red btn" id="btn_reply_list">Reply List[${boardVO.reply_count}]&nbsp;&nbsp;</span>
 	              </div>
-	              <!-- .time-label의 after 위치 -->
-		          <!-- <div>
-	                <i class="fas fa-envelope bg-blue"></i>
-	                <div class="timeline-item">
-	                  <h3 class="timeline-header">작성자</h3>
-	                  <div class="timeline-body">
-	                    	댓글 입력 테스트
-	                  </div>
-	                  <div class="timeline-footer">
-	                    Button trigger modal
-						<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#replyModal">
-						  수정
-						</button>
-	                  </div>
-	                </div>
-	              </div> -->
 	              
+	              <div id="div_reply" class="timeline collapse">	              	
+	              	<!-- 페이징처리 시작 -->
+	          		<div class="pagination justify-content-center">
+		            	<ul class="pagination">
+			            	 <ul class="pagination pageVO">
+								
+			            	</ul>
+	         		 </div>
+		  	  		<!-- 페이징처리 끝 --> 	              	
+	              </div>	              
 	          </div><!-- //.timeline -->
-	          <!-- 페이징처리 시작 -->
-	          <div class="pagination justify-content-center">
-	            	<ul class="pagination">
-	            	 <li class="paginate_button page-item previous disabled" id="example2_previous">
-	            	 <a href="#" aria-controls="example2" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
-	            	 </li>
-	            	 <!-- 위 이전게시물링크 -->
-	            	 <li class="paginate_button page-item active"><a href="#" aria-controls="example2" data-dt-idx="1" tabindex="0" class="page-link">1</a></li>
-	            	 <li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="2" tabindex="0" class="page-link">2</a></li>
-	            	 <li class="paginate_button page-item "><a href="#" aria-controls="example2" data-dt-idx="3" tabindex="0" class="page-link">3</a></li>
-	            	 <!-- 아래 다음게시물링크 -->
-	            	 <li class="paginate_button page-item next" id="example2_next">
-	            	 <a href="#" aria-controls="example2" data-dt-idx="7" tabindex="0" class="page-link">Next</a>
-	            	 </li>
-	            	 </ul>
-	          </div>
-		  	  <!-- 페이징처리 끝 -->     
+	              <input type="hidden" name="reply_page" id="reply_page" value="1">
 	      </div>
 <!-- 댓글영역 끝 -->
 <!-- 자바스트립트용 #template 엘리먼트 제작(아래) jstl 향상된 for문과 같은 역할 
@@ -126,14 +122,14 @@ jstl을 사용하려면, jsp에서 @taglib uri=... 처럼 외부 core를 가져�
 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.js"></script>
 <!-- 댓글리스트 템플릿(빵틀) 만들기(아래) -->
-<!-- jsp의 forEach문과 같은 역할 {{#each .}} -->
+<!-- jsp의 forEach문과 같은 역할 #each . -->
 <script id="template" type="text/x-handlebars-template">
 {{#each .}}
 <div class="template-div" data-rno="{{rno}}">
  <i class="fas fa-envelope bg-blue"></i>
  <div class="timeline-item">
    <h3 class="timeline-header">{{replyer}}</h3>
-   <div class="timeline-body">{{replytext}}</div>
+   <div class="timeline-body">{{reply_text}}</div>
    <div class="timeline-footer">
 	 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#replyModal">
   		수정
@@ -144,15 +140,71 @@ jstl을 사용하려면, jsp에서 @taglib uri=... 처럼 외부 core를 가져�
 {{/each}}
 	</script>
 
-<!-- 화면을 재구현Representation하는 함수(아래) -->
+<!-- 댓글 페이징을 재구현Representation하는 함수(아래) -->
 <script>
-var printReplyList = function(data, target, templateObject) {
-	var template = Handlebars.compile(templateObject.html());//html태그로 변환
-	var html = template(data);//빅데이터를 리스트템플릿에 바인딩 결합시켜주는 역할. 변수html에 저장되었음.
-	$(".template-div").remove();//화면에 보이는 댓글리스트만 지우기.
-	target.after(html);//target은 .time-label 클래스영역을 가리킵니다.
-};
+var printPageVO = funtion(pageVO, target){
+	var paging = "";
+	if(pageVO.prev){
+		paging = paging + ' <li class="paginate_button page-item previous disabled" id="example2_previous"><a href="'+(pageVO.startPage-1)+'" aria-controls="example2" date-dt-idx="0" tabindex="0" class="page-link">previous</a></li> ';
+	}
+	for(cnt=pageVO.startPage; cnt<=pageVO.endPage; cnt++){ var active = (cnt==pageVO.page)?"action":"";
+		paging = paging + ' <li class="paginate_button page-item '+active+'"><a href="'+cnt+'" aria-controls="example2" data-dt-idx="1" tabindex="0" class="page-link">'+cnt+'</a></li> ';
+	}
+	if(pageVO.next){
+		paging = paging + ' <li class="paginate_button page-item next" id="example2_next"><a href="'+(pageVO.endPage+1)+'" aria-controls="example2" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li> ';
+	}
+	target.html(paging);
+}
 </script>
+
+<!-- 댓글 리스트 실행 하는 함수 -->
+<script>
+var replyList = function(){
+	var page = $("#reply_page").val(); //현재 지정된 댓글 페이지 값 가져오기
+	$.ajax({
+		url:"/reply/reply_list/${boardVO.bno}/" +page, //쿼리스트링X, 패스베리어블로 보냄.
+		type:"post", //원래는 get인데, post로 보낼수 있음.
+		dataType:"json",
+		seccess:function(result){
+			if(result=="undefined" || result="" || result==null){
+				$("#div_reply").empty();
+				alert("조회된 값이 없습니다.");
+			}else{
+				printReplyList(result.replyList,$("#div_reply"),$("#template")); //댓글리스트 출력
+				printPageVO(result.pageVO,$(".pageVO"));
+			}
+		},
+		error:function(){
+			
+		}
+	});
+}
+</script>
+
+<!-- 페이징의 번호 링크액션을 처리하는 함수 -->
+<script>
+$(document).ready(function(){
+	$(".pageVO").on("click","li a",function(event){
+		event.preventDefault(); //디폴트 액션 링크 이동 방지
+		var page = $(this).attr("href"); //GET
+		$("#reply_page").val(page); //SET :매개변수가 없으면 GET $("#reply_page").val();
+		//alert("debug");
+		replyList();
+	});
+});
+</script>
+
+<!-- 댓글 리스트 버튼 클릭이벤트 처리 -->
+<script>
+$(document).ready(function(){
+	$("#btn_reply_list").on("click", function(){
+		//alert("debug");
+		replyList();
+	});
+});
+</script>
+
+
 <!-- 댓글 등록 버튼 액션 처리(아래) -->
 <script>
 $(document).ready(function() {
@@ -192,6 +244,7 @@ $(document).ready(function() {
 	});
 });
 </script>
+
 <!-- Modal -->
 <div class="modal fade" id="replyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
