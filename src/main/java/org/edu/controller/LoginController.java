@@ -74,8 +74,8 @@ public class LoginController {
 			//BCrypt암호화 match 메서드으로 확인
 			String rawPassword = "user02";
 			BCryptPasswordEncoder bcryptPasswordEncoder = new BCryptPasswordEncoder(10);
-			String bcryptPassword = bcryptPasswordEncoder.encode("user02");//예, user02 -> 암호화 처리됨
-			//System.out.println(bcryptPassword); 테스트 시 이 암호를 DB회원테이블에 입력하면 됨.
+			String bcryptPassword = bcryptPasswordEncoder.encode("1234");//예, user02 -> 암호화 처리됨
+			System.out.println(bcryptPassword); //테스트 시 이 암호를 DB회원테이블에 입력하면 됨.
 			System.out.println("2가지 스트링을 매칭 참,거짓: " + bcryptPasswordEncoder.matches(rawPassword, bcryptPassword));
 
 			return "home/login";

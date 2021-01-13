@@ -4,7 +4,13 @@
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sectoken" %>
 <%@ include file="include/header.jsp" %>
 <link rel="stylesheet" href="/resources/home/css/board.css">
+<script>
+if("${param.msg}" == "fail") {
+	alert('로그인에 실패하였습니다. 상세메세지 ${sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message}');
+	//스프링 시큐이티는 세션발생 시킴. 위 자바 변수 중 세션스코프는 세션영역을 뜻함.
+}
 
+</script>
 
 	<!-- 메인콘텐츠영역 -->
 	<div id="container">
