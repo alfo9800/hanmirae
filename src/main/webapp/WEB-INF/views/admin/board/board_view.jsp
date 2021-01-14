@@ -360,7 +360,7 @@ $(document).ready(function(){
 				}
 			},
 			error:function(result){
-				alert("RestApi서버에 문제가 있습니다. 다음에 이용해 주세요!")
+				alert("RestApi서버에 문제가 있습니다. 다음에 이용해 주세요!");
 			}
 		});
 	});
