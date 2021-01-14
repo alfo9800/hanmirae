@@ -79,11 +79,11 @@
 	          <div class="card-header">
 	            <h5 class="card-title">Add New Reply</h5>
 	          </div>
-	          <form action="board_view.html" name="reply_form" method="post">
+	          <form action="#" name="reply_form" method="post">
 	          <div class="card-body">
 	          	<div class="form-group">
                    <label for="writer">Writer</label>
-                   <input type="text" class="form-control" name="writer" id="writer" placeholder="작성자를 입력해 주세요." required>
+                   <input type="text" class="form-control" name="replyer" id="replyer" placeholder="작성자를 입력해 주세요." required>
                    <!-- 폼에서 input같은 입력태그에는 name속성이 반드시 필요, 이유는 DB에 입력할때,
                    	 값을 전송하게 되는데, 전송값을 담아두는 이름이 name가 되고, 위에서는 writer 입니다. -->
                 </div>
@@ -99,7 +99,7 @@
 	          <div class="timeline">
 	          	  <!-- .time-label의 before 위치 -->		          
 		          <div class="time-label">
-	                <span data-toggle="collapse" data-target="#div_reply" class="bg-red btn" id="btn_reply_list">Reply List[${boardVO.reply_count}]&nbsp;&nbsp;</span>
+	                <span data-toggle="collapse" data-target="#div_reply" class="bg-red btn" id="btn_reply_list">Reply List[<span id="reply_count">${boardVO.reply_count}</span>]&nbsp;&nbsp;</span>
 	              </div>
 	              
 	              <div id="div_reply" class="timeline collapse">	              	
@@ -140,20 +140,30 @@ jstl을 사용하려면, jsp에서 @taglib uri=... 처럼 외부 core를 가져�
 {{/each}}
 	</script>
 
-<!-- 댓글 페이징을 재구현Representation하는 함수(아래) -->
+<!-- 화면을 재구현 Representation하는 함수 -->
 <script>
-var printPageVO = funtion(pageVO, target){
-	var paging = "";
-	if(pageVO.prev){
-		paging = paging + ' <li class="paginate_button page-item previous disabled" id="example2_previous"><a href="'+(pageVO.startPage-1)+'" aria-controls="example2" date-dt-idx="0" tabindex="0" class="page-link">previous</a></li> ';
-	}
-	for(cnt=pageVO.startPage; cnt<=pageVO.endPage; cnt++){ var active = (cnt==pageVO.page)?"action":"";
-		paging = paging + ' <li class="paginate_button page-item '+active+'"><a href="'+cnt+'" aria-controls="example2" data-dt-idx="1" tabindex="0" class="page-link">'+cnt+'</a></li> ';
-	}
-	if(pageVO.next){
-		paging = paging + ' <li class="paginate_button page-item next" id="example2_next"><a href="'+(pageVO.endPage+1)+'" aria-controls="example2" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li> ';
-	}
-	target.html(paging);
+var printReplyList = function(data, target, templateObject){
+	var template = Handlebars.compile(templateObject.html()); //html태그로 변환
+	var html = template(data); //빅데이터를 리스트 템플릿에 바이딩 결함시켜주는 역할. 변수 html에 저장 되었음.
+	$(".template-div").remove(); //화면에 보이는 댓글리스트만 지우기
+	target.prepend(html); //target은 .time-label클래스 영역을 가리킴.
+};
+</script>
+
+<!-- 댓글 페이징 재구현Representation하는 함수 -->
+<script>
+var printPageVO = function(pageVO, target) {
+	 var paging = "";
+	 if(pageVO.prev){
+		 paging = paging + '<li class="paginate_button page-item previous disabled" id="example2_previous"><a href="'+(pageVO.startPage-1)+'" aria-controls="example2" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li>';
+	 }
+	 for(cnt=pageVO.startPage;cnt<=pageVO.endPage;cnt++){ var active = (cnt==pageVO.page)?"active":"";
+		 paging = paging + '<li class="paginate_button page-item '+active+'"><a href="'+cnt+'" aria-controls="example2" data-dt-idx="1" tabindex="0" class="page-link">'+cnt+'</a></li>';
+	 }
+	 if(pageVO.next){
+		 paging = paging + '<li class="paginate_button page-item next" id="example2_next"><a href="'+(pageVO.endPage+1)+'" aria-controls="example2" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li>';
+	 }
+	 target.html(paging);
 }
 </script>
 
@@ -165,8 +175,8 @@ var replyList = function(){
 		url:"/reply/reply_list/${boardVO.bno}/" +page, //쿼리스트링X, 패스베리어블로 보냄.
 		type:"post", //원래는 get인데, post로 보낼수 있음.
 		dataType:"json",
-		seccess:function(result){
-			if(result=="undefined" || result="" || result==null){
+		success:function(result){
+			if(result=="undefined" || result=="" || result==null){
 				$("#div_reply").empty();
 				alert("조회된 값이 없습니다.");
 			}else{
@@ -204,32 +214,128 @@ $(document).ready(function(){
 });
 </script>
 
+<!-- ---------------------------------------------------------------------------- -->
 
-<!-- 댓글 등록 버튼 액션 처리(아래) -->
+<!-- 댓글 수정 버튼 액션 처리 -->
+<script>
+$(document).ready(function(){
+	$("#updateReplyBtn").on("click",function(){
+		if("${session_enabled}" == ""){
+			alert("회원만 댓글 수정이 가능합니다.");
+			location.href("/login");
+			return false;
+		}
+		var reply_text = $("#replytext").val(); //modal의 input에 해당하는 것 가져옴. 아래rno도.
+		var rno = $("#rno").val();
+		$.ajax({
+			type:"patch",
+			url:"/reply/reply_update",
+			headers:{
+				"Content-Type":"application/json",
+				"X-HTTP-Method-Override":"PATCH"
+			},
+			data:JSON.stringify({
+				rno:rno,
+				reply_text:reply_text
+			}),
+			dataType:"text",
+			success:function(result){
+				if(result=="success"){
+					alert("댓글 수정에 성공하였습니다.");
+					$("#replyModal").modal("hide");
+					replyList();
+				}else{
+					alert("댓글 수정에 실패하였습니다.");
+				}
+			},
+			error:function(result){
+				alert("RestAPI서버에 문제가 있습니다. 다음에 이용해 주세요!");
+			}
+		});
+	});
+});
+</script>
+
+<!-- 댓글 삭제 버튼 액션 처리 -->
+<script>
+$(document).ready(function(){
+	$("#deleteReplyBtn").on("click",function(){
+		if("${session_enabled}" == ""){
+			alert("회원만 댓글 삭제가 가능합니다.");
+			location.href("/login");
+			return false;
+		}
+		var rno = $("#rno").val();
+		$.ajax({
+			type:"delete",
+			url:"/reply/reply_delete/${boardVO.bno}/"+rno,
+			dataType:"text",
+			success:function(result){
+				if(result=="success"){
+					alert("댓글 삭제에 성공하였습니다.");
+					var reply_count = $("#reply_count").text(); //GET 
+					$("#reply_count").text(parseInt(reply_count)-1); //SET
+					replyList();
+					$("#replyModal").modal("hide"); //모달창 숨기는 기능
+				}
+			},
+			error:function(result){
+				alert("RestAPI서버오류로 삭제에 실패했습니다.");
+			}
+		});
+	});
+});
+</script>
+
+<!-- 댓글 등록 버튼 액션 처리 -->
 <script>
 $(document).ready(function() {
 	$("#insertReplyBtn").on("click", function() {//댓글등록버튼을 클릭했을 때 구현내용(아래)
-		//alert("디버그");
+	if("${session_enabled}" == ""){ //버튼 클릭 시 비로그인 시 로그인 화면으로 가도록 설정
+		alert("회원만 댓글 등록이 가능합니다.");
+		location.href("/login"); //location은 자바스크립트 내장 함수로서 (href:URL이동 함수)이다.
+		return false;
+	}
+	//alert("디버그");
 		//Ajax를 이용해서, 화면을 Representation (REST-API방식) 부분 화면을 재구현(아래)
+		var bno = "${boardVO.bno}"; //자바
+		var reply_text = $("#reply_text").val(); //jQuery //input type은 val()함수를 가져올 수 있음.
+		var replyer = $("#replyer").val(); //jQuery
+		if(reply_text == "" || replyer == "") {
+			alert("댓글 내용과 작성자는 필수 입력 사항입니다.");
+			return false;
+		}
 		$.ajax({//통신프로그램
 			//여기서부터는 프론트 엔드 개발자 영역
-			type:'get',//지금은 html이라서 get방식이지만, jsp로가면, post방식으로 바꿔야 합니다.
-			url:'board_view.html',//jsp로 가면, ReplyController 에서 지정한 url로 바꿔야 합니다.
+			type:'post',//지금은 html이라서 get방식이지만, jsp로가면, post방식으로 바꿔야 합니다.
+			url:'/reply/reply_write',//jsp로 가면, ReplyController 에서 지정한 url로 바꿔야 합니다.
 			dataType:'text',//ReplyController에서 받은 데이터의 형식은 text형식으로 받겠다고 명시.
+			headers:{
+				"Content-Type":"application/json",
+				"X-HTTP-Method-Override":"POST"
+			},
+			data:JSON.stringify({
+				bno:bno,
+				reply_text:reply_text,
+				replyer:replyer
+			}),
 			success:function(result) {//응답이 성공하면(상태값200)위경로에서 반환받은 result(json데이터)를 이용해서 화면을 재구현
-				//지금은 html이라서 result값을 이용할 수가 없어서 댓글 더미데이터를 만듭니다.(아래)
-				result = [
-					//{rno:댓글번호,bno:게시물번호,replytext:"첫번째 댓글",replyer:"admin",regdate:타임스탬프}
-					{rno:1,bno:15,replytext:"첫번째 댓글",replyer:"admin",regdate:1601234512345},//첫번째 댓글 데이터
-					{rno:2,bnt:15,replytext:"두번째 댓글",replyer:"admin",regdate:1601234512345}//두번째 댓글 데이터
-				];//위 URL이 공공데이터생각하면,위 데이터를 화면에 구현하면, 빅데이터의 시각화로 불리게 됩니다.
-				//printReplyList(빅데이터, 출력할 타켓위치, 빅데이터를 가지고 바인딩된-묶인 템플릿화면);
-				printReplyList(result, $(".time-label"), $("#template"));//화면에 출력하는 구현함수를 호출하면 실행.
-			} 
+				var reply_count = $("#reply_count").text(); //GET //var로 reply_count라는 위에서 만든 변수를 만든다.
+				$("#reply_count").text(parseInt(reply_count)+1); //SET
+				
+				//예로 3페이지에서 보다가 등록 후 작성한 댓글을 확인 가능하도록 1page로 가도록 유도
+				$("#reply_page").val("1"); //1page값으로 SET
+				replyList(); //댓글입력 후 리스트 출력함수 호출
+				$("#reply_")
+			},
+			error:function(result){
+				alert("RestAPI서버가 작동하지 않습니다. 다음에 이용해 주세요!");
+			}
 		});
-	} );
+	});
 });
 </script>
+
 <!-- 댓글리스트에서 수정 버튼을 클릭했을때, 팝업창이 뜨는데, 그 팝업창에 내용을 동적으로 변경시켜주는 구현(아래)  -->
 <script>
 $(document).ready(function() {
@@ -261,8 +367,8 @@ $(document).ready(function() {
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-        <button type="button" class="btn btn-primary">수정</button>
-        <button type="button" class="btn btn-danger">삭제</button>
+        <button type="button" class="btn btn-primary" id="updateReplyBtn">수정</button>
+        <button type="button" class="btn btn-danger" id="deleteReplyBtn">삭제</button>
       </div>
     </div>
   </div>
