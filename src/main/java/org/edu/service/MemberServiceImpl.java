@@ -62,7 +62,7 @@ public class MemberServiceImpl implements IF_MemeberService  {
 	@Override
 	public void herokuJobMethod() throws Exception {
 		//월~금 오전 8시부터 오후11시 까지(미국 시간으로 23시부터 14시까지) 헤로쿠앱에 20분 간격으로 URL 접근
-		String urlStr = "http://hanmirae.herokuapp.com"; //본인 앱 주소
+		String urlStr = "https://hanmirae.herokuapp.com"; //본인 앱 주소
 		URL url = new URL(urlStr);
 		HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection(); //오픈 접속시작
 		urlConnection.setUseCaches(false); //기존접속된 정보가 있든지 없든지 무조건 접속
