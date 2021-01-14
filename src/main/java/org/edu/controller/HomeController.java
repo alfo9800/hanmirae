@@ -11,6 +11,7 @@ import javax.inject.Inject;
 import org.edu.service.IF_BoardService;
 import org.edu.util.CommonController;
 import org.edu.util.SecurityCode;
+import org.edu.vo.AttachVO;
 import org.edu.vo.BoardVO;
 import org.edu.vo.PageVO;
 import org.slf4j.Logger;
@@ -55,13 +56,13 @@ public class HomeController {
 		boardVO.setContent(xssData); //악성코드 제거한 결과를 다시 set 지정.
 				
 		//첨부파일 데이터 jsp 뷰 단으로 보내기
-		List<HashMap<String,Object>> files = boardService.readAttach(bno);
+		List<AttachVO> files = boardService.readAttach(bno);
 		String[] save_file_names = new String[files.size()];
 		String[] real_file_names = new String[files.size()];
 		int cnt = 0;
-		for(HashMap<String,Object> file_name:files) { //위에 files데이터에서 값을 뽑아 오는 로직
-			save_file_names[cnt] = (String) file_name.get("save_file_name");
-			real_file_names[cnt] = (String) file_name.get("real_file_name");
+		for(AttachVO file_name:files) { //위에 files데이터에서 값을 뽑아 오는 로직
+			save_file_names[cnt] = file_name.getSave_file_name();
+			real_file_names[cnt] = file_name.getReal_file_name();
 			cnt = cnt +1;
 		}
 		

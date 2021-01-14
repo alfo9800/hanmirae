@@ -3,6 +3,7 @@ package org.edu.dao;
 import java.util.HashMap;
 import java.util.List;
 
+import org.edu.vo.AttachVO;
 import org.edu.vo.BoardVO;
 import org.edu.vo.PageVO;
 
@@ -12,7 +13,8 @@ public interface IF_BoardDAO {
 	
 	//게시물 상세조회 시작
 	public BoardVO readBoard(Integer bno) throws Exception;
-	public List< HashMap<String,Object> > readAttach(Integer bno) throws Exception;
+	//public List<HashMap<String,Object>> readAttach(Integer bno) throws Exception;
+	public List<AttachVO> readAttach(Integer bno) throws Exception;
 	public void updateViewCount(Integer bno) throws Exception;
 	//게시물 상세조회 끝
 	
