@@ -1,5 +1,7 @@
 package org.edu.service;
 
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -55,6 +57,23 @@ public class MemberServiceImpl implements IF_MemeberService  {
 		//jsp폼에서 입력한 회원정보 등록하기
 		memberDAO.insertMember(memberVO);
 		
+	}
+
+	@Override
+	public void herokuJobMethod() throws Exception {
+		//월~금 오전 8시부터 오후11시 까지(미국 시간으로 23시부터 14시까지) 헤로쿠앱에 20분 간격으로 URL 접근
+		String urlStr = "http://hanmirae.herokuapp.com"; //본인 앱 주소
+		URL url = new URL(urlStr);
+		HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection(); //오픈 접속시작
+		urlConnection.setUseCaches(false); //기존접속된 정보가 있든지 없든지 무조건 접속
+		urlConnection.setReadTimeout(10000); //접속대기시간을 10초로 설정. 헤로쿠는 20초이상 이어야만 활성화됨.
+		
+		//개발자 확인 코드
+		if(urlConnection !=null && urlConnection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+			System.out.println("헤로쿠 앱이 활성화 상태입니다.");
+		}else {
+			System.out.println("헤로쿠 앱이 비활성화 상태입니다.");
+		}
 	}
 	
 }
