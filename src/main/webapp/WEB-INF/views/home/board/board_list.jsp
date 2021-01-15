@@ -57,10 +57,10 @@ $(document).ready(function() {
 				<tbody>
 					<c:forEach items="${board_list}" var="boardVO" varStatus="Status"> <!-- Status: 게시물 넘버링 하기위해 -->
 						<tr>
-							<td>
-								<!-- 전체게시물-(현재페이지x1페이지당보여줄개수)+1페이지당보여줄개수-현재인덱스값 -->
-			                      ${pageVO.totalCount-(pageVO.page*pageVO.queryPerPageNum)+pageVO.queryPerPageNum-status.index}
-							</td>
+							<!-- ${boardVO.bno} 대신에 보기편한 넘버링으로 변환 (계산식 사용) -->
+		                     <td>
+		                     ${pageVO.totalCount-(pageVO.page*pageVO.queryPerPageNum)+pageVO.queryPerPageNum-status.index} <!-- 전체게시물-(현재페이지*1페이지당 보여줄 개수)+1페이지당 보여줄 갯수-현재인덱스 값 -->
+		                     </td>
 							<td class="tit_notice">
 								<a href="/home/board/board_view?bno=${boardVO.bno}&page=${pageVO.page}&search_type=${pageVO.search_type}&search_keyword=${pageVO.search_keyword}">
 								<c:out value="${boardVO.title}" />

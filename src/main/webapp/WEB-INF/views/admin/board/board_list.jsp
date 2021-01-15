@@ -65,7 +65,7 @@
                 <table class="table table-hover text-nowrap">
                   <thead>
                     <tr>
-                      <th>bno</th><!-- 테이블 헤드 타이틀태그th -->
+                      <th>bno</th> <!-- 테이블 헤드 타이틀태그 -->
                       <th>title[reply_count]</th>
                       <th>writer</th>
                       <th>reg_date</th>
