@@ -11,6 +11,21 @@ body {
 }
 /* dl, ol, ul { margin-bottom:0 !important;} */ /*reply 부분 페이징이 바닥과 붙어있어서 처리함. */
 
+/* 기본CSS: 기본은 모바일 작은 버튼 스타일 */
+.btn_smallColor {
+	height: 35px;
+	line-height :35px;
+	font-size: 14px;
+	font-weight: normal;
+	margin-bottom: 5px;
+	margin-top: 0px;
+}
+/* 미디어 쿼리:테이블릿 기기 이상해서 적용 CSS */
+@media all and (min-width: 801px) {
+	.btn_smallColor{width:70px;margin-top:10px;}
+}
+				
+
 /* : 가상선택자, :: 가상요소 */
 a:link {color: #444;}
 a:hover {color: #fff !important;}

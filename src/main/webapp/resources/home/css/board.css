@@ -375,3 +375,17 @@ input:-ms-input-placeholder {
 /* //태블릿+PC용 게시판뷰 */
 }
 /* //게시판 글보기 영역 */
+
+/* 기본CSS: 기본은 모바일 작은 버튼 스타일 */
+.btn_smallColor {
+	height: 35px;
+	line-height :35px;
+	font-size: 14px;
+	font-weight: normal;
+	margin-bottom: 5px;
+	margin-top: 0px;
+}
+/* 미디어 쿼리:테이블릿 기기 이상해서 적용 CSS */
+@media all and (min-width: 801px) {
+	.btn_smallColor{width:70px;margin-top:10px;}
+}
