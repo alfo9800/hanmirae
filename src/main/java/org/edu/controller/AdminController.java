@@ -98,26 +98,14 @@ public class AdminController {
 		//기존 등록된 첨부파일 목록 구하기
 		List<AttachVO> delFiles = boardService.readAttach(boardVO.getBno());
 		//jsp에 보낼 save_file_name, real_file_name 배열변수 초기값 지정
-		int index = 0; //아래 향상된 for문에서 서용할 인덱스 값
 		String[] save_file_names = new String[files.length];
 		String[] real_file_names = new String[files.length];		
-		
+		int index = 0; //아래 향상된 for문에서 서용할 인덱스 값
+
 		//----이곳은 첨부파일 처리자리------ 기존 등록된 첨부파일 삭제 후 신규파일 업로드
 		for(MultipartFile file:files) {
 			if(file.getOriginalFilename() != "") { //첨부파일명이 공백이 아닐 때.
-				//기존파일DB에서 삭제처리할 변수 생성
-				int cnt = 0;
-				for(AttachVO file_name:delFiles) {
-					save_file_names[cnt] = file_name.getSave_file_name();
-					real_file_names[cnt] = file_name.getReal_file_name();
-					cnt = cnt +1; //반복 시 증가
-				}
-				/* 원래.
-				 * for(AttachVO file_name:delFiles) { save_file_names[cnt] = (String)
-				 * file_name.get("save_file_name"); real_file_names[cnt] = (String)
-				 * file_name.get("real_file_name"); cnt = cnt +1; //반복 시 증가 }
-				 */
-				
+		
 				//업데이트 jsp화면에서 첨부파일을 개별 삭제 시 사용 할 순서가 필요하기 때문에 변수 추가
 				int sun = 0;
 				
@@ -129,20 +117,22 @@ public class AdminController {
 						if(target.exists()) {
 							target.delete(); //폴더에서 기존 첨부파일 지우기 완료.
 							//서비스클래스에는 첨부파일DB를 지우는 메서드가 없음.그래서  DAO에 접근해서 tbl_attach 지움.
+							//boardDAO.deleteAttach((String) file_name.get("save_file_name"));
+							boardDAO.deleteAttach(file_name.getSave_file_name());
 							}
-						}
-						//boardDAO.deleteAttach((String) file_name.get("save_file_name"));
-						boardDAO.deleteAttach(file_name.getSave_file_name());
-						sun = sun + 1;
+						}					
+						sun = sun + 1; //개별삭제는 for에서 딱 한 번 뿐이기 때문에
 					}
 				
 					//신규파일 폴더에 업로드
 					save_file_names[index] = commonController.fileUpload(file); //UUID로 생성된 유니크한 파일명					
 					real_file_names[index] = file.getOriginalFilename(); //한글파일명.jpg
+				}else {
+					save_file_names[index] = null; //신규파일폴더에 업로드
+					real_file_names[index] = null; //신규파일 명 저장
 				}
 				index = index + 1;					
-		}
-		
+		}		
 		boardVO.setSave_file_names(save_file_names);
 		boardVO.setReal_file_names(real_file_names);
 		boardService.updateBoard(boardVO); //DB에서 업데이트
@@ -154,6 +144,7 @@ public class AdminController {
 	public String board_write() throws Exception {
 		return "admin/board/board_write";//파일경로
 	}
+	
 	@RequestMapping(value="/admin/board/board_write",method=RequestMethod.POST)
 	public String board_write(RedirectAttributes rdat, @RequestParam("file") MultipartFile[] files, BoardVO boardVO) throws Exception {
 		//post로 받은 boardVO내용을 DB서비스에 입력하면 됨.

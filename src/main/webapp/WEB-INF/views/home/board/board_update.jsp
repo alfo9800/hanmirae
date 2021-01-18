@@ -74,32 +74,7 @@
 										</c:if>
 						                <p></p> <!-- 사이에 공백 주기 위해 -->
 					                </div>
-					           	 </c:forEach>
-					           	 
-					           	 <script>
-									$(document).ready(function(){
-										$(".btn_file_delete").on("click",function(){
-											if(confirm("선택한 첨부파일을 정말로 삭제 하시겠습니까?")){
-												var click_btn = $(this);
-												var save_file_name = click_btn.parent().find("input[name=save_file_name]").val();
-												//alert("debug" + save_file_name);
-												$.ajax({
-													type:"post",
-													url:"/file_delete?save_file_name="+save_file_name,
-													dataType:"text",
-													success:function(result){
-														if(result=="success"){
-															click_btn.parents().find(".div_file").remove();
-														}
-													},
-													error:function(result){
-														alert("RestAPI서버가 작동하지 않습니다. 다음에 이용해주세요!")
-													}
-												});
-											}
-										});
-									});
-									</script>    
+					           	 </c:forEach>					           	   
 		                </li>
 					</ul>
 					<p class="btn_line">
@@ -147,6 +122,30 @@ $(document).ready(function(){
 });//textarea 중 content아이디영역을 섬머노트에디터로 변경처리 함수실행
 </script>
 
-
+<!-- 첨부파일 삭제 -->
+<script>
+$(document).ready(function(){
+	$(".btn_file_delete").on("click",function(){
+		if(confirm("선택한 첨부파일을 정말로 삭제 하시겠습니까?")){
+			var click_btn = $(this);
+			var save_file_name = click_btn.parent().find("input[name=save_file_name]").val();
+			//alert("debug" + save_file_name);
+			$.ajax({
+				type:"post",
+				url:"/file_delete?save_file_name="+save_file_name,
+				dataType:"text",
+				success:function(result){
+					if(result=="success"){
+						click_btn.parents(".div_file").remove();
+					}
+				},
+				error:function(result){
+					alert("RestAPI서버가 작동하지 않습니다. 다음에 이용해주세요!")
+				}
+			});
+		}
+	});
+});
+</script>  
 
 <%@ include file="../include/footer.jsp" %>
