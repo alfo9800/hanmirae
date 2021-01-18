@@ -56,13 +56,50 @@
 						</li>
 						<li class="clear">
 		                    <label for="file_lbl" class="tit_lbl">첨부파일</label>
+				                 
 				                 <c:forEach begin="0" end="1" var="index">   
-				                    <div class="custom-file" style="width:96%;margin:0 2%;">
-					                    <input type="file" name="file" class="custom-file-input" id="customFile_${index}">
-					                    <label class="custom-file-label" for="customFile" style="color:#999;">파일첨부${index}</label>
+				                    <div class="div_file">
+					                    <div class="custom-file" style="width:96%;margin:0 2%;">
+						                    <input type="file" name="file" class="custom-file-input" id="customFile_${index}">
+						                    <label class="custom-file-label" for="customFile" style="color:#999;">파일첨부${index}</label>
+						                </div>
+						                <c:if test="${boardVO.save_file_names[index] != null}">							
+											<br>
+											<div class="tit_lbl">
+											<a href="/download?save_file_name=${boardVO.save_file_names[index]}&real_file_name=${boardVO.real_file_names[index]}" >${boardVO.real_file_names[index]} 다운로드 링크[${index}]</a>			
+											&nbsp;
+											<input type="hidden"  name="save_file_name" value="${boardVO.save_file_names[index]}">
+											<button type="button" class="btn btn_file_delete" style="border:1px solid #ccc;">삭제</button>
+											</div>
+										</c:if>
+						                <p></p> <!-- 사이에 공백 주기 위해 -->
 					                </div>
-					                <p></p> <!-- 사이에 공백 주기 위해 -->
-					           	 </c:forEach>    
+					           	 </c:forEach>
+					           	 
+					           	 <script>
+									$(document).ready(function(){
+										$(".btn_file_delete").on("click",function(){
+											if(confirm("선택한 첨부파일을 정말로 삭제 하시겠습니까?")){
+												var click_btn = $(this);
+												var save_file_name = click_btn.parent().find("input[name=save_file_name]").val();
+												//alert("debug" + save_file_name);
+												$.ajax({
+													type:"post",
+													url:"/file_delete?save_file_name="+save_file_name,
+													dataType:"text",
+													success:function(result){
+														if(result=="success"){
+															click_btn.parents().find(".div_file").remove();
+														}
+													},
+													error:function(result){
+														alert("RestAPI서버가 작동하지 않습니다. 다음에 이용해주세요!")
+													}
+												});
+											}
+										});
+									});
+									</script>    
 		                </li>
 					</ul>
 					<p class="btn_line">
@@ -109,5 +146,7 @@ $(document).ready(function(){
 	});
 });//textarea 중 content아이디영역을 섬머노트에디터로 변경처리 함수실행
 </script>
+
+
 
 <%@ include file="../include/footer.jsp" %>
