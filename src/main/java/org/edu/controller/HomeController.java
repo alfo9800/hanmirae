@@ -54,6 +54,26 @@ public class HomeController {
 		return "home/error/404";
 	}
 	
+	//사용자 홈페이지 게시판 삭제 매핑
+	@RequestMapping(value="/home/board/board_delete",method=RequestMethod.POST)
+	public String board_delete(RedirectAttributes rdat, @RequestParam("bno") Integer bno, @RequestParam("page") Integer page) throws Exception {
+		//부모게시판에 첨부파일 존재 시, 첨부파일 삭제 후 게시물  삭제
+		List<AttachVO> delFiles = boardService.readAttach(bno);
+		if(!delFiles.isEmpty()) {
+			for(AttachVO file_name:delFiles) {
+				File target = new File(commonController.getUploadPath(),file_name.getSave_file_name());
+				if(target.exists()) {
+					target.delete(); //실제업로드 된 파일 지우기
+				}
+			}
+		}
+		//DB에서 부모게시판에 댓글 존재 시, 댓글 삭제후 게시물 삭제
+		boardService.deleteBoard(bno);
+		
+		rdat.addFlashAttribute("msg", "삭제"); //msg변수값은 URL에 표시가 나오지 않게 숨겨서 board_list로 보냄.
+		return "redirect:/home/board/board_list?page="+page; //쿼리스트링 변수는 URL에 표시가 됨.
+	}
+	
 	//사용자 홈페이지 게시판 상세보기 매핑
 	@RequestMapping(value="/home/board/board_view",method=RequestMethod.GET)
 	public String board_view(@RequestParam("bno") Integer bno, @ModelAttribute("pageVO") PageVO pageVO, Model model) throws Exception {
