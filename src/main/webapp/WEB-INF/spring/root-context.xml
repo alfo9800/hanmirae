@@ -16,8 +16,14 @@
         class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="locations">
             <list>
-                <value>classpath:/properties/local.properties</value> <!-- 로컬 개발 일 때 사용 -->
-                <!-- value>file:/properties/prod.properties</value--> <!-- 운영서버에 배포 일 때 사용 -->
+            	<!-- 로컬 개발 일 때 사용 -->
+            	
+               <!--  <value>classpath:/properties/local.properties</value>  -->
+                
+                <!-- 운영서버에 배포 일 때 사용 -->
+                
+                <value>classpath:/properties/prod.properties</value>
+                
             </list>
         </property>
     </bean>
