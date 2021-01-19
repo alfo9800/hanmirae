@@ -136,6 +136,11 @@ public class HomeController {
 		}
 		boardVO.setSave_file_names(save_file_names);
 		boardVO.setReal_file_names(real_file_names);
+		
+		//보안코딩으로 script 제거
+		String xssData= boardVO.getContent();
+		boardVO.setContent(securityCode.unscript(xssData));			
+		
 		boardService.updateBoard(boardVO); //DB에 신규파일 저장기능 호출
 		//게시판테이블 업데이트 + 첨부파일테이블 업데이트
 		rdat.addFlashAttribute("msg", "수정"); //header.jsp에 상단을 통해 나타남.
@@ -184,6 +189,10 @@ public class HomeController {
 		
 		boardVO.setSave_file_names(save_file_names);
 		boardVO.setReal_file_names(real_file_names);
+		//보안코딩으로 script 제거
+		String xssData= boardVO.getContent();
+		boardVO.setContent(securityCode.unscript(xssData));
+		
 		boardService.insertBoard(boardVO); //실제 DB에 인서트
 		rdat.addFlashAttribute("msg", "저장"); //header.jsp에서 출력한다.
 		
@@ -227,10 +236,16 @@ public class HomeController {
 		return "home/join";
 	}
 	
-	
+	//사용자 홈페이지 루트(최상위) 접근 매핑
 	@RequestMapping(value="/",method=RequestMethod.GET)
-	public String home() throws Exception {
-		
+	public String home(Model model) throws Exception {
+		PageVO pageVO = new PageVO();
+		pageVO.setPage(1);
+		pageVO.setPerPageNum(5); //하단 페이징
+		pageVO.setQueryPerPageNum(5);
+		List<BoardVO> board_list = boardService.selectBoard(pageVO);
+		//System.out.println("디버그"+board_list);
+		model.addAttribute("board_list", board_list);
 		return "home/home";
 	}
 		

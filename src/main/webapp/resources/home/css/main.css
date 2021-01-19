@@ -10,7 +10,7 @@ body {
 	line-height: 1 !important;
 }
 /* dl, ol, ul { margin-bottom:0 !important;} */ /*reply 부분 페이징이 바닥과 붙어있어서 처리함. */
-
+#container a:hover {color:#000 !important;}
 /* 기본CSS: 기본은 모바일 작은 버튼 스타일 */
 .btn_smallColor {
 	height: 35px;
