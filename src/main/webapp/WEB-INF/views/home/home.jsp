@@ -1,7 +1,32 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="org.edu.util.SecurityCode" %>	
 <%@ include file="include/header.jsp" %>
+<style>
+	div.txt{
+		height:100px;
+		overflow:hidden;
+		font-size: 12px !important;
+		line-height: 2.8em;
+	}
+	div.txt * { font-size: 14px !important;}
+	.length_limit{
+		display: block;
+		padding-left: 14px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap; /* 줄바꿈 할 때, 공백은 포함 시키지 않는다는 의미 */
+	}      
+</style>
+<script>
+$(document).ready(function(){
+	$(".opacity_hover a").on("hover",function(){
+		$(this).css("opacity","1.0");
+	});
+	$(".opacity_hover img").on("mouseout",function(){
+		$(this).css("opacity","0.8");
+	});
+});
+</script>
 
 	<!-- 메인콘텐츠영역 -->
 	<div id="container">
@@ -55,12 +80,20 @@
 				<ul class="place_list box_inner clear">
 					<c:forEach var="boardVO" items="${board_list}" varStatus="status"> <!-- varStatus :count기능과 index를 뽑아주는 기능이 있음. -->
 						<c:if test="${status.count<=3}">
-							<li><a href="/home/board/board_view?bno=${boardVO.bno}&page=1">
-									<img class="img_topplace" src="/resources/home/img/no_image.png" alt="OOOO OOOOO" />
-									<h3><c:out value="${boardVO.title}"></c:out></h3>
-									<p class="txt">
+							<li class="opacity_hover">
+								<a href="/home/board/board_view?bno=${boardVO.bno}&page=1">
+									<div style="height:270px; overflow:hidden">
+										<c:if test="${save_file_names[status.index] eq ''}">
+											<img class="img_topplace" src="/resources/home/img/no_image.png" alt="OOOO OOOOO" style="opacity:0.7;" />
+										</c:if>
+										<c:if test="${save_file_names[status.index] ne ''}">
+											<img src="/image_preview?save_file_name=${save_file_names[status.index]}" style="opacity:0.8;">
+										</c:if>
+									</div>
+									<h3 class="length_limit"><c:out value="${boardVO.title}"></c:out></h3>
+									<div class="txt">
 									${boardVO.content}
-									</p>
+									</div>>
 									<span class="view">VIEW</span>
 								</a>
 							</li>
