@@ -11,6 +11,12 @@ if("${param.msg}" == "fail") {
 }
 
 </script>
+<script>
+$(document).ready(function(){
+	$("input[name='user_id']").focus(); //페이지 로딩 시 첫 번째 입력위치로 이동
+});
+</script>
+
 
 	<!-- 메인콘텐츠영역 -->
 	<div id="container">
