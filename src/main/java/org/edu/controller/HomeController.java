@@ -267,6 +267,17 @@ public class HomeController {
 		return "home/join";
 	}
 	
+	//사용자 홈페이지 회원 탈퇴 매핑
+	@RequestMapping(value="/member/member_disabled",method=RequestMethod.POST)
+	public String member_disabled(HttpServletRequest request, MemberVO memberVO, RedirectAttributes rdat) throws Exception {
+		memberService.updateMember(memberVO);
+		//세션 값 invalidate()-> 삭제하기.
+		request.getSession().invalidate();
+		
+		rdat.addFlashAttribute("msg", "회원 탈퇴");
+		return "redirect:/";
+	}
+	
 	//사용자 홈페이지 루트(최상위) 접근 매핑
 	@RequestMapping(value="/",method=RequestMethod.GET)
 	public String home(Model model) throws Exception{

@@ -29,6 +29,7 @@
     font-size: 14px;
 }
 </style>
+
 <script>
 $(document).ready(function() {
 	$(".appForm").validate({
@@ -44,6 +45,19 @@ $(document).ready(function() {
 		email: "유효하지 않는 Email주소 입니다.",
 		digits: "숫자만 입력 가능합니다.",
 		equalTo: "비밀번호가 일치하지 않습니다."
+	});
+});
+</script>
+
+<script>
+//회원탈퇴 처리 코딩(아래)
+$(document).ready(function(){
+	$("#btn_member_disabled").on("click",function(){
+		if(confirm("정말로 탈퇴 하시겠습니까? 탈퇴 후 다음부터 로그인이 안됩니다.")){
+			$("form[name='mypage_form']").attr("action","/member/member_disabled");
+			$("input[name='enabled']").val('0');//enabled값이 0(false)셋 로그인 거부처리
+			$("form[name='mypage_form']").submit();
+		}
 	});
 });
 </script>
@@ -141,7 +155,7 @@ $(document).ready(function() {
 					</ul>
 					<p class="btn_line">
 					<button type="submit" class="btn_baseColor">정보수정</button>
-					<button type="" class="btn_baseColor">회원탈퇴</button>
+					<button type="button" class="btn_baseColor" id="btn_member_disabled">회원탈퇴</button>
 					</p>	
 				</fieldset>
 			</form>
