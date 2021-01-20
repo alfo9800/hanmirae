@@ -33,7 +33,7 @@
 $(document).ready(function() {
 	$(".appForm").validate({
 		rules: {
-			user_pw: "required",
+			//user_pw: "required",
 			user_pw_chk: {
 				equalTo: "#user_pw_lbl"
 			}
@@ -92,13 +92,13 @@ $(document).ready(function() {
 						<li class="clear">
 							<label for="user_pw_lbl" class="tit_lbl pilsoo_item">비밀번호</label>
 							<div class="app_content">
-							<input type="password" name="user_pw" class="w100p" id="user_pw_lbl" placeholder="비밀번호를 입력해주세요" required/>
+							<input type="password" name="user_pw" class="w100p" id="user_pw_lbl" placeholder="비밀번호를 입력해주세요" />
 							</div>
 						</li>
 						<li class="clear">
 							<label for="user_pw_chk_lbl" class="tit_lbl pilsoo_item">비밀번호확인</label>
 							<div class="app_content">
-							<input type="password" name="user_pw_chk" class="w100p" id="user_pw_chk_lbl" placeholder="비밀번호를 다시 입력해주세요" required/>
+							<input type="password" name="user_pw_chk" class="w100p" id="user_pw_chk_lbl" placeholder="비밀번호를 다시 입력해주세요" />
 							</div>
 						</li>
 						<li class="clear">
@@ -129,11 +129,7 @@ $(document).ready(function() {
 								<input type="hidden" name="enabled" value="${memberVO.enabled}" readonly>
 							</div>
 						</li>
-						
-						<li class="clear">
-							<label for="comment_lbl" class="tit_lbl pilsoo_item">문의내용</label>
-							<div class="app_content"><textarea name="comment" class="w100p" id="comment_lbl" placeholder="내용을 입력해주세요" required></textarea></div>
-						</li>
+		
 						<li class="clear">
 							<label for="agree_lbl" class="tit_lbl pilsoo_item">개인정보활용동의</label>
 							<div class="app_content checkbox_area">
