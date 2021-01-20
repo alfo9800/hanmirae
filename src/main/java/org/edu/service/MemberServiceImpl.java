@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
  *
  */
 @Service
-public class MemberServiceImpl implements IF_MemeberService  {
+public class MemberServiceImpl implements IF_MemberService  {
 
 	@Inject
 	IF_MemberDAO memberDAO;//IF_MemberDAO 주입받아서 memberDAO 오브젝트 생성.

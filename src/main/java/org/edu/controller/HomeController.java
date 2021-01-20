@@ -8,17 +8,22 @@ import java.util.List;
 import java.util.Locale;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FilenameUtils;
 import org.edu.dao.IF_BoardDAO;
 import org.edu.service.IF_BoardService;
+import org.edu.service.IF_MemberService;
 import org.edu.util.CommonController;
 import org.edu.util.SecurityCode;
 import org.edu.vo.AttachVO;
 import org.edu.vo.BoardVO;
+import org.edu.vo.MemberVO;
 import org.edu.vo.PageVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -39,6 +44,9 @@ public class HomeController {
 	//private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	@Inject
 	private IF_BoardService boardService;
+	
+	@Inject
+	private IF_MemberService memberService;
 	
 	@Inject
 	private IF_BoardDAO boardDAO;
@@ -223,9 +231,31 @@ public class HomeController {
 		return "home/board/board_list";
 	}
 	
+	//사용자 홈페이지 회원 마이페이지 수정 매핑
+	@RequestMapping(value="/member/mypage_update",method=RequestMethod.POST)
+	public String mypage_update(HttpServletRequest request,MemberVO memberVO, RedirectAttributes rdat) throws Exception {
+		if(memberVO.getUser_pw() != "") {
+			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+			String user_pw_encode = passwordEncoder.encode(memberVO.getUser_pw());
+			memberVO.setUser_pw(user_pw_encode);
+		}
+		
+		memberService.updateMember(memberVO);	
+		HttpSession session = request.getSession();
+		session.setAttribute("session_username", memberVO.getUser_name()); //기본 세션 덮어쓰기.
+		
+		rdat.addFlashAttribute("msg", "회원수정"); //model로 값을 보내지 못하는 이유는 return값이 redirect이기 때문에.
+		return "redirect:/member/mypage";
+	}
+	
 	//사용자 홈페이지 회원 마이페이지 접근 매핑
 	@RequestMapping(value="/member/mypage",method=RequestMethod.GET)
-	public String mypage() throws Exception {
+	public String mypage(HttpServletRequest request,Model model) throws Exception {
+		//마이페이지는 로그인 상태만 접근 가능하기 때문에, 로그인 세션변수 중 로그인아이디 변수 session_userid
+		//로그인 세션 변수 가져오기 (=> HttpServeletRequst request로 가져옴)
+		HttpSession session = request.getSession();
+		MemberVO memberVO = memberService.readMember((String) session.getAttribute("session_userid"));
+		model.addAttribute("memberVO", memberVO);
 		
 		return "home/member/mypage";
 	}

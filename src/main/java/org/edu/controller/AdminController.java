@@ -11,7 +11,7 @@ import javax.inject.Inject;
 
 import org.edu.dao.IF_BoardDAO;
 import org.edu.service.IF_BoardService;
-import org.edu.service.IF_MemeberService;
+import org.edu.service.IF_MemberService;
 import org.edu.util.CommonController;
 import org.edu.util.SecurityCode;
 import org.edu.vo.AttachVO;
@@ -36,7 +36,7 @@ public class AdminController {
 	SecurityCode securityCode; 
 
 	@Inject
-	IF_MemeberService memberService; //멤버인터페이스를 주입 받아 memberService 오브젝트 실행.
+	IF_MemberService memberService; //멤버인터페이스를 주입 받아 memberService 오브젝트 실행.
 	
 	@Inject
 	IF_BoardService boardService; //보드인터페이스를 주입 받아 boardService 오브젝트 실행.

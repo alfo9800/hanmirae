@@ -33,9 +33,9 @@
 $(document).ready(function() {
 	$(".appForm").validate({
 		rules: {
-			password: "required",
-			password_chk: {
-				equalTo: "#password_lbl"
+			user_pw: "required",
+			user_pw_chk: {
+				equalTo: "#user_pw_lbl"
 			}
 		}
 	});
@@ -66,7 +66,7 @@ $(document).ready(function() {
 		<div class="bodytext_area box_inner">
 			<div class="myinfo">내 정보</div>
 			<!-- 폼영역 -->
-			<form method="POST" name="join_form" action="join.html" class="appForm">
+			<form method="POST" name="mypage_form" action="/member/mypage_update" class="appForm">
 				<fieldset>
 					<legend>회원가입폼</legend>
 					<p class="info_pilsoo pilsoo_item">필수입력</p>
@@ -74,50 +74,59 @@ $(document).ready(function() {
 						<li class="clear">
 							<label for="user_id_lbl" class="tit_lbl pilsoo_item">아이디</label>
 							<div class="app_content">
-							<input value="${memberVO.user_id}" readonly type="text" name="user_id" class="w100p" id="user_id_lbl" placeholder="아이디를 입력해주세요" required/></div>
+							<input value="${memberVO.user_id}" readonly type="text" name="user_id" class="w100p" id="user_id_lbl" placeholder="아이디를 입력해주세요" required/>
+							</div>
 						</li>
 						<li class="clear">
 							<label for="user_name_lbl" class="tit_lbl pilsoo_item">사용자명</label>
 							<div class="app_content">
-							<input value="${memberVO.user_name}" type="text" name="user_name" class="w100p" id="user_name_lbl" placeholder="이름을 입력해주세요" required/></div>
+							<input value="${memberVO.user_name}" type="text" name="user_name" class="w100p" id="user_name_lbl" placeholder="이름을 입력해주세요" required/>
+							</div>
 						</li>
 						<li class="clear">
 							<label for="email_lbl" class="tit_lbl pilsoo_item">이메일</label>
 							<div class="app_content">
-							<input value="${memberVO.email}" type="email" name="email" class="w100p" id="email_lbl" placeholder="이메일을 입력해주세요" required/></div>
+							<input value="${memberVO.email}" type="email" name="email" class="w100p" id="email_lbl" placeholder="이메일을 입력해주세요" required/>
+							</div>
 						</li>		
 						<li class="clear">
 							<label for="user_pw_lbl" class="tit_lbl pilsoo_item">비밀번호</label>
 							<div class="app_content">
-							<input type="password" name="user_pw" class="w100p" id="user_pw_lbl" placeholder="비밀번호를 입력해주세요" required/></div>
+							<input type="password" name="user_pw" class="w100p" id="user_pw_lbl" placeholder="비밀번호를 입력해주세요" required/>
+							</div>
 						</li>
 						<li class="clear">
 							<label for="user_pw_chk_lbl" class="tit_lbl pilsoo_item">비밀번호확인</label>
 							<div class="app_content">
-							<input type="password" name="user_pw_chk" class="w100p" id="user_pw_chk_lbl" placeholder="비밀번호를 다시 입력해주세요" required/></div>
+							<input type="password" name="user_pw_chk" class="w100p" id="user_pw_chk_lbl" placeholder="비밀번호를 다시 입력해주세요" required/>
+							</div>
 						</li>
 						<li class="clear">
 							<label for="point_lbl" class="tit_lbl pilsoo_item">포인트</label>
 							<div class="app_content">
-							<input value="${memberVO.point}" type="digits" name="point" class="w100p" id="point_lbl" placeholder="숫자만 입력하세요." required/></div>
+							<input value="${memberVO.point}" type="digits" name="point" class="w100p" id="point_lbl" placeholder="숫자만 입력하세요." required/>
+							</div>
 						</li>
 						
 						<li class="clear">
 							<label for="enabled_lbl" class="tit_lbl pilsoo_item">회원권한</label>				
 							<div class="app_content radio_area">
-								<select name="levels" class="gender" required>
-									<option value="ROLE_USER">일반사용자</option>						
+								<select disabled name="" class="gender">
+									<option value="ROLE_USER" <c:out value="${(memberVO.levels eq 'ROLE_USER')?'selected':''}" /> >일반사용자</option>
+									<option value="ROLE_ADMIN" <c:out value="${(memberVO.levels eq 'ROLE_ADMIN')?'selected':''}" /> >관리자</option>						
 								</select>
+								<input type="hidden" name="levels" value="${memberVO.levels}" readonly > 
 							</div>
 						</li>
 						<li class="clear">
 							<label for="enabled_lbl" class="tit_lbl pilsoo_item">탈퇴여부</label>
 							
 							<div class="app_content radio_area">
-								<input type="radio" name="enabled" class="css-radio" id="enabled_lbl" checked="" />					
+								<input <c:out value="${(memberVO.enabled eq 'true')?'selected':''}" /> disabled type="radio" readonly name="" class="css-radio" id="enabled_lbl" checked="" />					
 								<label for="enabled_lbl">회원사용</label>
-								<input type="radio" readonly name="disabled" class="css-radio" id="disabled_lbl" />
+								<input <c:out value="${(memberVO.enabled eq 'false')?'selected':''}" /> disabled type="radio" readonly name="" class="css-radio" id="disabled_lbl" />
 								<label for="disabled_lbl">회원탈퇴</label>
+								<input type="hidden" name="enabled" value="${memberVO.enabled}" readonly>
 							</div>
 						</li>
 						
@@ -127,15 +136,16 @@ $(document).ready(function() {
 						</li>
 						<li class="clear">
 							<label for="agree_lbl" class="tit_lbl pilsoo_item">개인정보활용동의</label>
-							<div class="app_content checkbox_area"><input type="checkbox" name="agree" class="css-checkbox" id="agree_lbl" required checked/>
+							<div class="app_content checkbox_area">
+							<input disabled type="checkbox" name="agree" class="css-checkbox" id="agree_lbl" required checked/>
 							<label for="agree_lbl" class="agree">동의함</label>
 							</div>
 						</li>
 						
 					</ul>
 					<p class="btn_line">
-					<button class="btn_baseColor">정보수정</button>
-					<button class="btn_baseColor">회원탈퇴</button>
+					<button type="submit" class="btn_baseColor">정보수정</button>
+					<button type="" class="btn_baseColor">회원탈퇴</button>
 					</p>	
 				</fieldset>
 			</form>

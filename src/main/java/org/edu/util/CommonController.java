@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.FilenameUtils;
 import org.edu.dao.IF_BoardDAO;
-import org.edu.service.IF_MemeberService;
+import org.edu.service.IF_MemberService;
 import org.edu.vo.BoardVO;
 import org.edu.vo.MemberVO;
 import org.springframework.core.io.FileSystemResource;
@@ -42,7 +42,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class CommonController {
 	
 	@Inject
-	IF_MemeberService memberService;
+	IF_MemberService memberService;
 	
 	@Inject
 	IF_BoardDAO boardDAO; //첨부파일을 개별 삭제하기 위해서 주입함.

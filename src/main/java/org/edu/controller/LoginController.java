@@ -6,7 +6,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.edu.service.IF_MemeberService;
+import org.edu.service.IF_MemberService;
 import org.edu.vo.MemberVO;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -22,7 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class LoginController {
 	
 	@Inject
-	private IF_MemeberService memberService;
+	private IF_MemberService memberService;
 	
 	
 	//로그인 후 세션 처리 매핑
