@@ -10,6 +10,7 @@ import java.util.Locale;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.apache.commons.io.FilenameUtils;
 import org.edu.dao.IF_BoardDAO;
@@ -261,17 +262,19 @@ public class HomeController {
 		return "home/member/mypage";
 	}
 	
-	//사용자 홈페이지 회원가입 처리 매핑(POST)
-	@RequestMapping(value="/join",method=RequestMethod.POST)
-	public String join(MemberVO memberVO, RedirectAttributes rdat) throws Exception {		
-		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-		String user_pw_encode = passwordEncoder.encode(memberVO.getUser_pw());
-		memberVO.setUser_pw(user_pw_encode);
-		
-		memberService.insertMember(memberVO);		
-		rdat.addFlashAttribute("msg","회원가입");
-		return "redirect:/login";
-	}
+	//사용자 홈페이지 회원가입 처리 매핑
+		@RequestMapping(value="/join",method=RequestMethod.POST)
+		public String join(MemberVO memberVO, RedirectAttributes rdat) throws Exception {
+			//아래 3줄이 스프링 시큐리티에서 제공하는 패스워드암호화 처리 
+			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+			String user_pw_encode = passwordEncoder.encode(memberVO.getUser_pw());
+			memberVO.setUser_pw(user_pw_encode);
+
+
+			memberService.insertMember(memberVO);
+			rdat.addFlashAttribute("msg", "회원가입");
+			return "redirect:/login";
+		}
 	
 	//사용자 홈페이지 회원가입 접근 매핑(GET)
 	@RequestMapping(value="/join",method=RequestMethod.GET)

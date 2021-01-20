@@ -62,7 +62,7 @@ jQuery(document).ready(function(){ //$대신에 jQuery를 사용하는 이유: 1
 			return false;
 		}
 		jQuery.ajax({
-			type:"get",
+			method:"get",
 			url:"id_check?user_id="+user_id,
 			dataType:"text",
 			success:function(result){
@@ -95,8 +95,9 @@ $(document).ready(function(){
 		$(this).submit();
 	});
 });
-</script>
- -->
+</script> 
+-->
+
 
 	<!-- 메인콘텐츠영역 -->
 	<div id="container">
@@ -167,19 +168,22 @@ $(document).ready(function(){
 							</div>
 						</li>
 						<li class="clear">
-							<label for="enabled_lbl" class="tit_lbl pilsoo_item">대기여부</label>						
+							<label for="enabled_lbl" class="tit_lbl pilsoo_item">대기여부</label>
+							<div class="app_content radio_area">								
 								<div class="app_content radio_area">
-									<input disabled checked type="radio" name="" class="css-radio" id="enabled_lbl" />					
-									<label for="enabled_lbl">인증대기[관리자가 인증요청을 수락할 시 로그인이 가능합니다]</label>
-									<input type="hidden" name="enabled" value="0">
+									<input checked type="radio" name="enabled" class="css-radio" id="enabled_lbl" />									<input disabled checked type="radio" name="" class="css-radio" id="enabled_lbl" />
+									<label for="enabled_lbl">회원사용</label>									
+									<label for="enabled_lbl">인증대기[관리자가 인증해야 로그인이 가능하십니다.]</label>
+									<input type="hidden" name="enabled" value="0" >
 								</div>
+							</div>
 						</li>
 		
 						<li class="clear">
 							<label for="agree_lbl" class="tit_lbl pilsoo_item">개인정보활용동의</label>
 							<div class="app_content checkbox_area">
-							<input disabled type="checkbox" name="agree" class="css-checkbox" id="agree_lbl" required checked/>
-							<label for="agree_lbl" class="agree">동의함</label>
+								<input disabled type="checkbox" name="agree" class="css-checkbox" id="agree_lbl" required checked/>
+								<label for="agree_lbl" class="agree">동의함</label>
 							</div>
 						</li>
 						
