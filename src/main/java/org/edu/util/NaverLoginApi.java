@@ -15,5 +15,14 @@ public class NaverLoginApi extends DefaultApi20 {
 		//네이버 권한 체크 하는 Rest_API 주소
 		return "https://nid.naver.com/oauth2.0/authorize";
 	}
+	
+	//싱글톤 인스턴스 객체를 생성하기 위해서 인스턴스 홀더 그릇을 만듦.
+	private static class InstanceHolder {
+		private static final NaverLoginApi INSTANCE = new NaverLoginApi();
+	}
+	//싱글톤으로 인스턴스 객체 생성하는 방식: 클래스실행을 1번만 하기 위해서
+	public static NaverLoginApi instance() {
+		return InstanceHolder.INSTANCE;
+	}
 
 }
