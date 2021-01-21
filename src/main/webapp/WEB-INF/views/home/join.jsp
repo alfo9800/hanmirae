@@ -167,15 +167,12 @@ $(document).ready(function(){
 								</select>
 							</div>
 						</li>
-						<li class="clear">
+							<li class="clear">
 							<label for="enabled_lbl" class="tit_lbl pilsoo_item">대기여부</label>
-							<div class="app_content radio_area">								
-								<div class="app_content radio_area">
-									<input checked type="radio" name="enabled" class="css-radio" id="enabled_lbl" />									<input disabled checked type="radio" name="" class="css-radio" id="enabled_lbl" />
-									<label for="enabled_lbl">회원사용</label>									
-									<label for="enabled_lbl">인증대기[관리자가 인증해야 로그인이 가능하십니다.]</label>
-									<input type="hidden" name="enabled" value="0">
-								</div>
+							<div class="app_content radio_area">
+								<input disabled checked type="radio" name="" class="css-radio" id="enabled_lbl" />
+								<label for="enabled_lbl">인증대기[관리자 인증 후 로그인이 가능]</label>
+								<input type="hidden" name="enabled" value="0" >
 							</div>
 						</li>
 		
