@@ -236,10 +236,11 @@ public class HomeController {
 	//사용자 홈페이지 회원 마이페이지 수정 매핑
 	@RequestMapping(value="/member/mypage_update",method=RequestMethod.POST)
 	public String mypage_update(HttpServletRequest request,MemberVO memberVO, RedirectAttributes rdat) throws Exception {
-		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		if(memberVO.getUser_pw() != "") {
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();		
 		String user_pw_encode = passwordEncoder.encode(memberVO.getUser_pw());
-		memberVO.setUser_pw(user_pw_encode);
-	
+		memberVO.setUser_pw(user_pw_encode);	
+	}		
 		memberService.updateMember(memberVO);	
 		HttpSession session = request.getSession();
 		session.setAttribute("session_username", memberVO.getUser_name()); //기본 세션 덮어쓰기.
