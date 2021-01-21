@@ -16,6 +16,7 @@ $(document).ready(function(){
 	$("input[name='user_id']").focus(); //페이지 로딩 시 첫 번째 입력위치로 이동
 });
 </script>
+<script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.2.js" charset="utf-8"></script>
 
 
 	<!-- 메인콘텐츠영역 -->
@@ -62,8 +63,11 @@ $(document).ready(function(){
 
 					</ul>
 					<p class="btn_line">
-					<button class="btn_baseColor">로그인</button>
-					</p>	
+					<button type="submit" class="btn_baseColor">Login</button>
+					</p>
+					<p class="btn_line">
+					<a href="${url}" class="btn_baseColor" style="width:230px;background-color:green;">Naver ID Login</a>
+					</p>
 				</fieldset>
 			</form>
 			<!-- //폼영역 -->
