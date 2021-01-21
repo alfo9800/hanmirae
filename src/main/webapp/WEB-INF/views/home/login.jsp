@@ -4,6 +4,17 @@
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sectoken" %>
 <%@ include file="include/header.jsp" %>
 <link rel="stylesheet" href="/resources/home/css/board.css">
+
+<style>
+.btn_snsLogin {
+	background-color:green;
+}
+@media all and (min-width: 801px) {
+	.btn_snsLogin {width:230px;}
+}
+</style>
+
+
 <script>
 if("${param.msg}" == "fail") {
 	alert('로그인에 실패하였습니다. 상세메세지 ${sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message}');
@@ -66,7 +77,7 @@ $(document).ready(function(){
 					<button type="submit" class="btn_baseColor">Login</button>
 					</p>
 					<p class="btn_line">
-					<a href="${url}" class="btn_baseColor" style="width:230px;background-color:green;">Naver ID Login</a>
+					<a href="${url}" class="btn_baseColor btn_snsLogin">Naver ID Login</a>
 					</p>
 				</fieldset>
 			</form>

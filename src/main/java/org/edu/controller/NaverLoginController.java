@@ -25,8 +25,9 @@ public class NaverLoginController {
 	 * redirect_uri: 네이버 로그인 인증결과를 전달 받는 콜백 URL
 	 * state: 네이버App이 생성한 토큰(네트워크에서 전송되는 자료단위.=인증정보)의 상태
 	 */
+	
 	private final static String CLIENT_ID = "nc5mFooNwJMhi1pbr5g5";
-	private final static String CLIENT_SECRET = "2ECcpdW_CP";
+	private final static String CLIENT_SECRET = "---";
 	private final static String REDIRECT_URI = "http://127.0.0.1:8080/login_callback";
 	private final static String SESSION_STATE = "oauth_state";
 	
