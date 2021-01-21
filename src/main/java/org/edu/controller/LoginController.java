@@ -24,8 +24,15 @@ public class LoginController {
 	@Inject
 	private IF_MemberService memberService;
 	
+	/* session(인증 토큰 정보), state(유효성검증용 UUID정보), code() */
+	//로그인 후 세션 처리 매핑(네이버 아이디 로그인)
+	@RequestMapping(value="/login_callback",method= {RequestMethod.GET, RequestMethod.POST})
+	public String login_callback() {
+		
+		return null;
+	}
 	
-	//로그인 후 세션 처리 매핑
+	//로그인 후 세션 처리 매핑(스프링 시큐리티 로그인)
 	@RequestMapping(value="/login_success",method=RequestMethod.GET)
 	public String login_success(HttpServletRequest request, RedirectAttributes rdat) throws Exception {
 		

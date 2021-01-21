@@ -27,7 +27,7 @@ public class NaverLoginController {
 	 */
 	private final static String CLIENT_ID = "nc5mFooNwJMhi1pbr5g5";
 	private final static String CLIENT_SECRET = "2ECcpdW_CP";
-	private final static String REDIRECT_URI = "http://127.0.0.1:8080/login";
+	private final static String REDIRECT_URI = "http://127.0.0.1:8080/login_callback";
 	private final static String SESSION_STATE = "oauth_state";
 	
 	/* 프로필 조회 API URL - 사용자이름+사용자 이메일 */
