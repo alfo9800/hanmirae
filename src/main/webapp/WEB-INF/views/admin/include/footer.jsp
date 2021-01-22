@@ -74,7 +74,9 @@ $(document).ready(function(){
 		//2개의 값을 비교2: 비교대상 current_2(현재 웹브라우저의 URL값중 제일 마지막 값)
 		
 		if( $(this).attr('href').indexOf(current_2) != -1) { //위 문제를 처리하는 대체함수 indexOf를 사용
-			$(this).addClass("active");
+			if(current_2 != 'board'){
+				$(this).addClass("active");
+			}	
 		} else {
 			$(this).removeClass("active");
 		}
