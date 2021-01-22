@@ -2,11 +2,14 @@ package org.edu.vo;
 
 import java.util.Date;
 
+import org.springframework.web.bind.annotation.SessionAttributes;
+
 /**
  * 게시판에서 사용되는 데이터 입출력 클래스
  * @author 한미래
  *
  */
+@SessionAttributes("session_boare_type")
 public class BoardVO {
 	//멤버변수 선언
 	private Integer bno; //int입력값이 null일 때 에러나기 때문에, Integer로 변경
@@ -35,6 +38,7 @@ public class BoardVO {
 		this.bno = bno;
 	}
 	public String getBoard_type() {
+		this.board_type = "notice"; //session으로 저장된 값을 사용
 		return board_type;
 	}
 	public void setBoard_type(String board_type) {

@@ -225,11 +225,16 @@ public class AdminController {
 	@RequestMapping(value="/admin/board/board_list",method=RequestMethod.GET)
 	public String board_list(HttpServletRequest request, @RequestParam(value="board_type",required=false) String board_type, @ModelAttribute("pageVO") PageVO pageVO, Model model) throws Exception {
 		//게시판 타입을 세션 변수로 저장
+		HttpSession session = request.getSession();
 		if(board_type != null) {
-			HttpSession session = request.getSession();
-			session.setAttribute("session_board_type", board_type);		
+			session.setAttribute("session_board_type", board_type);
 		}
-			
+		/* pageVO와 BoardVO에서 session변수로 get/set해서 사용X
+		  if(session.getAttribute("session_board_type") != null) { board_type =
+		  (String) session.getAttribute("session_board_type");
+		  pageVO.setBoard_type(board_type); }
+		 */		
+		
 		//테스트용 더미데이터 만들기
 		/*
 		 * BoardVO input_board = new BoardVO(); input_board.setBno(1);

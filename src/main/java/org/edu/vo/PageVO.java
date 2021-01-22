@@ -1,4 +1,5 @@
 package org.edu.vo;
+
 /**
  * PageVO클래스로서의 회원,게시판 공통으로 사용됨.
  * 1페이지당 보여줄 개수를 이용해서 전체데이터를 분할해서 보여주는 역할.
@@ -10,6 +11,8 @@ package org.edu.vo;
  *
  */
 public class PageVO {
+	//다중게시판 추가로 board_type변수 필요(mapper query로 보냄)
+	private String board_type;
 	//페이징 처리 부분
 	private int perPageNum; //리스트 하단에 보이는 번호의 갯수 값이 들어가는 변수
 	private int queryPerPageNum; //쿼리에서 사용하는 1페이지당 출력할 개수값 변수
@@ -71,6 +74,13 @@ public class PageVO {
 	}
 	
 	//GET SET
+	public String getBoard_type() {
+		this.board_type = "notice"; //session으로 저장된 값을 사용
+		return board_type;
+	}
+	public void setBoard_type(String board_type) {
+		this.board_type = board_type;
+	}
 	public int getPerPageNum() {
 		return perPageNum;
 	}
@@ -145,5 +155,6 @@ public class PageVO {
 	public void setQueryPerPageNum(int queryPerPageNum) {
 		this.queryPerPageNum = queryPerPageNum;
 	}
+
 	
 }
