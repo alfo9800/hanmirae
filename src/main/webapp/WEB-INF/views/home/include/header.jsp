@@ -74,7 +74,13 @@ if('${msg}' !='') {
                             </ul>
                         </div>
 					</li>
-					<li><a href="/home/board/board_list" class="openAll2">커뮤니티</a>
+					<!-- 자바 jstl로 board_type_list의 1번째 레코드 값에서 board_type변수 생성 -->
+					<c:forEach items="${board_type_list}" var="boardTypeVO" varStatus="status">
+						<c:if test="${status.index == 0}">
+							<c:set var="first_board_type" value="${boardTypeVO.board_type}" /> 
+						</c:if>		
+					</c:forEach>
+					<li><a href="/home/board/board_list?board_type=${first_board_type}" class="openAll2">커뮤니티</a>
 				        <div class="gnb_depth gnb_depth2_2">
                             <ul class="submenu_list">
                             <c:forEach items="${board_type_list}" var="boardTypeVO">                            
