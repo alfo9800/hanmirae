@@ -50,6 +50,14 @@ public class AdminController {
 	@Inject
 	CommonController commonController;
 	
+	//게시판생성관리 리스트 매핑
+	@RequestMapping(value="/admin/bbs_type/bbs_type_list",method=RequestMethod.GET)
+	public String bbs_type_list() throws Exception {
+		//이곳은 model을 이용해서 jsp로 board_type_list오브젝트를 보낼 필요X
+		//->왜냐하면, ControllerAdvice에서 클래스 만들었기 때문에.
+		return "admin/bbs_type/bbs_type_list";
+	}
+	
 	@RequestMapping(value="/admin/board/board_delete",method=RequestMethod.POST)
 	public String board_delete(RedirectAttributes rdat, PageVO pageVO, @RequestParam("bno") Integer bno) throws Exception {
 		//기존 등록된 첨부파일 폴더에서 삭제 할 UUID파일명 구하기
