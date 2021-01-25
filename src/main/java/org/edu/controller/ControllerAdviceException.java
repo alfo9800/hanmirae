@@ -1,14 +1,32 @@
 package org.edu.controller;
 
+import java.util.List;
+
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
+import org.edu.dao.IF_BoardTypeDAO;
+import org.edu.vo.BoardTypeVO;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.ModelAndView;
 
 @ControllerAdvice //컨트롤러에서 발생되는 사항. 즉, (에러처리&CRUD액션을 중간에 가로채는 기능) 클래스 명시
 public class ControllerAdviceException {
 
+	@Inject
+	private IF_BoardTypeDAO boardTypeDAO;
+	
+	//=======아래 모든 컨트롤러의 반환값으로 model("board_type"
+	//컨트롤러 매핑 걸린 모든 메서드 (jsp와 매칭)에서 공통으로 사용할 modelAttribute 생성(board_type_list)
+	@ModelAttribute("board_type_list") //jsp로 모델 오브젝트값을 보낼 때 사용
+	public List<BoardTypeVO> board_type_list() throws Exception {
+		List<BoardTypeVO> board_type_list = boardTypeDAO.select_board_type();
+		return board_type_list;
+	}
+	
+	//========아래 예외처리용 코딩==============
 	//ModelAndView클래스는 jsp로 반환 시 값을 저장하는 역할
 	@ExceptionHandler(Exception.class) //-> 언제 아래의 메서드가 실행될지 명시하는 클래스. 컨트롤로에서 예외(에러)가 발생했을 때 아래 메서드를 자동 실행.
 	public ModelAndView errorModelAndView(Exception ex, HttpServletRequest request) {

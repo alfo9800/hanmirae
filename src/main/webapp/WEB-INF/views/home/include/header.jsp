@@ -77,8 +77,9 @@ if('${msg}' !='') {
 					<li><a href="/home/board/board_list" class="openAll2">커뮤니티</a>
 				        <div class="gnb_depth gnb_depth2_2">
                             <ul class="submenu_list">
-                                <li><a href="/home/board/board_list">공지사항</a></li>
-                                <li><a href="/home/board/board_list">갤러리게시판</a></li>
+                            <c:forEach items="${board_type_list}" var="boardTypeVO">                            
+                                <li><a href="/home/board/board_list?board_type=${boardTypeVO.board_type}">${boardTypeVO.board_name}</a></li>
+                            </c:forEach>
                             </ul>
                         </div>
 					</li>
