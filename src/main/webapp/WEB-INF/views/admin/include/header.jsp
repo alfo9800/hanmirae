@@ -123,7 +123,7 @@ if('${msg}' !='') {
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/admin/bod/bod_type_list" class="nav-link">
+                <a href="/admin/bbs_type/bbs_type_list" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>게시판생성 관리</p>
                 </a>
