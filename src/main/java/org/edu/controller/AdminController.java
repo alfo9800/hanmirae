@@ -93,6 +93,7 @@ public class AdminController {
 		//boardVO.setContent(securityCode.unscript(xss_date));
 		//시큐어코딩 끝
 		model.addAttribute("boardVO", boardVO);
+		//model.addAttribute("board_type_list", "게시판타입 리스트 오브젝트"); //게시판타입리스트는 앞처럼 개별 메서드에서 처리하지 않고, AdiveController클래스로 대체.
 		return "admin/board/board_update"; //파일경로
 	}
 	
@@ -223,17 +224,19 @@ public class AdminController {
 		return "admin/board/board_view";
 	}
 	@RequestMapping(value="/admin/board/board_list",method=RequestMethod.GET)
-	public String board_list(HttpServletRequest request, @RequestParam(value="board_type",required=false) String board_type, @ModelAttribute("pageVO") PageVO pageVO, Model model) throws Exception {
+	public String board_list(@ModelAttribute("pageVO") PageVO pageVO, Model model) throws Exception {
 		//게시판 타입을 세션 변수로 저장
-		HttpSession session = request.getSession();
-		if(board_type != null) {
-			session.setAttribute("session_board_type", board_type);
-		}
-		/* pageVO와 BoardVO에서 session변수로 get/set해서 사용X
-		  if(session.getAttribute("session_board_type") != null) { board_type =
-		  (String) session.getAttribute("session_board_type");
-		  pageVO.setBoard_type(board_type); }
-		 */		
+	/* //AOP기능으로 대체
+		   HttpSession session = request.getSession();
+		   if(board_type != null) {
+			   session.setAttribute("session_board_type", board_type); 
+		   } 
+		   //pageVO와 BoardVO에서 session변수로 get/set해서 사용X
+		   if(session.getAttribute("session_board_type") != null) {
+			   board_type = (String) session.getAttribute("session_board_type");
+			   pageVO.setBoard_type(board_type);
+			   } 
+		 */
 		
 		//테스트용 더미데이터 만들기
 		/*

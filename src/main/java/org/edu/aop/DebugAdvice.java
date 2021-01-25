@@ -2,12 +2,19 @@ package org.edu.aop;
 
 import java.util.Arrays;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.edu.vo.BoardVO;
+import org.edu.vo.PageVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 /**
  * DebugAdvice클래스로서 디버그를 Advice라는 AOP기능을 사용하게 디버그를 실행하게 된다.
@@ -33,6 +40,7 @@ public class DebugAdvice {
 	
 	//아래 @Around()애노테이션 클래스의 ()는 디버그할 영역 지정.
 	@Around("execution(* org.edu.controller.AdminController.*(..))") //*(..) -> controller 안에 있는 '모든 메서드'를 뜻한다.
+	//@Around("execution(* org.edu.service.MemberService.*(..))") 
 	public Object timeLog(ProceedingJoinPoint pjp) throws Throwable {
 		logger.info("AOP 디버그 시작 ===============================");
 		long startTime = System.currentTimeMillis(); //현재 컴퓨터시간을 저장하는 변수
@@ -46,5 +54,48 @@ public class DebugAdvice {
 		
 		logger.info("AOP 디버그 끝 =================================");
 		return result;
+	}
+	
+	//현재 클래스명은 디버그용AOP였지만.. (AOP는 예전자바코딩의 인터셉터AdviceCintroller와 같은 가능)
+	//추가로 다중게시판용 세션관리 AOP기능 사용
+	@Around("execution(* org.edu.controller.*Controller.*(..))")
+	public Object sessionManager(ProceedingJoinPoint pjp) throws Throwable {
+	   //AOP에서 RequestContextHodler클래스를 이용해서 HttpServletRequest사용하기
+	   HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+	   
+	   //컨트롤러 클래스에서 매개변수로 받는 값 초기화
+	   PageVO pageVO = null;
+	   BoardVO boardVO = null;
+	   String board_type = null;
+	   
+	   //컨트롤러 클래스에서 실행되는 모든 메서드 = *Controller.*(..) 의 매개변수 값을 꺼내오기 (향상된 for문 사용)
+	   for(Object object:pjp.getArgs()) { //Args:Arguments는 예로, board_update의 메서드를 뽑아온다
+			   logger.info("jsp를 통해서 호출된 컨트롤러의 메소드 매개변수 꺼내오기: " +object);
+			   if(object instanceof PageVO) { //instanceof는 객체타입을 비교하는 연산자(그래서 뒤에 들어오는 객체타입은 대문자!)
+				   pageVO = (PageVO) object;
+				   board_type = pageVO.getBoard_type(); //세션변수로 사용할 값을 발생.jsp에서 발생한 notice,gallery들이 여기서 발생.
+		   }else if(object instanceof BoardVO) {
+			   boardVO = (BoardVO) object;
+		   }
+	   }
+	   if(request != null) { //jsp에서 요청사항이 발생될때만 실행
+		   HttpSession session = request.getSession();
+		   if(board_type != null) {
+			   session.setAttribute("session_board_type", board_type); 
+		   } 
+		   
+		   //pageVO와 BoardVO에서 session변수로 get/set해서 사용X
+		   if(session.getAttribute("session_board_type") != null) {
+				   board_type = (String) session.getAttribute("session_board_type");
+			   }
+		   		if(pageVO != null) {
+		   		 pageVO.setBoard_type(board_type);
+		   		}
+		   		if(boardVO != null) {
+		   		 boardVO.setBoard_type(board_type);
+		   		}
+	   		}
+			   Object result = pjp.proceed();
+			   return result;
 	}
 }

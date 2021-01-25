@@ -40,6 +40,12 @@
               
                 <div class="card-body">
                   <div class="form-group">
+                  	<label for="board_type">게시판타입</label>
+                  	<select name="board_type" id="board_type" class="form-control" >
+                  		<c:forEach items="${board_type_list}" var="boardTypeVO">
+	                  		<option value="${boardTypeVO.board_type}" <c:out value="${(session_board_type eq boardTypeVO.board_type)?'selected':'' }" />>${boardTypeVO.board_name}</option>
+                  		</c:forEach>
+                  	</select>	
                     <label for="title">title</label>
                     <input type="text" value="${boardVO.title}" class="form-control" name="title" id="title" placeholder="제목를 입력해 주세요." required>
                     <!-- 폼에서 input같은 입력태그에는name 속성이 반드시 필요, 이유는 DB에 입력할 때, 값을 전송하게 되는데, 전송값을 담아두는 이름이 name이 되고, 위에서는 user_id 이다. -->

@@ -75,7 +75,7 @@ public class PageVO {
 	
 	//GET SET
 	public String getBoard_type() {
-		this.board_type = "notice"; //session으로 저장된 값을 사용
+		//this.board_type = "notice"; //session으로 저장된 값을 사용
 		return board_type;
 	}
 	public void setBoard_type(String board_type) {
