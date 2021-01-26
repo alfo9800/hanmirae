@@ -10,6 +10,9 @@
 if('${msg}' !='') {
 	alert("${msg}에 성공하였습니다.") //자바의 EL표기법= 달라{변수명}
 }
+if('${msg_fail}' != ''){
+	alert("${msg_fail}에 실패하였습니다.");
+}
 </script>
 
   <meta charset="utf-8">
