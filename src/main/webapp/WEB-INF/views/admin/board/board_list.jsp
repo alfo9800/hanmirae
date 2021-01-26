@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ include file="../include/header.jsp" %>
 
 
@@ -74,8 +75,8 @@
                   </thead>
                   <tbody>
                    <!-- 검색 값이 없을 때  나타나게 하는 글 만들기 -->
-                  <c:if test="${empty board_list}">
-                  	<tr><td colspan="6" class="text-center">조회된 데이터가 없습니다.</td></tr>
+                  <c:if test="${fn:length(board_list) == 0}">
+                  	<tr><td colspan="5" class="text-center">조회된 데이터가 없습니다.</td></tr>
                   </c:if>
                   
                   <!-- jstl표준태그 core태그 사용 반복문 Admin컨트롤러에서 가져온 board_list 오브젝트클래스 값을 출력 -->
