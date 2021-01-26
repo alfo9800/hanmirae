@@ -24,8 +24,48 @@
 
     <!-- 본문내용 Main content -->
     <section class="content">
-      <div class="container-fluid">
-        
+      <div class="container-fluid">       
+       <div class="row"><!-- 부트스트랩의 디자인 클래스 row -->
+         <div class="col-12"><!-- 그리드시스템중 12가로칼럼 width:100% -->
+          <!-- form start -->
+          <form name="write_form" action="/admin/bbs_type/bbs_type_write" method="post">
+			<div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">게시판타입 등록</h3>
+              </div>
+              <!-- /.card-header -->
+              
+                <div class="card-body">
+                  <div class="form-group">
+                  	<label for="board_type">게시판타입</label> <!-- 조건: 게시판타입은 ID이기 때문에 중복값 등록불가 -->
+                  	<input type="text" value="" class="form-control" name="board_type" id="board_type" placeholder="게시판탑입을 영문으로 입력해주세요." required>
+                 </div>
+        		 <div class="form-group">
+                    <label for="board_name">게시판 이름</label>
+                    <input type="text" value="" class="form-control" name="board_name" id="board_name" placeholder="게시판명을 입력해 주세요." required>
+                  </div>
+            
+                  <div class="form-group">
+                   <label for="board_sun">게시판출력 순서</label>
+                   <input type="text" value="" class="form-control" name="board_sun" id="board_sun" placeholder="게시판 출력순서를 입력해주세요." required>
+                  </div>
+
+                </div>
+                <!-- /.card-body -->
+            </div>
+          
+          <!-- 버튼영역 시작 -->
+            <div class="card-body">
+            	<a href="/admin/bbs_type/bbs_type_list" class="btn btn-primary float-right mr-1">목록</a>              	
+              	<button type="submit" class="btn btn-danger float-right mr-1">등록</button>
+              	<!-- a태그는 링크이동은 되지만, post값을 전송하지 못함. 그래서, button태그를 사용. -->
+            </div>
+          <!-- 버튼영역 끝 -->
+          
+          </form><!-- 폼내부에 버튼이 있어야지만 작동이 되어서 card-primary 밖으로 빼냄. -->
+         </div>
+        </div>
+                    
       </div><!-- /.container-fluid -->
     </section>
     <!-- /.content -->
