@@ -1,0 +1,62 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="0DDF4E28-3690-874F-9376-098DABC86DD6" name="TBL_BOARD_TYPE">
+<createdBy>user</createdBy>
+<createdTime>2021-01-27 02:14:17 UTC</createdTime>
+<ownerDesignName>Oracle_20210127</ownerDesignName>
+<ordsAlias>table_1</ordsAlias>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="BOARD_TYPE" id="5A0C3C9E-F2B3-1ED2-0F03-AAAA29EAA115">
+<createdBy>user</createdBy>
+<createdTime>2021-01-27 02:18:08 UTC</createdTime>
+<comment><![CDATA[게시판 타입 ex) notice,gallery, Q&A]]></comment>
+<ownerDesignName>Oracle_20210127</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>45</dataTypeSize>
+<ownDataTypeParameters>45,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="BOARD_NAME" id="D870C7CE-37BF-7B7B-88D6-3201E7C2DB15">
+<createdBy>user</createdBy>
+<createdTime>2021-01-27 02:29:48 UTC</createdTime>
+<comment><![CDATA[게시판타입이름 ex)공지사항. 갤러리, 묻고답하기]]></comment>
+<ownerDesignName>Oracle_20210127</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>45</dataTypeSize>
+<ownDataTypeParameters>45,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="BOARD_SUN" id="C924BFC2-9582-A4A4-A835-E128B689AEB8">
+<createdBy>user</createdBy>
+<createdTime>2021-01-27 02:29:48 UTC</createdTime>
+<comment><![CDATA[게시판 출력 순서]]></comment>
+<ownerDesignName>Oracle_20210127</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="A0630683-EF58-56BE-44D9-BFC1680B003B" name="TBL_BOARD_TYPE_PK">
+<createdBy>user</createdBy>
+<createdTime>2021-01-27 02:18:23 UTC</createdTime>
+<ownerDesignName>Oracle_20210127</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="5A0C3C9E-F2B3-1ED2-0F03-AAAA29EAA115"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>
