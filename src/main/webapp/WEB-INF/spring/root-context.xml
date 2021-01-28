@@ -94,6 +94,16 @@
 		<property name="password" value="${DbPassword}"></property>
 	</bean>
 	
+	<!-- 로컬 oracle log4jdbc 드라이브 설정 -->
+	<bean id="dataSource-oracle_local" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" 
+				  value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
+		<property name="url" 
+				  value="${DbUrl}"></property>
+		<property name="username" value="${DbUserName}"></property>
+		<property name="password" value="${DbPassword}"></property>
+	</bean>
+	
 	
 	<!--
 		DataSource 설정으로 JDBC 연결후, MyBatis와 MySql을 연동시킴. 
