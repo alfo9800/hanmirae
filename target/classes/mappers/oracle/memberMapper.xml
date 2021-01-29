@@ -21,15 +21,15 @@ memberMapper.xml:회원관리에 대한 모든 쿼리를 모아서 관리하는 
 	<if test=" search_type !='' and search_type !=null">
 		 where
 		 <if test="search_type == 'all'.toString()"> 	
-		 		user_id like concat ('%',#{search_keyword},'%')
+		 		user_id like '%'||#{search_keyword}||'%'
 		 		or
-		 		user_name like concat  ('%',#{search_keyword},'%')
+		 		user_name like '%'||#{search_keyword}||'%'
 		 </if>
 		 <if test="search_type == 'user_id'.toString()">
-		 		user_id like concat  ('%',#{search_keyword},'%')
+		 		user_id like '%'||#{search_keyword}||'%'
 		 </if>
 		 <if test="search_type == 'user_name'.toString()">
-		 		user_name like concat  ('%',#{search_keyword},'%')
+		 		user_name like '%'||#{search_keyword}||'%'
 		 </if>
 	</if>
 </sql>
@@ -40,10 +40,19 @@ select count(*) from tbl_member
 </select>  
   
 <select id="selectMember" resultType="org.edu.vo.MemberVO">
-select * from tbl_member 
-<include refid="sqlWhere"></include>
-order by reg_date desc
-limit #{queryStartNo},#{queryPerPageNum}
+select table_b.* from
+(
+    select rownum as rnum, table_a.* from
+    (
+        select * from tbl_member
+        <include refid="sqlWhere"></include>
+<![CDATA[
+        order by reg_date desc
+    ) table_a
+    where rownum <= (#{queryStartNo}/#{queryPerPageNum}+1)* #{queryPerPageNum}
+) table_b
+where table_b.rnum > (#{queryStartNo}/#{queryPerPageNum})* #{queryPerPageNum}
+]]>
 </select>
 
 <insert id="insertMember">
@@ -65,7 +74,7 @@ VALUES (
 	#{point}, 
 	#{enabled}, 
 	#{levels},
-	now()
+	sysdate
 )
 </insert>
 
@@ -82,7 +91,7 @@ SET
     point = #{point},
     enabled = #{enabled},
     levels = #{levels},
-    update_date = now()
+    update_date = sysdate
 WHERE
     user_id = #{user_id}
 </update>

@@ -316,12 +316,14 @@ $(document).ready(function() {
 			}),
 			success:function(result) {//응답이 성공하면(상태값200)위경로에서 반환받은 result(json데이터)를 이용해서 화면을 재구현
 				var reply_count = $("#reply_count").text(); //GET //var로 reply_count라는 위에서 만든 변수를 만든다.
+				if(reply_count == ""){reply_count=0;}
 				$("#reply_count").text(parseInt(reply_count)+1); //SET
 				
 				//예로 3페이지에서 보다가 등록 후 작성한 댓글을 확인 가능하도록 1page로 가도록 유도
 				$("#reply_page").val("1"); //1page값으로 SET
 				replyList(); //댓글입력 후 리스트 출력함수 호출
-				$("#reply_")
+				$("#replyer").val("");
+				$("#reply_text").val("");
 			},
 			error:function(result){
 				alert("RestAPI서버가 작동하지 않습니다. 다음에 이용해 주세요!");

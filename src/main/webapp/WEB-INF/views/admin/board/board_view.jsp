@@ -416,6 +416,7 @@ $(document).ready(function() {
 				//입력이 success된 후에 페이지는 (댓글1개증가+1페이지)로 가고, +replyList()댓글 목록 호출
 				var reply_count = $("#reply_count").text(); //$("영역").text(영역안쪽의 문자열)
 				//alert(reply_count);
+				if(reply_count == ""){reply_count=0;}
 				$("#reply_count").text(parseInt(reply_count)+1);
 				$("#reply_page").val("1");
 				replyList(); //-> 불러온다.
