@@ -23,7 +23,11 @@
                 <!-- 운영서버에 배포 일 때 사용 -->     
            <!--                 
                 <value>classpath:/properties/prod.properties</value>
-            -->     
+            -->   
+            
+            <!-- Junit실행시 에러나서 NaverLoginController는 수정 하지 않고 여기로 위치 변경 -->
+                <value>classpath:/properties/sns.properties</value>
+              
             </list>
         </property>
     </bean>
