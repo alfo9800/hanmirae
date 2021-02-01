@@ -46,9 +46,9 @@ select table_b.* from
     (
         select * from tbl_member
         <include refid="sqlWhere"></include>
-<![CDATA[
         order by reg_date desc
     ) table_a
+<![CDATA[
     where rownum <= (#{queryStartNo}/#{queryPerPageNum}+1)* #{queryPerPageNum}
 ) table_b
 where table_b.rnum > (#{queryStartNo}/#{queryPerPageNum})* #{queryPerPageNum}
