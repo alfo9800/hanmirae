@@ -21,7 +21,7 @@
 		<!-- 메인본문영역 -->
 		<div class="bodytext_area box_inner">			
 			<ul class="bbsview_list">
-				<li class="bbs_title"><c:out value="${boardVO.title}" /></li>
+				<li class="bbs_title"><c:out value="${boardVO.title}" /> [작성자] : <span>${boardVO.writer}</span> </li>
 				<li class="bbs_hit">작성일 : <span><fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${boardVO.reg_date}" /></span></li>
 				<li class="bbs_date">조회수 : <span>${boardVO.view_count}</span></li>
 				<li class="bbs_content">

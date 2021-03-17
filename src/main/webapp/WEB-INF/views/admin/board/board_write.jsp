@@ -51,7 +51,7 @@
                   </div>
                   <div class="form-group">
                    <label for="writer">writer</label>
-                   <input value="${session_username}" type="text" class="form-control" name="writer" id="writer" placeholder="작성자를 입력해주세요." required>
+                   <input value="${session_userid}" type="text" class="form-control" name="writer" id="writer" placeholder="작성자를 입력해주세요." required>
                   </div>
                   <div class="form-group" style="margin-bottom:0px;">
                   <label>attach</label>

@@ -105,6 +105,10 @@ $(document).ready(function() {
 	$("#user_id").bind("blur", function() {
 		//alert("여기까지" + $(this).val());//디버그용
 		var p_user_id = $(this).val();
+		if(p_user_id == "") {
+			alert("아이디 입력은 필수 입니다.");
+			return false;
+		}
 		$.ajax({
 			type:'get',
 			url:'/id_check?user_id=' +p_user_id,
