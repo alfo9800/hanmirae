@@ -26,6 +26,8 @@ import org.edu.vo.PageVO;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping; //bind는 묶는다는 의미. /admin요청경로와 admin/home.jsp를 묶는다는 의미
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -342,7 +344,12 @@ public class AdminController {
 	
 	//메서드 오버로딩(예로, 동영상 로딩중..., 로딩된 매개변수가 다르면, 메서드 이름을 중복해서 사용가능함.
 	@RequestMapping(value="/admin/member/member_write",method=RequestMethod.POST)
-	public String member_write_(@Valid MemberVO memberVO) throws Exception {
+	public String member_write_(HttpServletRequest request, MultipartFile file, @Valid MemberVO memberVO) throws Exception {
+		//프로필 첨부파일 매서드 호출
+		if(file.getOriginalFilename() != null) {
+			commonController.profile_upload(memberVO.getUser_id(), request, file);
+		}
+		
 		//POST방식으로 넘어온 user_pw값을 BCryptPasswordEncoder클래스로 암호 시킴
 		if(memberVO.getUser_pw() != null) {
 			BCryptPasswordEncoder passwordencoder = new BCryptPasswordEncoder();
@@ -370,10 +377,18 @@ public class AdminController {
 		return "admin/member/member_update";
 	}
 	
+	//첨부파일 처리는 MultipartFile(첨부파일 태그 name 1개 일 때), MultipartServletRequest(첨부파일 태그 name이 여러개 일 때)
+	
 	@RequestMapping(value="/admin/member/member_update",method=RequestMethod.POST)
-	public String member_update(PageVO pageVO,@Valid MemberVO memberVO) throws Exception {
+	public String member_update(HttpServletRequest request, MultipartFile file, PageVO pageVO,@Valid MemberVO memberVO) throws Exception {
+		//프로필 첨부파일 처리
+		if(file.getOriginalFilename() != null) {
+			commonController.profile_upload(memberVO.getUser_id(), request, file);
+		}
+			
 		//POST방식으로 넘어온 user_pw값을 BCryptPasswordEncoder클래스로 암호 시킴
-		if(memberVO.getUser_pw() == null || memberVO.getUser_pw() == "") {
+		//if(memberVO.getUser_pw() == null || memberVO.getUser_pw() == "") {
+		if(memberVO.getUser_pw().isEmpty()) {
 		}else {
 			BCryptPasswordEncoder passwordencoder = new BCryptPasswordEncoder();
 			String userPwEncoder = passwordencoder.encode(memberVO.getUser_pw());
