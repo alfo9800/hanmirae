@@ -44,10 +44,10 @@
                     <input type="text" class="form-control" name="user_id" id="user_id" placeholder="ID를 입력해 주세요." required>
                     <!-- 폼에서 input같은 입력태그에는name 속성이 반드시 필요, 이유는 DB에 입력할 때, 값을 전송하게 되는데, 전송값을 담아두는 이름이 name이 되고, 위에서는 user_id 이다. -->
                   </div>
-                  <div>
+                  <div class="form-group">
                   	<label>프로필이미지</label>
                   	<div class="custom-file" type="file" name="file" class="custom-file-input" id="customFile_0">
-                  		<label class="custom-file-label" for="customFile_0" style="color:#999;">jpg형식만 지원합니다.</label>
+                  		<label accept=".jpg" class="custom-file-label" for="customFile_0" style="color:#999;">jpg형식만 지원합니다.</label>
                   	</div>
                   </div>   
                   <div class="form-group">

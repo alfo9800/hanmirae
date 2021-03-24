@@ -79,7 +79,7 @@ if('${msg_fail}' != ''){
         <!-- 
           <img src="/resources/dist/img/default-150x150.png" class="img-circle elevation-2" alt="User Image">
         -->
-        <img style="width:40px;height:40px;" src="/resources/profile/${session_userid}.jpg" class="img-circle elevation-2" alt="사용자프로필">
+        <img onerror="this.src='/resources/dist/img/default-150x150.png'" style="width:40px;height:40px;" src="/resources/profile/${session_userid}.jpg" class="img-circle elevation-2" alt="사용자프로필">
         </div>
         <div class="info">
           <a href="#" class="d-block">${session_username}</a>
