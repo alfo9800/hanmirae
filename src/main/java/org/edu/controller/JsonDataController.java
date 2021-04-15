@@ -21,10 +21,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class JsonDataController {
 	@Inject
-	private IF_MemberDAO memberDAO;
-	
+	private IF_MemberDAO memberDAO;	
 	private Logger logger = Logger.getLogger(SimpleLog.class);
-		
+	
+	//RestPI서버 : 오픈차트js에서 기존 투표한 자료 가져오기
+	//@RequestMapping(value="/vote/list",method=requestMethod.GET)
+	//public ResponseEntity<String>
+	
 	//RestAPI 인증server (안드로이드앱에서 회원목록 중 선택한 id 삭제)
 	@RequestMapping(value="/android/delete/{user_id}",method=RequestMethod.POST)
 	public ResponseEntity<String> androidDelete(@PathVariable("user_id") String user_id) {
